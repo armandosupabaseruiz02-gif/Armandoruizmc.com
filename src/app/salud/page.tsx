@@ -1,0 +1,178 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import PageWrapper from "@/components/layout/PageWrapper";
+import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
+import { HeartPulse, ArrowLeft, Phone, ExternalLink, ChevronRight } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Gestiones de Salud | Armando Ruiz Diputado",
+  description: "Apoyos de salud para personas con discapacidad en CDMX: medicamentos, terapias, aparatos ortopédicos y más.",
+};
+
+const gestiones = [
+  {
+    titulo: "Medicamentos gratuitos",
+    descripcion: "Las personas con discapacidad pueden acceder a medicamentos sin costo a través del IMSS Bienestar y la Secretaría de Salud CDMX.",
+    pasos: ["Acude con tu médico de cabecera", "Solicita receta con diagnóstico de discapacidad", "Recoge los medicamentos en la farmacia del módulo asignado"],
+    color: "bg-red-500",
+    border: "border-red-100",
+    bg: "bg-red-50",
+    text: "text-red-600",
+  },
+  {
+    titulo: "Aparatos ortopédicos y sillas de ruedas",
+    descripcion: "El DIF CDMX y CRIT proporcionan sillas de ruedas, prótesis, muletas y otros aparatos a personas que los necesitan.",
+    pasos: ["Solicita valoración médica en el DIF más cercano", "Presenta dictamen médico", "Espera asignación (aprox. 30 días hábiles)"],
+    color: "bg-blue-600",
+    border: "border-blue-100",
+    bg: "bg-blue-50",
+    text: "text-blue-700",
+  },
+  {
+    titulo: "Terapias de rehabilitación",
+    descripcion: "Fisioterapia, terapia ocupacional, lenguaje y psicología disponibles en Centros de Rehabilitación del gobierno CDMX.",
+    pasos: ["Solicita cita en tu centro de salud", "Presenta identificación y CURP", "Asiste puntualmente a tus sesiones programadas"],
+    color: "bg-emerald-600",
+    border: "border-emerald-100",
+    bg: "bg-emerald-50",
+    text: "text-emerald-700",
+  },
+  {
+    titulo: "Consultas especializadas",
+    descripcion: "Los Hospitales Generales de la CDMX cuentan con clínicas especializadas para personas con diferentes tipos de discapacidad.",
+    pasos: ["Acude a tu médico familiar para referencia", "Agenda cita en el Hospital General correspondiente", "Lleva tu historial médico y estudios previos"],
+    color: "bg-violet-600",
+    border: "border-violet-100",
+    bg: "bg-violet-50",
+    text: "text-violet-700",
+  },
+];
+
+const contactos = [
+  { nombre: "DIF CDMX",               tel: "55 5605-0049", url: "https://dif.cdmx.gob.mx" },
+  { nombre: "Secretaría de Salud CDMX", tel: "800 290 0024", url: "https://salud.cdmx.gob.mx" },
+  { nombre: "CRIT (TELETÓN)",          tel: "55 5754-9000", url: "https://crit.org.mx" },
+  { nombre: "IMSS Bienestar",          tel: "800 890 7900", url: "https://imss.gob.mx" },
+];
+
+export default function SaludPage() {
+  return (
+    <PageWrapper>
+      {/* Hero */}
+      <section className="relative bg-ink-950 pt-20 pb-28 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <div className="absolute inset-0 bg-grid-pattern opacity-30" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full
+                          bg-red-500/10 blur-[100px] translate-x-1/3 -translate-y-1/3" />
+        </div>
+
+        <div className="relative max-w-4xl mx-auto px-5 sm:px-8">
+          <FadeIn>
+            <Link href="/" className="inline-flex items-center gap-2 text-white/40 hover:text-naranja-400
+                                       text-[14px] font-medium transition-colors mb-8 group">
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              Regresar al inicio
+            </Link>
+
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-16 h-16 rounded-2xl bg-red-500 flex items-center justify-center">
+                <HeartPulse className="w-8 h-8 text-white" />
+              </div>
+              <span className="section-badge-dark">Salud</span>
+            </div>
+
+            <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
+              Gestiones de{" "}
+              <span className="text-gradient">Salud</span>
+            </h1>
+            <p className="text-[18px] sm:text-[20px] text-white/55 leading-relaxed max-w-2xl">
+              Conoce todos los apoyos médicos disponibles para personas con discapacidad en la
+              Ciudad de México. Medicamentos, terapias, aparatos y consultas especializadas.
+            </p>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* Gestiones */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8">
+          <FadeIn className="mb-14">
+            <h2 className="text-[36px] sm:text-[44px] font-black text-ink-900 leading-tight">
+              Apoyos disponibles
+            </h2>
+          </FadeIn>
+
+          <StaggerContainer className="flex flex-col gap-6" stagger={0.1}>
+            {gestiones.map((g) => (
+              <StaggerItem key={g.titulo}>
+                <div className={`p-8 rounded-card border-2 ${g.border} ${g.bg}`}>
+                  <div className="flex items-start gap-4 mb-5">
+                    <div className={`w-3 h-3 rounded-full ${g.color} flex-shrink-0 mt-2`} aria-hidden="true" />
+                    <div className="flex-1">
+                      <h3 className={`text-[22px] font-bold ${g.text} mb-2`}>{g.titulo}</h3>
+                      <p className="text-[16px] text-ink-600 leading-relaxed">{g.descripcion}</p>
+                    </div>
+                  </div>
+                  <div className="pl-7">
+                    <p className="text-[13px] font-black text-ink-400 uppercase tracking-wide mb-3">Cómo acceder:</p>
+                    <ol className="space-y-2">
+                      {g.pasos.map((paso, i) => (
+                        <li key={i} className="flex items-start gap-2.5 text-[15px] text-ink-600">
+                          <span className={`w-5 h-5 rounded-full ${g.color} text-white text-[11px]
+                                           font-black flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                            {i + 1}
+                          </span>
+                          {paso}
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* Contactos */}
+      <section className="py-20 bg-ink-950">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8">
+          <FadeIn className="mb-12">
+            <h2 className="text-[36px] sm:text-[44px] font-black text-white leading-tight">
+              Contactos de salud importantes
+            </h2>
+          </FadeIn>
+
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-4" stagger={0.08}>
+            {contactos.map((c) => (
+              <StaggerItem key={c.nombre}>
+                <div className="p-6 rounded-card bg-white/4 border border-white/8 hover:border-white/20
+                                hover:bg-white/6 transition-all duration-300">
+                  <h3 className="text-[17px] font-bold text-white mb-3">{c.nombre}</h3>
+                  <a href={`tel:${c.tel.replace(/\s/g,"")}`}
+                     className="flex items-center gap-2 text-naranja-400 text-[15px] font-medium mb-2">
+                    <Phone className="w-4 h-4" />
+                    {c.tel}
+                  </a>
+                  <a href={c.url} target="_blank" rel="noopener noreferrer"
+                     className="flex items-center gap-1.5 text-white/40 hover:text-naranja-400
+                                text-[13px] transition-colors">
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Sitio oficial
+                  </a>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+
+          <FadeIn className="mt-14 text-center">
+            <Link href="/" className="btn-secondary inline-flex">
+              <ArrowLeft className="w-5 h-5" />
+              Regresar al inicio
+            </Link>
+          </FadeIn>
+        </div>
+      </section>
+    </PageWrapper>
+  );
+}
