@@ -38,7 +38,7 @@ export default function InstagramReels() {
             <span className="text-naranja-400">Instagram</span>
           </h2>
           <p className="text-[17px] text-white/50 max-w-xl mx-auto leading-relaxed">
-            Mira nuestros últimos videos y mantente informado de todo lo que hacemos por la inclusión en CDMX.
+            Mira nuestros últimos videos y mantente informado de todo lo que hacemos por la inclusión en el Estado de México.
           </p>
           <p className="text-naranja-400 text-[15px] font-semibold mt-2">
             @armandoruizdiputado

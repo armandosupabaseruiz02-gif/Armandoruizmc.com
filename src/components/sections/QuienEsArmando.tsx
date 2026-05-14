@@ -8,7 +8,7 @@ import { Award, Heart, Users } from "lucide-react";
 const logros = [
   { icon: Award,  titulo: "Legislador comprometido", desc: "Años de trabajo en la Cámara con iniciativas por la inclusión." },
   { icon: Heart,  titulo: "Experiencia de vida",     desc: "Como persona con discapacidad, conoce de primera mano la realidad." },
-  { icon: Users,  titulo: "Representación real",     desc: "Voz directa de miles de personas con discapacidad en CDMX." },
+  { icon: Users,  titulo: "Representación real",     desc: "Voz directa de miles de personas con discapacidad en el Estado de México." },
 ];
 
 export default function QuienEsArmando() {
@@ -45,7 +45,7 @@ export default function QuienEsArmando() {
               </h2>
               <div className="space-y-4 text-[17px] text-ink-500 leading-relaxed">
                 <p>
-                  Armando Ruiz es Diputado de la Ciudad de México por el{" "}
+                  Armando Ruiz es Diputado Federal por el Estado de México por el{" "}
                   <strong className="text-ink-900 font-semibold">Movimiento Naranja</strong>.
                   Como persona que vive con discapacidad, entiende profundamente los retos
                   que enfrenta esta comunidad.
@@ -107,7 +107,7 @@ export default function QuienEsArmando() {
                     </div>
                     <div className="text-center">
                       <p className="text-white font-bold text-[17px]">Armando Ruiz</p>
-                      <p className="text-naranja-400 text-[13px] mt-1">Diputado CDMX</p>
+                      <p className="text-naranja-400 text-[13px] mt-1">Diputado Federal</p>
                       <p className="text-white/20 text-[11px] mt-3">Foto oficial pendiente</p>
                     </div>
                   </div>

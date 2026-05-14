@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const secretarias = [
   {
     nombre: "SIBISO – Secretaría de Inclusión y Bienestar Social",
-    descripcion: "Dependencia central para programas sociales, apoyos económicos y servicios de inclusión para personas con discapacidad en CDMX.",
+    descripcion: "Dependencia central para programas sociales, apoyos económicos y servicios de inclusión para personas con discapacidad en el Estado de México.",
     servicios: ["Pensión para personas con discapacidad", "Apoyo a cuidadores", "Programas de inclusión social"],
     tel: "55 5345-8000",
     url: "https://sibiso.cdmx.gob.mx",
@@ -30,7 +30,7 @@ const secretarias = [
   },
   {
     nombre: "IFDP – Instituto para la Integración al Desarrollo de las Personas con Discapacidad",
-    descripcion: "Institución especializada en la promoción de derechos, accesibilidad e inclusión laboral y social de personas con discapacidad en CDMX.",
+    descripcion: "Institución especializada en la promoción de derechos, accesibilidad e inclusión laboral y social de personas con discapacidad en el Estado de México.",
     servicios: ["Tarjeta de Discapacidad CDMX", "Asesoría legal", "Vinculación laboral", "Accesibilidad urbana"],
     tel: "55 5652-7940",
     url: "https://ifdp.cdmx.gob.mx",
@@ -66,7 +66,7 @@ const secretarias = [
   },
   {
     nombre: "SEP CDMX – Secretaría de Educación Pública",
-    descripcion: "Garantiza el acceso a la educación incluyente para personas con discapacidad en todos los niveles escolares.",
+    descripcion: "Garantiza el acceso a la educación accesible para personas con discapacidad en todos los niveles escolares.",
     servicios: ["Escuelas con educación especial", "Becas para estudiantes con discapacidad", "CAM (Centros de Atención Múltiple)", "Intérpretes LSM"],
     tel: "800 288 6227",
     url: "https://sep.gob.mx",

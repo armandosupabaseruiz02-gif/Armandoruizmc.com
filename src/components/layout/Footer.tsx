@@ -3,7 +3,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import { Instagram, Facebook, Twitter, Phone, Mail, MapPin, ArrowUpRight } from "lucide-react";
 
 const serviciosLinks = [
-  { href: "#tarjeta-incluyente", label: "Tarjeta Incluyente" },
+  { href: "#tarjeta-accesible", label: "Tarjeta Accesible" },
   { href: "#salud",              label: "Gestiones de Salud" },
   { href: "#programas-sociales", label: "Programas Sociales" },
   { href: "#bolsa-trabajo",      label: "Bolsa de Trabajo" },
@@ -28,11 +28,11 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="font-bold text-white text-[16px] leading-tight">Armando Ruiz</p>
-                  <p className="text-naranja-400 text-[12px] font-semibold tracking-wide">DIPUTADO CDMX</p>
+                  <p className="text-naranja-400 text-[12px] font-semibold tracking-wide">DIPUTADO FEDERAL</p>
                 </div>
               </div>
               <p className="text-white/40 text-[14px] leading-relaxed mb-6">
-                Trabajando por una Ciudad de México más incluyente y accesible para las personas con discapacidad.
+                Trabajando por una Ciudad de México más accesible y accesible para las personas con discapacidad.
               </p>
               <div className="flex gap-2">
                 {[
@@ -113,7 +113,7 @@ export default function Footer() {
                 <li className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-naranja-400 mt-0.5 flex-shrink-0" />
                   <span className="text-white/45 text-[14px] leading-snug">
-                    Cámara de Diputados,<br />Ciudad de México
+                    Cámara de Diputados Federal,<br />Estado de México
                   </span>
                 </li>
                 <li>
@@ -141,7 +141,7 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/8 flex flex-col sm:flex-row
                         items-center justify-between gap-4">
           <p className="text-white/25 text-[13px]">
-            © {new Date().getFullYear()} Armando Ruiz · Diputado CDMX · Movimiento Naranja
+            © {new Date().getFullYear()} Armando Ruiz · Diputado Federal · Movimiento Naranja
           </p>
           <div className="flex gap-6">
             {[

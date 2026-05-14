@@ -63,7 +63,7 @@ export default function Navbar() {
                   Armando Ruiz
                 </p>
                 <p className="text-naranja-500 text-[12px] font-semibold tracking-wide leading-tight">
-                  DIPUTADO CDMX
+                  DIPUTADO FEDERAL
                 </p>
               </div>
             </Link>

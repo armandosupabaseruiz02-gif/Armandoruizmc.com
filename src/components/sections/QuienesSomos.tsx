@@ -8,12 +8,12 @@ const valores = [
   {
     icon: Target,
     titulo: "Nuestra Misión",
-    descripcion: "Garantizar que cada persona con discapacidad en la Ciudad de México tenga acceso efectivo a sus derechos, programas y servicios gubernamentales.",
+    descripcion: "Garantizar que cada persona con discapacidad en el Estado de México tenga acceso efectivo a sus derechos, programas y servicios gubernamentales.",
   },
   {
     icon: Eye,
     titulo: "Nuestra Visión",
-    descripcion: "Una Ciudad de México plenamente incluyente, donde la discapacidad no sea un obstáculo para el desarrollo personal, laboral y social.",
+    descripcion: "Un Estado de México plenamente accesible, donde la discapacidad no sea un obstáculo para el desarrollo personal, laboral y social.",
   },
   {
     icon: Shield,
@@ -55,10 +55,10 @@ export default function QuienesSomos() {
               </h2>
               <div className="space-y-5 text-[17px] text-white/55 leading-relaxed">
                 <p>
-                  Somos el equipo del Diputado{" "}
-                  <strong className="text-white font-semibold">Armando Ruiz</strong>,
-                  representante de la Ciudad de México ante la Cámara de Diputados
-                  por el Movimiento Naranja.
+                  Somos el equipo del{" "}
+                  <strong className="text-white font-semibold">Diputado Federal Armando Ruiz</strong>,
+                  representante del Estado de México ante la
+                  Cámara de Diputados Federal por el Movimiento Naranja.
                 </p>
                 <p>
                   Nuestro trabajo se centra en legislar, gestionar y facilitar el acceso

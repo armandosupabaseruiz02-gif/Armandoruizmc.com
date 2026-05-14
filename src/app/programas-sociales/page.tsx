@@ -6,7 +6,7 @@ import { ScrollText, ArrowLeft, Users, ExternalLink, CheckCircle2 } from "lucide
 
 export const metadata: Metadata = {
   title: "Programas Sociales | Armando Ruiz Diputado",
-  description: "Catálogo de programas sociales gubernamentales para personas con discapacidad en CDMX.",
+  description: "Catálogo de programas sociales gubernamentales para personas con discapacidad en el Estado de México.",
 };
 
 const programas = [

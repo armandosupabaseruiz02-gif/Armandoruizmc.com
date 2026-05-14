@@ -41,7 +41,7 @@ export default function AliadosPage() {
             </h1>
             <p className="text-[18px] sm:text-[20px] text-white/55 leading-relaxed max-w-2xl">
               Construimos una red de organizaciones, fundaciones y empresas comprometidas
-              con la inclusión y los derechos de las personas con discapacidad en CDMX.
+              con la inclusión y los derechos de las personas con discapacidad en el Estado de México.
             </p>
           </FadeIn>
         </div>
@@ -87,7 +87,7 @@ export default function AliadosPage() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {[
                   { tipo: "Organizaciones de la Sociedad Civil", desc: "OSC y fundaciones que trabajen en favor de personas con discapacidad.", icon: "🤝" },
-                  { tipo: "Empresas Incluyentes", desc: "Empresas que contraten personas con discapacidad y promuevan la diversidad.", icon: "🏢" },
+                  { tipo: "Empresas Accesibles", desc: "Empresas que contraten personas con discapacidad y promuevan la diversidad.", icon: "🏢" },
                   { tipo: "Instituciones Académicas", desc: "Universidades y centros de investigación interesados en políticas de inclusión.", icon: "🎓" },
                 ].map((a) => (
                   <div key={a.tipo} className="p-6 rounded-2xl bg-white/4 border border-white/8 text-center">

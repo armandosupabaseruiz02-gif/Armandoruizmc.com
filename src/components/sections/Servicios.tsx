@@ -9,13 +9,13 @@ import {
 } from "lucide-react";
 
 const servicioDestacado = {
-  id: "tarjeta-incluyente",
+  id: "tarjeta-accesible",
   icon: CreditCard,
-  titulo: "Tarjeta Incluyente",
+  titulo: "Tarjeta Accesible",
   descripcion:
     "Tramita tu Tarjeta de Discapacidad CDMX paso a paso. Accede a beneficios en transporte, salud, descuentos y más servicios de la ciudad.",
   cta: "Tramitar mi tarjeta",
-  href: "/tarjeta-incluyente",
+  href: "/tarjeta-accesible",
 };
 
 const servicios = [
@@ -94,7 +94,7 @@ export default function Servicios() {
           </p>
         </FadeIn>
 
-        {/* Card destacada — Tarjeta Incluyente */}
+        {/* Card destacada — Tarjeta Accesible */}
         <FadeIn className="mb-5">
           <Link
             href={servicioDestacado.href}

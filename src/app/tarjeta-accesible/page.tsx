@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Tarjeta Incluyente CDMX | Armando Ruiz Diputado",
+  title: "Tarjeta Accesible CDMX | Armando Ruiz Diputado",
   description: "Conoce cómo tramitar la Tarjeta de Discapacidad CDMX paso a paso, sus beneficios y dónde obtenerla.",
 };
 
@@ -62,7 +62,7 @@ const modulos = [
   { nombre: "Módulo Gustavo A. Madero",        direccion: "Av. Instituto Politécnico Nacional s/n, Gustavo A. Madero",        tel: "55 5750-2070" },
 ];
 
-export default function TarjetaIncluyentePage() {
+export default function TarjetaAccesiblePage() {
   return (
     <PageWrapper>
       {/* Hero */}
@@ -88,7 +88,7 @@ export default function TarjetaIncluyentePage() {
               <div className="w-16 h-16 rounded-2xl bg-naranja-500 flex items-center justify-center shadow-glow">
                 <CreditCard className="w-8 h-8 text-white" />
               </div>
-              <span className="section-badge-dark">Tarjeta Incluyente</span>
+              <span className="section-badge-dark">Tarjeta Accesible</span>
             </div>
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
@@ -96,7 +96,7 @@ export default function TarjetaIncluyentePage() {
               <span className="text-gradient">Discapacidad CDMX</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-white/55 leading-relaxed max-w-2xl">
-              La Tarjeta Incluyente te da acceso a transporte gratuito, atención médica
+              La Tarjeta Accesible te da acceso a transporte gratuito, atención médica
               preferencial y descuentos en la Ciudad de México. Aquí te explicamos cómo obtenerla.
             </p>
           </FadeIn>

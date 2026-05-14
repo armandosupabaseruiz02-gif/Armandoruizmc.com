@@ -6,7 +6,7 @@ import { Briefcase, ArrowLeft, MapPin, Clock, Building, ExternalLink } from "luc
 
 export const metadata: Metadata = {
   title: "Bolsa de Trabajo | Armando Ruiz Diputado",
-  description: "Empleos inclusivos para personas con discapacidad en CDMX. Empresas comprometidas con la inclusión laboral.",
+  description: "Empleos inclusivos para personas con discapacidad en el Estado de México. Empresas comprometidas con la inclusión laboral.",
 };
 
 const vacantes = [
@@ -103,7 +103,7 @@ export default function BolsaTrabajoPage() {
               <span className="text-gradient">Inclusivo</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-white/55 leading-relaxed max-w-2xl">
-              Vacantes de empleos dignos para personas con discapacidad en CDMX.
+              Vacantes de empleos dignos para personas con discapacidad en el Estado de México.
               Empresas comprometidas con la inclusión laboral real.
             </p>
           </FadeIn>
@@ -176,7 +176,7 @@ export default function BolsaTrabajoPage() {
           <FadeIn className="mt-14 p-8 rounded-card bg-ink-950 text-center border border-white/8">
             <p className="text-white font-bold text-[22px] mb-3">¿Eres empresa y quieres publicar una vacante?</p>
             <p className="text-white/50 text-[15px] mb-6 max-w-xl mx-auto">
-              Únete a nuestro programa de empresas incluyentes. El Diputado Armando Ruiz
+              Únete a nuestro programa de empresas accesibles. El Diputado Armando Ruiz
               conecta tu empresa con talento comprometido.
             </p>
             <a href="mailto:contacto@armandoruiz.mx" className="btn-primary inline-flex">

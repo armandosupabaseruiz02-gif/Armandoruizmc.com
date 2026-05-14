@@ -97,7 +97,7 @@ export default function Hero() {
             >
               <span className="section-badge-dark text-[12px]">
                 <span className="w-2 h-2 rounded-full bg-naranja-400 animate-pulse" />
-                Movimiento Naranja · Diputado CDMX
+                Movimiento Naranja · Diputado Federal
               </span>
             </motion.div>
 
@@ -117,7 +117,7 @@ export default function Hero() {
                 />
               </div>
               <div className="overflow-hidden mt-1">
-                <SplitWords text="Incluyente" />
+                <SplitWords text="Accesible" />
               </div>
             </h1>
 
@@ -128,8 +128,9 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.7 }}
             >
-              Soy <strong className="text-white font-semibold">Armando Ruiz</strong>, Diputado
-              de la Ciudad de México. Trabajo para que las personas con discapacidad y sus familias
+              Soy <strong className="text-white font-semibold">Armando Ruiz</strong>,{" "}
+              <strong className="text-naranja-400 font-semibold">Diputado Federal por el Estado de México</strong>.
+              Trabajo para que las personas con discapacidad y sus familias
               tengan acceso a todos los apoyos y servicios que merecen.
             </motion.p>
 
@@ -140,9 +141,9 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.85, duration: 0.6 }}
             >
-              <Link href="#tarjeta-incluyente" className="btn-primary group">
+              <Link href="#tarjeta-accesible" className="btn-primary group">
                 <CreditCard className="w-5 h-5" aria-hidden="true" />
-                Tramitar Tarjeta Incluyente
+                Tramitar Tarjeta Accesible
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link href="#servicios" className="btn-secondary">
@@ -176,7 +177,7 @@ export default function Hero() {
                 </div>
                 <div className="text-center">
                   <p className="text-white font-bold text-[18px]">Armando Ruiz</p>
-                  <p className="text-naranja-400 text-[13px] font-medium mt-1">Diputado CDMX</p>
+                  <p className="text-naranja-400 text-[13px] font-medium mt-1">Diputado Federal</p>
                   <p className="text-white/25 text-[11px] mt-3">Reemplazar con foto oficial</p>
                 </div>
               </div>
@@ -208,7 +209,7 @@ export default function Hero() {
                 <span className="text-2xl">♿</span>
                 <div>
                   <p className="text-white text-[12px] font-bold">Inclusión</p>
-                  <p className="text-white/50 text-[11px]">en CDMX</p>
+                  <p className="text-white/50 text-[11px]">Estado de México</p>
                 </div>
               </motion.div>
             </div>

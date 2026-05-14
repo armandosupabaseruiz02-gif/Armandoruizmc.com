@@ -17,7 +17,7 @@ const acciones = [
     icon: ClipboardCheck,
     titulo: "Facilitamos trámites",
     descripcion:
-      "Orientamos y acompañamos a ciudadanos para acceder a la Tarjeta Incluyente, programas sociales, apoyos de salud y más, sin complicaciones.",
+      "Orientamos y acompañamos a ciudadanos para acceder a la Tarjeta Accesible, programas sociales, apoyos de salud y más, sin complicaciones.",
   },
   {
     num: "03",
