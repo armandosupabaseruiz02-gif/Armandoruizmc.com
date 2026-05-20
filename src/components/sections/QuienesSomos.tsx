@@ -8,17 +8,26 @@ const valores = [
   {
     icon: Target,
     titulo: "Nuestra Misión",
-    descripcion: "Garantizar que cada persona con discapacidad en el Estado de México tenga acceso efectivo a sus derechos, programas y servicios gubernamentales.",
+    descripcion: "Garantizar que cada persona con discapacidad en la Ciudad de México tenga acceso efectivo a sus derechos, programas y servicios gubernamentales.",
+    color: "text-naranja-600",
+    bg: "bg-naranja-100",
+    border: "border-naranja-200",
   },
   {
     icon: Eye,
     titulo: "Nuestra Visión",
-    descripcion: "Un Estado de México plenamente accesible, donde la discapacidad no sea un obstáculo para el desarrollo personal, laboral y social.",
+    descripcion: "Una Ciudad de México plenamente accesible, donde la discapacidad no sea un obstáculo para el desarrollo personal, laboral y social de nadie.",
+    color: "text-blue-600",
+    bg: "bg-blue-100",
+    border: "border-blue-200",
   },
   {
     icon: Shield,
     titulo: "Nuestro Compromiso",
-    descripcion: "Transparencia, honestidad y dedicación. Cada gestión y cada trámite que facilitamos es un paso hacia una ciudad más justa.",
+    descripcion: "Transparencia, honestidad y dedicación. Cada gestión y cada trámite que facilitamos es un paso hacia una ciudad más justa para todos.",
+    color: "text-emerald-600",
+    bg: "bg-emerald-100",
+    border: "border-emerald-200",
   },
 ];
 
@@ -26,55 +35,45 @@ export default function QuienesSomos() {
   return (
     <section
       id="quienes-somos"
-      className="py-28 bg-ink-950 relative overflow-hidden"
+      className="py-28 bg-white relative overflow-hidden"
       aria-labelledby="quienes-somos-titulo"
     >
-      {/* Orbs de fondo */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                        w-[800px] h-[800px] rounded-full
-                        bg-naranja-500/5 blur-[120px]" />
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      </div>
+      <div className="absolute inset-0 bg-dot-pattern opacity-50 pointer-events-none" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
 
           {/* Texto */}
-          <div>
-            <FadeIn>
-              <span className="section-badge-dark mb-5">Quiénes Somos</span>
-              <h2
-                id="quienes-somos-titulo"
-                className="text-[40px] sm:text-[52px] font-black text-white
-                           leading-tight tracking-tight mt-4 mb-7"
-              >
-                Un equipo comprometido con la{" "}
-                <span className="text-gradient">inclusión</span>
-              </h2>
-              <div className="space-y-5 text-[17px] text-white/55 leading-relaxed">
-                <p>
-                  Somos el equipo del{" "}
-                  <strong className="text-white font-semibold">Diputado Federal Armando Ruiz</strong>,
-                  representante del Estado de México ante la
-                  Cámara de Diputados Federal por el Movimiento Naranja.
-                </p>
-                <p>
-                  Nuestro trabajo se centra en legislar, gestionar y facilitar el acceso
-                  a todos los programas y servicios para{" "}
-                  <strong className="text-white/80 font-medium">
-                    personas con discapacidad y sus familias
-                  </strong>.
-                </p>
-                <p>
-                  Entendemos de primera mano los desafíos de la comunidad, porque
-                  nuestro diputado vive con discapacidad y conoce la realidad de quienes
-                  representa.
-                </p>
-              </div>
-            </FadeIn>
-          </div>
+          <FadeIn>
+            <span className="section-badge-light mb-5">Quiénes Somos</span>
+            <h2
+              id="quienes-somos-titulo"
+              className="text-[40px] sm:text-[52px] font-black text-gray-900
+                         leading-tight tracking-tight mt-4 mb-7"
+            >
+              Un equipo comprometido con la{" "}
+              <span className="text-gradient">inclusión</span>
+            </h2>
+            <div className="space-y-5 text-[17px] text-gray-600 leading-relaxed">
+              <p>
+                Somos el equipo del{" "}
+                <strong className="text-gray-900 font-bold">Diputado Federal Armando Ruiz</strong>,
+                representante de la Ciudad de México ante la Cámara de Diputados Federal
+                por el Movimiento Naranja.
+              </p>
+              <p>
+                Nuestro trabajo se centra en legislar, gestionar y facilitar el acceso
+                a todos los programas y servicios para{" "}
+                <strong className="text-naranja-700 font-semibold">
+                  personas con discapacidad y sus familias
+                </strong>.
+              </p>
+              <p>
+                Entendemos de primera mano los retos de la comunidad porque nuestro
+                diputado vive con discapacidad y conoce la realidad de quienes representa.
+              </p>
+            </div>
+          </FadeIn>
 
           {/* Cards */}
           <StaggerContainer className="flex flex-col gap-4" stagger={0.12}>
@@ -83,21 +82,20 @@ export default function QuienesSomos() {
               return (
                 <StaggerItem key={v.titulo} direction="left">
                   <motion.div
-                    className="flex items-start gap-5 p-6 rounded-card
-                               border border-white/8 bg-white/4
-                               hover:border-white/16 hover:bg-white/6
-                               transition-all duration-300 group"
-                    whileHover={{ x: 4 }}
+                    className={`flex items-start gap-5 p-6 rounded-2xl
+                               border-2 ${v.border} bg-white
+                               hover:shadow-card transition-all duration-300 group`}
+                    whileHover={{ x: 6 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
-                    <div className="w-12 h-12 rounded-xl bg-naranja-500/10 flex items-center
+                    <div className={`w-12 h-12 rounded-xl ${v.bg} flex items-center
                                     justify-center flex-shrink-0 group-hover:scale-110
-                                    transition-transform duration-300">
-                      <Icon className="w-6 h-6 text-naranja-400" strokeWidth={1.75} />
+                                    transition-transform duration-200`}>
+                      <Icon className={`w-6 h-6 ${v.color}`} strokeWidth={2} />
                     </div>
                     <div>
-                      <h3 className="text-[18px] font-bold text-white mb-1.5">{v.titulo}</h3>
-                      <p className="text-[15px] text-white/50 leading-relaxed">{v.descripcion}</p>
+                      <h3 className="text-[18px] font-bold text-gray-900 mb-1.5">{v.titulo}</h3>
+                      <p className="text-[15px] text-gray-600 leading-relaxed">{v.descripcion}</p>
                     </div>
                   </motion.div>
                 </StaggerItem>
