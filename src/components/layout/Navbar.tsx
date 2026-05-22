@@ -10,6 +10,7 @@ const navLinks = [
   { href: "#que-hacemos",   label: "Qué Hacemos" },
   { href: "#armando-ruiz",  label: "Armando Ruiz" },
   { href: "#servicios",     label: "Servicios" },
+  { href: "#sabias-que",    label: "¿Sabías que?" },
 ];
 
 export default function Navbar() {

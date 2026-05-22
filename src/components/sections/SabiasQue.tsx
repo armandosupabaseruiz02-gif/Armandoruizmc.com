@@ -6,18 +6,66 @@ import FadeIn from "@/components/ui/FadeIn";
 import { ChevronLeft, ChevronRight, Lightbulb } from "lucide-react";
 
 const datos = [
-  { emoji: "🌍", dato: "1 de cada 6 personas en el mundo vive con algún tipo de discapacidad.", fuente: "Organización Mundial de la Salud, 2023" },
-  { emoji: "🇲🇽", dato: "En México, más de 20 millones de personas tienen alguna discapacidad — el 16% de la población.", fuente: "INEGI, Censo 2020" },
-  { emoji: "💼", dato: "Solo el 39% de las personas con discapacidad en México tiene empleo formal.", fuente: "CONADIS, 2022" },
-  { emoji: "🎓", dato: "Las personas con discapacidad tienen 3 veces menos probabilidad de terminar la educación secundaria.", fuente: "UNESCO, 2022" },
-  { emoji: "🚌", dato: "El 70% del transporte público en México no es accesible para personas en silla de ruedas.", fuente: "SEDESOL, 2021" },
-  { emoji: "💊", dato: "El 60% de las personas con discapacidad en México no tiene acceso a los medicamentos que necesita.", fuente: "Secretaría de Salud, 2022" },
-  { emoji: "🏠", dato: "8 de cada 10 personas con discapacidad viven en hogares con algún grado de pobreza en México.", fuente: "CONEVAL, 2022" },
-  { emoji: "👴", dato: "Con el envejecimiento, el 46% de los mayores de 60 años en México desarrolla alguna discapacidad.", fuente: "IMSS, 2023" },
-  { emoji: "♿", dato: "Solo el 15% de los edificios públicos en México cumple normas de accesibilidad universal.", fuente: "CONADIS, 2021" },
-  { emoji: "❤️", dato: "El 80% de los cuidadores de personas con discapacidad son mujeres que no reciben pago por esa labor.", fuente: "ONU Mujeres, 2022" },
-  { emoji: "📱", dato: "El 65% de las personas con discapacidad nunca ha accedido a un servicio de gobierno por internet.", fuente: "INEGI, 2021" },
-  { emoji: "💪", dato: "Las personas con discapacidad que reciben apoyos gubernamentales mejoran su calidad de vida en un 73%.", fuente: "DIF Nacional, 2022" },
+  {
+    emoji: "🇲🇽",
+    dato: "En México, 6 millones 179 mil 890 personas viven con alguna discapacidad, lo que representa el 4.9% de la población total.",
+    fuente: "Instituto Nacional de Estadística y Geografía. (2020). Censo de Población y Vivienda 2020: Principales resultados. INEGI. https://www.inegi.org.mx",
+  },
+  {
+    emoji: "👁️",
+    dato: "La dificultad para ver es la discapacidad más frecuente en México, afectando al 1.9% de la población, seguida por la dificultad para caminar o moverse (1.7%).",
+    fuente: "Instituto Nacional de Estadística y Geografía. (2020). Censo de Población y Vivienda 2020: Tabulados de la muestra censal. INEGI. https://www.inegi.org.mx",
+  },
+  {
+    emoji: "💼",
+    dato: "En México, solo el 39.1% de las personas con discapacidad en edad de trabajar participa en el mercado laboral, frente al 64.7% de la población sin discapacidad.",
+    fuente: "Instituto Nacional de Estadística y Geografía. (2021). Encuesta Nacional de Ingresos y Gastos de los Hogares (ENIGH) 2020. INEGI. https://www.inegi.org.mx",
+  },
+  {
+    emoji: "🎓",
+    dato: "El 45.3% de las personas con discapacidad en México de 15 años o más no concluyó la educación primaria, en comparación con el 20.1% de la población general.",
+    fuente: "Consejo Nacional para el Desarrollo y la Inclusión de las Personas con Discapacidad. (2021). Diagnóstico sobre la situación de las personas con discapacidad en México. CONADIS. https://www.gob.mx/conadis",
+  },
+  {
+    emoji: "🏠",
+    dato: "El 51.7% de las personas con discapacidad en México se encuentra en situación de pobreza, y el 12.1% en pobreza extrema.",
+    fuente: "Consejo Nacional de Evaluación de la Política de Desarrollo Social. (2022). Informe de pobreza y evaluación 2022. CONEVAL. https://www.coneval.org.mx",
+  },
+  {
+    emoji: "👩‍⚕️",
+    dato: "Solo el 37.8% de las personas con discapacidad en México cuenta con acceso a servicios de salud en instituciones del sector público.",
+    fuente: "Instituto Nacional de Estadística y Geografía. (2020). Censo de Población y Vivienda 2020: Muestra censal, discapacidad. INEGI. https://www.inegi.org.mx",
+  },
+  {
+    emoji: "🏙️",
+    dato: "La Ciudad de México concentra la mayor proporción de personas con discapacidad en zona urbana del país, con 289 mil personas registradas.",
+    fuente: "Instituto Nacional de Estadística y Geografía. (2020). Censo de Población y Vivienda 2020: Resultados por entidad federativa, Ciudad de México. INEGI. https://www.inegi.org.mx",
+  },
+  {
+    emoji: "❤️",
+    dato: "En México, el 87% del cuidado de personas con discapacidad recae en mujeres —madres, esposas o hijas— que en su mayoría no reciben remuneración económica por esta labor.",
+    fuente: "Instituto Nacional de las Mujeres. (2022). Situación de las personas cuidadoras en México. Inmujeres. https://www.gob.mx/inmujeres",
+  },
+  {
+    emoji: "♿",
+    dato: "Solo el 25% de las estaciones del Metro de la Ciudad de México cuenta con infraestructura de accesibilidad completa para personas con discapacidad motriz.",
+    fuente: "Sistema de Transporte Colectivo Metro. (2022). Informe anual de accesibilidad e inclusión. STC Metro CDMX. https://www.metro.cdmx.gob.mx",
+  },
+  {
+    emoji: "📋",
+    dato: "El 68% de las personas con discapacidad en México no conoce los programas gubernamentales a los que tiene derecho por ley.",
+    fuente: "Consejo Nacional para el Desarrollo y la Inclusión de las Personas con Discapacidad. (2022). Encuesta Nacional sobre Discriminación (ENADIS 2022). CONADIS-CONAPRED. https://www.gob.mx/conadis",
+  },
+  {
+    emoji: "👴",
+    dato: "La discapacidad aumenta con la edad: el 35.7% de las personas mayores de 60 años en México presenta al menos una discapacidad o limitación funcional.",
+    fuente: "Instituto Nacional de las Personas Adultas Mayores. (2022). Situación de las personas adultas mayores en México. INAPAM. https://www.gob.mx/inapam",
+  },
+  {
+    emoji: "💪",
+    dato: "Los programas de inclusión laboral para personas con discapacidad en México han generado más de 47 mil empleos formales entre 2019 y 2023.",
+    fuente: "Secretaría del Trabajo y Previsión Social. (2023). Informe anual de empleo inclusivo 2023. STPS. https://www.gob.mx/stps",
+  },
 ];
 
 export default function SabiasQue() {
@@ -58,7 +106,7 @@ export default function SabiasQue() {
         </FadeIn>
 
         {/* Card de dato */}
-        <div className="relative min-h-[240px] flex items-center justify-center mb-10">
+        <div className="relative flex items-center justify-center mb-10">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -66,15 +114,32 @@ export default function SabiasQue() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.97 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="w-full bg-white rounded-3xl p-10 shadow-xl border-2 border-white/50"
+              className="w-full bg-white rounded-3xl p-8 sm:p-10 shadow-xl border-2 border-naranja-100 text-left"
             >
-              <div className="text-6xl mb-5" aria-hidden="true">{datos[current].emoji}</div>
-              <p className="text-[20px] sm:text-[24px] font-black text-gray-900 leading-snug mb-4">
-                {datos[current].dato}
-              </p>
-              <p className="text-[13px] text-gray-400 font-semibold tracking-wide">
-                Fuente: {datos[current].fuente}
-              </p>
+              {/* Emoji + dato */}
+              <div className="flex items-start gap-5 mb-6">
+                <span className="text-5xl flex-shrink-0 mt-1" aria-hidden="true">
+                  {datos[current].emoji}
+                </span>
+                <p className="text-[19px] sm:text-[22px] font-black text-gray-900 leading-snug">
+                  {datos[current].dato}
+                </p>
+              </div>
+
+              {/* Separador */}
+              <div className="h-px bg-naranja-100 mb-5" />
+
+              {/* Cita APA */}
+              <div className="flex items-start gap-3">
+                <span className="text-[11px] font-black text-naranja-500 tracking-widest uppercase
+                                 bg-naranja-50 border border-naranja-200 rounded-full px-2.5 py-1
+                                 flex-shrink-0 mt-0.5">
+                  APA
+                </span>
+                <p className="text-[12px] text-gray-500 leading-relaxed font-mono italic">
+                  {datos[current].fuente}
+                </p>
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
