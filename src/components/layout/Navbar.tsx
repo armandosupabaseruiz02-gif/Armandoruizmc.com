@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X, Heart } from "lucide-react";
+import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 const navLinks = [
   { href: "#quienes-somos", label: "Quiénes Somos" },
@@ -12,6 +13,17 @@ const navLinks = [
   { href: "#servicios",     label: "Servicios" },
   { href: "#sabias-que",    label: "¿Sabías que?" },
 ];
+
+function handleAnchorClick(
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string,
+  closeMobile?: () => void,
+) {
+  if (!href.startsWith("#")) return;
+  e.preventDefault();
+  closeMobile?.();
+  lenisScrollTo(href);
+}
 
 export default function Navbar() {
   const [open, setOpen]         = useState(false);
@@ -25,11 +37,6 @@ export default function Navbar() {
     setHidden(latest > prev && latest > 120);
   });
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [open]);
-
   return (
     <>
       <motion.header
@@ -37,7 +44,7 @@ export default function Navbar() {
         animate={{ y: hidden && !open ? -100 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        <div className={`transition-all duration-400 ${
+        <div className={`transition-all duration-300 ${
           scrolled
             ? "bg-white/95 backdrop-blur-xl shadow-md border-b border-naranja-100"
             : "bg-white/90 backdrop-blur-md"
@@ -55,7 +62,7 @@ export default function Navbar() {
               <div className="hidden sm:block">
                 <p className="font-black text-[16px] text-gray-900 leading-tight">Armando Ruiz</p>
                 <p className="text-naranja-600 text-[12px] font-bold tracking-widest uppercase leading-tight">
-                  Diputado Federal · CDMX
+                  Diputado CDMX · Movimiento Naranja
                 </p>
               </div>
             </Link>
@@ -64,39 +71,45 @@ export default function Navbar() {
             <ul className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
+                  <a
                     href={link.href}
+                    onClick={(e) => handleAnchorClick(e, link.href)}
                     className="px-4 py-2 text-[14px] font-semibold text-gray-700 rounded-xl
-                               hover:text-naranja-600 hover:bg-naranja-50 transition-all duration-150"
+                               hover:text-naranja-600 hover:bg-naranja-50 transition-all duration-150
+                               focus-visible:outline-2 focus-visible:outline-naranja-500 cursor-pointer"
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
 
             {/* CTA + hamburger */}
             <div className="flex items-center gap-3">
-              <Link
+              <a
                 href="#donar"
+                onClick={(e) => handleAnchorClick(e, "#donar")}
                 className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5
                            bg-naranja-500 hover:bg-naranja-600
                            text-white font-bold text-[14px]
                            rounded-full shadow-md hover:shadow-btn-glow
-                           transition-all duration-200 hover:-translate-y-0.5"
+                           transition-all duration-200 hover:-translate-y-0.5
+                           focus-visible:outline-2 focus-visible:outline-naranja-300 cursor-pointer"
               >
-                <Heart className="w-4 h-4" fill="white" />
+                <Heart className="w-4 h-4" fill="white" aria-hidden="true" />
                 Donar
-              </Link>
+              </a>
 
               <button
                 className="lg:hidden w-11 h-11 flex items-center justify-center rounded-xl
-                           text-gray-700 hover:bg-naranja-50 transition-colors"
+                           text-gray-700 hover:bg-naranja-50 transition-colors
+                           focus-visible:outline-2 focus-visible:outline-naranja-500"
                 onClick={() => setOpen(!open)}
                 aria-expanded={open}
+                aria-controls="mobile-menu"
                 aria-label={open ? "Cerrar menú" : "Abrir menú"}
               >
-                {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {open ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
               </button>
             </div>
           </nav>
@@ -107,15 +120,18 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-40 bg-white flex flex-col pt-24 px-6 pb-10"
+            id="mobile-menu"
+            className="fixed inset-0 z-40 bg-white flex flex-col pt-24 px-6 pb-10 overflow-y-auto"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {/* Fondo decorativo */}
-            <div className="absolute top-0 right-0 w-80 h-80 rounded-full
-                            bg-naranja-100 opacity-60 -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none" />
+            <div
+              className="absolute top-0 right-0 w-80 h-80 rounded-full
+                          bg-naranja-100 opacity-60 -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none"
+              aria-hidden="true"
+            />
 
             <ul className="flex flex-col gap-1 mb-8">
               {navLinks.map((link, i) => (
@@ -125,14 +141,15 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * i + 0.1 }}
                 >
-                  <Link
+                  <a
                     href={link.href}
                     className="flex items-center min-h-[60px] text-[24px] font-black
-                               text-gray-900 hover:text-naranja-600 transition-colors py-2"
-                    onClick={() => setOpen(false)}
+                               text-gray-900 hover:text-naranja-600 transition-colors py-2
+                               focus-visible:outline-2 focus-visible:outline-naranja-500"
+                    onClick={(e) => handleAnchorClick(e, link.href, () => setOpen(false))}
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 </motion.li>
               ))}
             </ul>
@@ -142,14 +159,14 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
             >
-              <Link
+              <a
                 href="#donar"
                 className="btn-primary w-full justify-center text-[18px]"
-                onClick={() => setOpen(false)}
+                onClick={(e) => handleAnchorClick(e, "#donar", () => setOpen(false))}
               >
-                <Heart className="w-5 h-5" fill="white" />
+                <Heart className="w-5 h-5" fill="white" aria-hidden="true" />
                 Donar ahora
-              </Link>
+              </a>
             </motion.div>
           </motion.div>
         )}

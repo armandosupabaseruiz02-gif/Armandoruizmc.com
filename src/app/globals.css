@@ -37,6 +37,11 @@
   }
   .skip-link:focus { @apply top-4; }
 
+  /* Compensa la altura del navbar fijo (72px + 16px buffer) */
+  section[id] {
+    scroll-margin-top: 88px;
+  }
+
   *:focus-visible {
     outline: 3px solid #ea6000;
     outline-offset: 3px;
