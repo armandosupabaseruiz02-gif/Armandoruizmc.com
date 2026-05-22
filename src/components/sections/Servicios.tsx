@@ -83,12 +83,12 @@ export default function Servicios() {
           <span className="section-badge-light mb-4">Apoyos y Servicios</span>
           <h2
             id="servicios-titulo"
-            className="text-[40px] sm:text-[52px] font-black text-ink-900
+            className="text-[40px] sm:text-[52px] font-black text-gray-900
                        leading-tight tracking-tight mt-4 mb-5"
           >
             ¿En qué te podemos ayudar?
           </h2>
-          <p className="text-[18px] text-ink-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[18px] text-gray-900 max-w-2xl mx-auto leading-relaxed">
             Todos los apoyos, trámites y recursos para personas con discapacidad
             y sus familias en un solo lugar.
           </p>
@@ -124,7 +124,7 @@ export default function Servicios() {
                   ✦ Más solicitado
                 </span>
               </div>
-              <p className="text-[16px] text-ink-600 leading-relaxed max-w-2xl">
+              <p className="text-[16px] text-gray-900 leading-relaxed max-w-2xl">
                 {servicioDestacado.descripcion}
               </p>
               <div
@@ -161,11 +161,11 @@ export default function Servicios() {
                       strokeWidth={1.75}
                       aria-hidden="true"
                     />
-                    <h3 className="text-[19px] font-bold text-ink-900 leading-tight">
+                    <h3 className="text-[19px] font-bold text-gray-900 leading-tight">
                       {s.titulo}
                     </h3>
                   </div>
-                  <p className="text-[15px] text-ink-600 leading-relaxed flex-1">
+                  <p className="text-[15px] text-gray-900 leading-relaxed flex-1">
                     {s.descripcion}
                   </p>
                   <div

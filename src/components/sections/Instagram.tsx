@@ -21,7 +21,7 @@ export default function InstagramReels() {
         <FadeIn className="text-center mb-16">
           <span className="section-badge-light mb-4">Instagram</span>
           <h2 id="instagram-titulo" className="text-[40px] sm:text-[52px] font-black text-gray-900 leading-tight tracking-tight mt-4 mb-5">
-            Síguenos en <span className="text-gradient">Instagram</span>
+            Síguenos en <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Instagram</span>
           </h2>
           <p className="text-[18px] text-gray-600 max-w-xl mx-auto leading-relaxed">
             Mira nuestros últimos videos y mantente informado de todo lo que hacemos por las personas con discapacidad.

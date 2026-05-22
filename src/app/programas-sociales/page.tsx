@@ -70,7 +70,7 @@ export default function ProgramasSocialesPage() {
   return (
     <PageWrapper>
       {/* Hero */}
-      <section className="relative bg-ink-950 pt-20 pb-28 overflow-hidden">
+      <section className="relative bg-gray-900 pt-20 pb-28 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute inset-0 bg-grid-pattern opacity-30" />
           <div className="absolute bottom-0 left-1/2 w-[600px] h-[400px] rounded-full
@@ -78,7 +78,7 @@ export default function ProgramasSocialesPage() {
         </div>
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8">
           <FadeIn>
-            <Link href="/" className="inline-flex items-center gap-2 text-white/40 hover:text-naranja-400
+            <Link href="/" className="inline-flex items-center gap-2 text-gray-300 hover:text-naranja-400
                                        text-[14px] font-medium transition-colors mb-8 group">
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
               Regresar al inicio
@@ -93,9 +93,9 @@ export default function ProgramasSocialesPage() {
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
               Programas del{" "}
-              <span className="text-gradient">Gobierno CDMX</span>
+              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Gobierno CDMX</span>
             </h1>
-            <p className="text-[18px] sm:text-[20px] text-white/55 leading-relaxed max-w-2xl">
+            <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
               Catálogo de programas sociales disponibles para personas con discapacidad
               y sus familias en la Ciudad de México. Conoce a cuáles tienes derecho.
             </p>
@@ -107,10 +107,10 @@ export default function ProgramasSocialesPage() {
       <section className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-5 sm:px-8">
           <FadeIn className="mb-14 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <h2 className="text-[36px] sm:text-[44px] font-black text-ink-900 leading-tight">
+            <h2 className="text-[36px] sm:text-[44px] font-black text-gray-900 leading-tight">
               Programas disponibles
             </h2>
-            <div className="flex items-center gap-2 text-[14px] text-ink-500 bg-naranja-50
+            <div className="flex items-center gap-2 text-[14px] text-gray-900 bg-naranja-50
                             border border-naranja-200 rounded-pill px-4 py-2">
               <Users className="w-4 h-4 text-naranja-500" />
               {programas.length} programas activos
@@ -122,22 +122,22 @@ export default function ProgramasSocialesPage() {
               <StaggerItem key={p.nombre}>
                 <div className={`p-8 rounded-card border-2 ${p.color}`}>
                   <div className="flex flex-wrap items-start gap-3 mb-5">
-                    <h3 className="text-[22px] font-bold text-ink-900 flex-1 leading-snug">{p.nombre}</h3>
+                    <h3 className="text-[22px] font-bold text-gray-900 flex-1 leading-snug">{p.nombre}</h3>
                     <span className={`${p.tag} text-white text-[11px] font-black px-3 py-1 rounded-full whitespace-nowrap`}>
                       {p.monto}
                     </span>
                   </div>
 
-                  <p className="text-[13px] text-ink-400 font-semibold uppercase tracking-wide mb-2">
+                  <p className="text-[13px] text-gray-900 font-semibold uppercase tracking-wide mb-2">
                     {p.dependencia}
                   </p>
-                  <p className="text-[16px] text-ink-600 leading-relaxed mb-5">{p.beneficio}</p>
+                  <p className="text-[16px] text-gray-900 leading-relaxed mb-5">{p.beneficio}</p>
 
                   <div>
-                    <p className="text-[13px] font-black text-ink-400 uppercase tracking-wide mb-3">Requisitos:</p>
+                    <p className="text-[13px] font-black text-gray-900 uppercase tracking-wide mb-3">Requisitos:</p>
                     <ul className="space-y-1.5">
                       {p.requisitos.map((r) => (
-                        <li key={r} className="flex items-center gap-2 text-[15px] text-ink-600">
+                        <li key={r} className="flex items-center gap-2 text-[15px] text-gray-900">
                           <CheckCircle2 className="w-4 h-4 text-naranja-400 flex-shrink-0" />
                           {r}
                         </li>
@@ -149,8 +149,8 @@ export default function ProgramasSocialesPage() {
             ))}
           </StaggerContainer>
 
-          <FadeIn className="mt-14 p-6 rounded-card bg-ink-950 border border-white/8 text-center">
-            <p className="text-white/60 text-[15px] mb-4">
+          <FadeIn className="mt-14 p-6 rounded-card bg-gray-900 border border-white/8 text-center">
+            <p className="text-gray-300 text-[15px] mb-4">
               ¿Necesitas ayuda para aplicar a alguno de estos programas? El equipo del
               Diputado Armando Ruiz puede orientarte gratuitamente.
             </p>

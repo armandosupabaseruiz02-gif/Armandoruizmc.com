@@ -76,7 +76,7 @@ export default function BolsaTrabajoPage() {
   return (
     <PageWrapper>
       {/* Hero */}
-      <section className="relative bg-ink-950 pt-20 pb-28 overflow-hidden">
+      <section className="relative bg-gray-900 pt-20 pb-28 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute inset-0 bg-grid-pattern opacity-30" />
           <div className="absolute top-1/2 right-0 w-[500px] h-[500px] rounded-full
@@ -85,7 +85,7 @@ export default function BolsaTrabajoPage() {
 
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8">
           <FadeIn>
-            <Link href="/" className="inline-flex items-center gap-2 text-white/40 hover:text-naranja-400
+            <Link href="/" className="inline-flex items-center gap-2 text-gray-300 hover:text-naranja-400
                                        text-[14px] font-medium transition-colors mb-8 group">
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
               Regresar al inicio
@@ -100,9 +100,9 @@ export default function BolsaTrabajoPage() {
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
               Empleo{" "}
-              <span className="text-gradient">Inclusivo</span>
+              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Inclusivo</span>
             </h1>
-            <p className="text-[18px] sm:text-[20px] text-white/55 leading-relaxed max-w-2xl">
+            <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
               Vacantes de empleos dignos para personas con discapacidad en el Estado de México.
               Empresas comprometidas con la inclusión laboral real.
             </p>
@@ -114,10 +114,10 @@ export default function BolsaTrabajoPage() {
       <section className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-5 sm:px-8">
           <FadeIn className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
-            <h2 className="text-[36px] sm:text-[44px] font-black text-ink-900 leading-tight">
+            <h2 className="text-[36px] sm:text-[44px] font-black text-gray-900 leading-tight">
               Vacantes actuales
             </h2>
-            <p className="text-[14px] text-ink-500 bg-gray-50 border border-gray-200 rounded-pill px-4 py-2">
+            <p className="text-[14px] text-gray-900 bg-gray-50 border border-gray-200 rounded-pill px-4 py-2">
               Actualizado por el equipo del Diputado Armando Ruiz
             </p>
           </FadeIn>
@@ -129,8 +129,8 @@ export default function BolsaTrabajoPage() {
                                 hover:shadow-card bg-white transition-all duration-300 group">
                   <div className="flex flex-wrap items-start gap-3 mb-4">
                     <div className="flex-1">
-                      <h3 className="text-[20px] font-bold text-ink-900 mb-1">{v.puesto}</h3>
-                      <div className="flex flex-wrap items-center gap-3 text-[14px] text-ink-500">
+                      <h3 className="text-[20px] font-bold text-gray-900 mb-1">{v.puesto}</h3>
+                      <div className="flex flex-wrap items-center gap-3 text-[14px] text-gray-900">
                         <span className="flex items-center gap-1.5">
                           <Building className="w-3.5 h-3.5 text-naranja-400" />
                           {v.empresa}
@@ -150,7 +150,7 @@ export default function BolsaTrabajoPage() {
                     </span>
                   </div>
 
-                  <p className="text-[15px] text-ink-600 leading-relaxed mb-4">{v.descripcion}</p>
+                  <p className="text-[15px] text-gray-900 leading-relaxed mb-4">{v.descripcion}</p>
 
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <span className="text-[12px] bg-emerald-50 text-emerald-700 border border-emerald-200
@@ -173,9 +173,9 @@ export default function BolsaTrabajoPage() {
           </StaggerContainer>
 
           {/* CTA Empresa */}
-          <FadeIn className="mt-14 p-8 rounded-card bg-ink-950 text-center border border-white/8">
+          <FadeIn className="mt-14 p-8 rounded-card bg-gray-900 text-center border border-white/8">
             <p className="text-white font-bold text-[22px] mb-3">¿Eres empresa y quieres publicar una vacante?</p>
-            <p className="text-white/50 text-[15px] mb-6 max-w-xl mx-auto">
+            <p className="text-gray-300 text-[15px] mb-6 max-w-xl mx-auto">
               Únete a nuestro programa de empresas accesibles. El Diputado Armando Ruiz
               conecta tu empresa con talento comprometido.
             </p>

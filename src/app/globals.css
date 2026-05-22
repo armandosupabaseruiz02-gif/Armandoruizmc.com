@@ -105,8 +105,9 @@
   .section-badge-light {
     @apply section-badge bg-naranja-100 text-naranja-700 border-naranja-300;
   }
+  /* Visible en fondos oscuros (bg-gray-900) Y fondos claros */
   .section-badge-dark {
-    @apply section-badge bg-naranja-500/15 text-naranja-700 border-naranja-400/40;
+    @apply section-badge bg-naranja-500 text-white border-naranja-600;
   }
 
   /* ——— CARDS ——— */

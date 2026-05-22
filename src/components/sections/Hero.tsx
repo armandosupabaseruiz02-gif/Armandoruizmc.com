@@ -90,7 +90,7 @@ export default function Hero() {
               <div className="overflow-hidden mt-1">
                 <SplitWords text="más" />
                 {" "}
-                <SplitWords text="Accesible" className="text-gradient" />
+                <SplitWords text="Accesible" className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent" />
               </div>
               <div className="overflow-hidden mt-1"><SplitWords text="e Incluyente" /></div>
             </h1>

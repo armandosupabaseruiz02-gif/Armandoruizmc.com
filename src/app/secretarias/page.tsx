@@ -88,7 +88,7 @@ export default function SecretariasPage() {
   return (
     <PageWrapper>
       {/* Hero */}
-      <section className="relative bg-ink-950 pt-20 pb-28 overflow-hidden">
+      <section className="relative bg-gray-900 pt-20 pb-28 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute inset-0 bg-grid-pattern opacity-30" />
           <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full
@@ -97,7 +97,7 @@ export default function SecretariasPage() {
 
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8">
           <FadeIn>
-            <Link href="/" className="inline-flex items-center gap-2 text-white/40 hover:text-naranja-400
+            <Link href="/" className="inline-flex items-center gap-2 text-gray-300 hover:text-naranja-400
                                        text-[14px] font-medium transition-colors mb-8 group">
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
               Regresar al inicio
@@ -112,9 +112,9 @@ export default function SecretariasPage() {
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
               Dependencias{" "}
-              <span className="text-gradient">Gubernamentales</span>
+              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Gubernamentales</span>
             </h1>
-            <p className="text-[18px] sm:text-[20px] text-white/55 leading-relaxed max-w-2xl">
+            <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
               Directorio de las secretarías del gobierno de la Ciudad de México
               especializadas en atención a personas con discapacidad y sus familias.
             </p>
@@ -136,22 +136,22 @@ export default function SecretariasPage() {
                       <Building2 className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-[19px] font-bold text-ink-900 leading-snug mb-2">
+                      <h3 className="text-[19px] font-bold text-gray-900 leading-snug mb-2">
                         {s.nombre}
                       </h3>
-                      <p className="text-[15px] text-ink-500 leading-relaxed">{s.descripcion}</p>
+                      <p className="text-[15px] text-gray-900 leading-relaxed">{s.descripcion}</p>
                     </div>
                   </div>
 
                   <div className="pl-17 ml-[68px]">
-                    <p className="text-[12px] font-black text-ink-400 uppercase tracking-wide mb-2">
+                    <p className="text-[12px] font-black text-gray-900 uppercase tracking-wide mb-2">
                       Servicios principales:
                     </p>
                     <ul className="flex flex-wrap gap-2 mb-4">
                       {s.servicios.map((sv) => (
                         <li key={sv}
                           className="text-[13px] bg-gray-50 border border-gray-200
-                                     rounded-full px-3 py-1 text-ink-600">
+                                     rounded-full px-3 py-1 text-gray-900">
                           {sv}
                         </li>
                       ))}
@@ -165,7 +165,7 @@ export default function SecretariasPage() {
                         {s.tel}
                       </a>
                       <a href={s.url} target="_blank" rel="noopener noreferrer"
-                         className="flex items-center gap-1.5 text-ink-400 hover:text-naranja-500
+                         className="flex items-center gap-1.5 text-gray-900 hover:text-naranja-500
                                     text-[14px] transition-colors">
                         <Globe className="w-4 h-4" />
                         Sitio web oficial

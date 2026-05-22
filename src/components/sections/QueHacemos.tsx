@@ -49,13 +49,13 @@ export default function QueHacemos() {
           <span className="section-badge-light mb-4">Qué Hacemos</span>
           <h2
             id="que-hacemos-titulo"
-            className="text-[40px] sm:text-[52px] font-black text-ink-900
+            className="text-[40px] sm:text-[52px] font-black text-gray-900
                        leading-tight tracking-tight mt-4 mb-5"
           >
             Acciones concretas,{" "}
             <span className="text-naranja-500">resultados reales</span>
           </h2>
-          <p className="text-[18px] text-ink-500 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[18px] text-gray-900 max-w-2xl mx-auto leading-relaxed">
             Nuestro trabajo va más allá del discurso. Lo que hacemos todos los días por la comunidad.
           </p>
         </FadeIn>
@@ -95,11 +95,11 @@ export default function QueHacemos() {
                         strokeWidth={1.75}
                         aria-hidden="true"
                       />
-                      <h3 className="text-[20px] font-bold text-ink-900 leading-tight">
+                      <h3 className="text-[20px] font-bold text-gray-900 leading-tight">
                         {a.titulo}
                       </h3>
                     </div>
-                    <p className="text-[16px] text-ink-500 leading-relaxed">
+                    <p className="text-[16px] text-gray-900 leading-relaxed">
                       {a.descripcion}
                     </p>
                   </div>

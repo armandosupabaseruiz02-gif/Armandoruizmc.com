@@ -66,7 +66,7 @@ export default function TarjetaAccesiblePage() {
   return (
     <PageWrapper>
       {/* Hero */}
-      <section className="relative bg-ink-950 pt-20 pb-28 overflow-hidden">
+      <section className="relative bg-gray-900 pt-20 pb-28 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute inset-0 bg-grid-pattern opacity-30" />
           <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full
@@ -77,7 +77,7 @@ export default function TarjetaAccesiblePage() {
           <FadeIn>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-white/40 hover:text-naranja-400
+              className="inline-flex items-center gap-2 text-gray-300 hover:text-naranja-400
                          text-[14px] font-medium transition-colors mb-8 group"
             >
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
@@ -93,9 +93,9 @@ export default function TarjetaAccesiblePage() {
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
               Tarjeta de{" "}
-              <span className="text-gradient">Discapacidad CDMX</span>
+              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Discapacidad CDMX</span>
             </h1>
-            <p className="text-[18px] sm:text-[20px] text-white/55 leading-relaxed max-w-2xl">
+            <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
               La Tarjeta Accesible te da acceso a transporte gratuito, atención médica
               preferencial y descuentos en la Ciudad de México. Aquí te explicamos cómo obtenerla.
             </p>
@@ -108,7 +108,7 @@ export default function TarjetaAccesiblePage() {
         <div className="max-w-5xl mx-auto px-5 sm:px-8">
           <FadeIn className="mb-14">
             <span className="section-badge-light mb-3">¿Qué puedes hacer con ella?</span>
-            <h2 id="beneficios-titulo" className="text-[36px] sm:text-[44px] font-black text-ink-900 leading-tight mt-4">
+            <h2 id="beneficios-titulo" className="text-[36px] sm:text-[44px] font-black text-gray-900 leading-tight mt-4">
               Beneficios de la tarjeta
             </h2>
           </FadeIn>
@@ -124,8 +124,8 @@ export default function TarjetaAccesiblePage() {
                       <Icon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-[18px] font-bold text-ink-900 mb-1">{b.titulo}</h3>
-                      <p className="text-[15px] text-ink-500 leading-relaxed">{b.desc}</p>
+                      <h3 className="text-[18px] font-bold text-gray-900 mb-1">{b.titulo}</h3>
+                      <p className="text-[15px] text-gray-900 leading-relaxed">{b.desc}</p>
                     </div>
                   </div>
                 </StaggerItem>
@@ -136,7 +136,7 @@ export default function TarjetaAccesiblePage() {
       </section>
 
       {/* Requisitos */}
-      <section className="py-20 bg-ink-950" aria-labelledby="requisitos-titulo">
+      <section className="py-20 bg-gray-900" aria-labelledby="requisitos-titulo">
         <div className="max-w-5xl mx-auto px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <FadeIn>
@@ -149,14 +149,14 @@ export default function TarjetaAccesiblePage() {
                 {requisitos.map((req) => (
                   <li key={req} className="flex items-start gap-3" role="listitem">
                     <CheckCircle2 className="w-6 h-6 text-naranja-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                    <span className="text-[17px] text-white/70 leading-snug">{req}</span>
+                    <span className="text-[17px] text-gray-200 leading-snug">{req}</span>
                   </li>
                 ))}
               </ul>
 
               <div className="mt-8 p-5 rounded-2xl bg-naranja-500/10 border border-naranja-500/20 flex gap-3">
                 <AlertCircle className="w-5 h-5 text-naranja-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <p className="text-[14px] text-white/60 leading-relaxed">
+                <p className="text-[14px] text-gray-300 leading-relaxed">
                   Lleva originales y copias de todos los documentos. El trámite es completamente
                   gratuito. No pagues a gestores externos.
                 </p>
@@ -173,8 +173,8 @@ export default function TarjetaAccesiblePage() {
               <ol className="space-y-5" role="list">
                 {pasos.map((p) => (
                   <li key={p.num}
-                    className="flex gap-4 p-5 rounded-2xl bg-white/4 border border-white/8
-                               hover:border-white/16 hover:bg-white/6 transition-all duration-300"
+                    className="flex gap-4 p-5 rounded-2xl bg-white/8 border border-white/15
+                               hover:border-white/25 hover:bg-white/12 transition-all duration-300"
                     role="listitem"
                   >
                     <span className="text-[28px] font-black text-naranja-500 leading-none flex-shrink-0 mt-1">
@@ -182,7 +182,7 @@ export default function TarjetaAccesiblePage() {
                     </span>
                     <div>
                       <h3 className="text-[16px] font-bold text-white mb-1">{p.titulo}</h3>
-                      <p className="text-[14px] text-white/50 leading-relaxed">{p.desc}</p>
+                      <p className="text-[14px] text-gray-300 leading-relaxed">{p.desc}</p>
                     </div>
                   </li>
                 ))}
@@ -197,7 +197,7 @@ export default function TarjetaAccesiblePage() {
         <div className="max-w-5xl mx-auto px-5 sm:px-8">
           <FadeIn className="mb-12">
             <span className="section-badge-light mb-3">Dónde tramitarla</span>
-            <h2 id="modulos-titulo" className="text-[36px] sm:text-[44px] font-black text-ink-900 leading-tight mt-4">
+            <h2 id="modulos-titulo" className="text-[36px] sm:text-[44px] font-black text-gray-900 leading-tight mt-4">
               Módulos de atención
             </h2>
           </FadeIn>
@@ -209,9 +209,9 @@ export default function TarjetaAccesiblePage() {
                                 hover:shadow-card transition-all duration-300">
                   <div className="flex items-start gap-3 mb-3">
                     <MapPin className="w-5 h-5 text-naranja-500 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                    <h3 className="text-[17px] font-bold text-ink-900 leading-snug">{m.nombre}</h3>
+                    <h3 className="text-[17px] font-bold text-gray-900 leading-snug">{m.nombre}</h3>
                   </div>
-                  <p className="text-[14px] text-ink-500 mb-3 pl-8 leading-relaxed">{m.direccion}</p>
+                  <p className="text-[14px] text-gray-900 mb-3 pl-8 leading-relaxed">{m.direccion}</p>
                   <a
                     href={`tel:${m.tel.replace(/\s/g, "")}`}
                     className="inline-flex items-center gap-1.5 pl-8 text-naranja-600

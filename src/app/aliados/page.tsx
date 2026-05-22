@@ -13,7 +13,7 @@ export default function AliadosPage() {
   return (
     <PageWrapper>
       {/* Hero */}
-      <section className="relative bg-ink-950 pt-20 pb-28 overflow-hidden">
+      <section className="relative bg-gray-900 pt-20 pb-28 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute inset-0 bg-grid-pattern opacity-30" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
@@ -22,7 +22,7 @@ export default function AliadosPage() {
 
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8">
           <FadeIn>
-            <Link href="/" className="inline-flex items-center gap-2 text-white/40 hover:text-naranja-400
+            <Link href="/" className="inline-flex items-center gap-2 text-gray-300 hover:text-naranja-400
                                        text-[14px] font-medium transition-colors mb-8 group">
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
               Regresar al inicio
@@ -37,9 +37,9 @@ export default function AliadosPage() {
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
               Red de{" "}
-              <span className="text-gradient">Aliados</span>
+              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Aliados</span>
             </h1>
-            <p className="text-[18px] sm:text-[20px] text-white/55 leading-relaxed max-w-2xl">
+            <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
               Construimos una red de organizaciones, fundaciones y empresas comprometidas
               con la inclusión y los derechos de las personas con discapacidad en el Estado de México.
             </p>
@@ -57,10 +57,10 @@ export default function AliadosPage() {
                             flex items-center justify-center mx-auto mb-8">
               <Handshake className="w-10 h-10 text-teal-600" />
             </div>
-            <h2 className="text-[32px] font-black text-ink-900 mb-4">
+            <h2 className="text-[32px] font-black text-gray-900 mb-4">
               Próximamente
             </h2>
-            <p className="text-[18px] text-ink-500 max-w-xl mx-auto leading-relaxed mb-10">
+            <p className="text-[18px] text-gray-900 max-w-xl mx-auto leading-relaxed mb-10">
               Estamos construyendo nuestra red de aliados. Si tu organización, fundación
               o empresa quiere unirse al movimiento por la inclusión, contáctanos.
             </p>
@@ -80,7 +80,7 @@ export default function AliadosPage() {
 
           {/* Tipos de aliados que buscamos */}
           <FadeIn>
-            <div className="p-10 rounded-card bg-ink-950 border border-white/8">
+            <div className="p-10 rounded-card bg-gray-900 border border-white/8">
               <h3 className="text-[26px] font-black text-white mb-8 text-center">
                 ¿Qué tipo de aliados buscamos?
               </h3>
@@ -93,7 +93,7 @@ export default function AliadosPage() {
                   <div key={a.tipo} className="p-6 rounded-2xl bg-white/4 border border-white/8 text-center">
                     <div className="text-4xl mb-4">{a.icon}</div>
                     <h4 className="text-[16px] font-bold text-white mb-2">{a.tipo}</h4>
-                    <p className="text-[13px] text-white/50 leading-relaxed">{a.desc}</p>
+                    <p className="text-[13px] text-gray-300 leading-relaxed">{a.desc}</p>
                   </div>
                 ))}
               </div>

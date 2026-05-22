@@ -46,7 +46,7 @@ export default function Donar() {
               <span className="section-badge-dark mb-5">Donar</span>
 
               <h2 id="donar-titulo" className="text-[40px] sm:text-[56px] font-black text-gray-900 leading-tight tracking-tight mt-4 mb-5">
-                Apoya nuestra <span className="text-gradient">causa</span>
+                Apoya nuestra <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">causa</span>
               </h2>
 
               <p className="text-[17px] sm:text-[19px] text-gray-600 leading-relaxed max-w-xl mx-auto mb-10">

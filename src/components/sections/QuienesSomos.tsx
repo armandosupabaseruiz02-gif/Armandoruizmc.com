@@ -52,7 +52,7 @@ export default function QuienesSomos() {
                          leading-tight tracking-tight mt-4 mb-7"
             >
               Un equipo comprometido con la{" "}
-              <span className="text-gradient">inclusión</span>
+              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">inclusión</span>
             </h2>
             <div className="space-y-5 text-[17px] text-gray-600 leading-relaxed">
               <p>

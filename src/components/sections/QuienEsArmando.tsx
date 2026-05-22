@@ -63,7 +63,7 @@ export default function QuienEsArmando() {
             <FadeIn direction="left">
               <span className="section-badge-light mb-5">Quién es Armando Ruiz</span>
               <h2 id="armando-titulo" className="text-[40px] sm:text-[52px] font-black text-gray-900 leading-tight tracking-tight mt-4 mb-7">
-                Un legislador que <span className="text-gradient">vive la inclusión</span>
+                Un legislador que <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">vive la inclusión</span>
               </h2>
               <div className="space-y-4 text-[17px] text-gray-600 leading-relaxed">
                 <p>
