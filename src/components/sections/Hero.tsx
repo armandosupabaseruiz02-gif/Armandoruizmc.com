@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { CreditCard, ArrowRight, ChevronDown } from "lucide-react";
+import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 const wordReveal = { hidden: {}, visible: { transition: { staggerChildren: 0.07 } } };
 const wordItem   = {
   hidden:  { y: "110%", opacity: 0 },
@@ -120,9 +121,12 @@ export default function Hero() {
                 Tramitar Tarjeta Accesible
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link href="#servicios" className="btn-secondary">
+              <button
+                onClick={() => lenisScrollTo("#servicios")}
+                className="btn-secondary"
+              >
                 Ver todos los servicios
-              </Link>
+              </button>
             </motion.div>
 
           </div>

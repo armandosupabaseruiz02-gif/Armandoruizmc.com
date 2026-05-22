@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import FadeIn from "@/components/ui/FadeIn";
 import { Heart, Shield, Users, ArrowRight } from "lucide-react";
+import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 export default function Donar() {
   return (
@@ -81,14 +82,14 @@ export default function Donar() {
                   Donar ahora
                   <ArrowRight className="w-5 h-5" />
                 </motion.a>
-                <motion.a
-                  href="#quienes-somos"
+                <motion.button
+                  onClick={() => lenisScrollTo("#quienes-somos")}
                   className="btn-secondary"
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   Conocer más
-                </motion.a>
+                </motion.button>
               </div>
             </div>
           </div>

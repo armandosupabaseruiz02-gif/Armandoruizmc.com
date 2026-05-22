@@ -7,13 +7,20 @@ import Lenis from "lenis";
 // sin necesitar Context de React
 let _lenis: Lenis | null = null;
 
-export function lenisScrollTo(target: string, offset = -88) {
+const NAVBAR_H = 80; // 72px navbar + 8px de aire
+
+export function lenisScrollTo(target: string) {
+  const el = document.querySelector(target) as HTMLElement | null;
+  if (!el) return;
+
+  // Calculamos la posición exacta en píxeles para evitar
+  // ambigüedades con el offset string-based de Lenis
+  const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - NAVBAR_H);
+
   if (_lenis) {
-    _lenis.scrollTo(target, { offset });
+    _lenis.scrollTo(targetY);
   } else {
-    // Fallback nativo si Lenis aún no está listo
-    const el = document.querySelector(target);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.scrollTo({ top: targetY, behavior: "smooth" });
   }
 }
 
