@@ -28,7 +28,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-atkinson)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         card: "24px",
@@ -61,7 +61,17 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  plugins: [require("tailwindcss/plugin")(({ addUtilities }: { addUtilities: (u: Record<string, Record<string,string>>) => void }) => {
+    addUtilities({
+      ".text-gradient": {
+        "background-image": "linear-gradient(135deg, #ea6000 0%, #f97316 50%, #fb923c 100%)",
+        "-webkit-background-clip": "text",
+        "background-clip": "text",
+        "color": "transparent",
+      },
+    });
+  })],
 };
 
 export default config;

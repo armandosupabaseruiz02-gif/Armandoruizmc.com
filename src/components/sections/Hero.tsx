@@ -4,8 +4,6 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { CreditCard, ArrowRight, ChevronDown } from "lucide-react";
-import AnimatedCounter from "@/components/ui/AnimatedCounter";
-
 const wordReveal = { hidden: {}, visible: { transition: { staggerChildren: 0.07 } } };
 const wordItem   = {
   hidden:  { y: "110%", opacity: 0 },
@@ -23,12 +21,6 @@ function SplitWords({ text, className }: { text: string; className?: string }) {
     </motion.span>
   );
 }
-
-const stats = [
-  { num: 20, suffix: "M+", label: "Personas con discapacidad en México" },
-  { num: 6,  suffix: "",   label: "Servicios disponibles" },
-  { num: 1,  suffix: "°",  label: "Portal digital de casa de apoyo" },
-];
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -84,7 +76,7 @@ export default function Hero() {
                                bg-naranja-100 border border-naranja-300
                                text-naranja-700 text-[13px] font-bold tracking-widest uppercase">
                 <span className="w-2 h-2 rounded-full bg-naranja-500 animate-pulse" />
-                Movimiento Naranja · Diputado Federal
+                Movimiento Naranja · Diputado CDMX
               </span>
             </motion.div>
 
@@ -112,7 +104,7 @@ export default function Hero() {
             >
               Soy{" "}
               <strong className="text-gray-900 font-bold">Armando Ruiz</strong>,{" "}
-              <strong className="text-naranja-600 font-bold">Diputado Federal por la Ciudad de México</strong>.
+              <strong className="text-naranja-600 font-bold">Diputado CDMX por la Ciudad de México</strong>.
               Aquí encontrarás todos los apoyos, trámites y servicios que mereces.
             </motion.p>
 
@@ -133,24 +125,6 @@ export default function Hero() {
               </Link>
             </motion.div>
 
-            {/* Stats */}
-            <motion.div
-              className="flex flex-wrap gap-8 pt-5 border-t-2 border-naranja-100"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.1, duration: 0.6 }}
-            >
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <div className="text-[32px] font-black text-naranja-600 leading-none">
-                    <AnimatedCounter end={s.num} suffix={s.suffix} duration={2} />
-                  </div>
-                  <div className="text-[13px] text-gray-500 font-semibold mt-1 max-w-[120px] leading-snug">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </motion.div>
           </div>
 
           {/* Card foto */}
@@ -180,7 +154,7 @@ export default function Hero() {
                   </div>
                   <div className="text-center px-6">
                     <p className="text-gray-900 font-black text-[20px]">Armando Ruiz</p>
-                    <p className="text-naranja-600 text-[14px] font-bold mt-1">Diputado Federal</p>
+                    <p className="text-naranja-600 text-[14px] font-bold mt-1">Diputado CDMX</p>
                     <p className="text-naranja-400 text-[12px] font-semibold mt-0.5">Ciudad de México</p>
                     <p className="text-gray-400 text-[11px] mt-3">(Foto oficial pendiente)</p>
                   </div>
