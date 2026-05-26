@@ -1,0 +1,384 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { ChevronLeft, ChevronRight, CheckCircle2, Clock, Calendar } from "lucide-react";
+
+const SLOT_TIMES = [
+  "08:00","08:30","09:00","09:30","10:00","10:30",
+  "11:00","11:30","12:00","12:30","13:00","13:30",
+  "14:00","14:30","15:00","15:30",
+];
+
+const MONTH_NAMES = [
+  "Enero","Febrero","Marzo","Abril","Mayo","Junio",
+  "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",
+];
+const DAY_NAMES = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+
+function toDateStr(y: number, m: number, d: number) {
+  return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+}
+
+interface Props {
+  userId: string;
+  defaultName: string;
+  defaultPhone: string;
+  defaultCurp: string;
+  bookedSlots: { date: string; time: string }[];
+  blockedDays: string[];
+}
+
+type Step = "calendar" | "slots" | "form" | "confirm";
+
+export default function BookingCalendar({
+  userId, defaultName, defaultPhone, defaultCurp,
+  bookedSlots, blockedDays,
+}: Props) {
+  const router = useRouter();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const [viewYear, setViewYear] = useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [step, setStep] = useState<Step>("calendar");
+
+  const [fullName, setFullName] = useState(defaultName);
+  const [phone, setPhone] = useState(defaultPhone);
+  const [curp, setCurp] = useState(defaultCurp);
+  const [motive, setMotive] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Calendar helpers
+  const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+  function prevMonth() {
+    if (viewMonth === 0) { setViewMonth(11); setViewYear((y) => y - 1); }
+    else setViewMonth((m) => m - 1);
+  }
+  function nextMonth() {
+    if (viewMonth === 11) { setViewMonth(0); setViewYear((y) => y + 1); }
+    else setViewMonth((m) => m + 1);
+  }
+
+  function isDaySelectable(d: number) {
+    const dateStr = toDateStr(viewYear, viewMonth, d);
+    const date = new Date(viewYear, viewMonth, d);
+    const dow = date.getDay();
+    if (dow === 0 || dow === 6) return false; // weekend
+    if (date < today) return false;           // past
+    if (blockedDays.includes(dateStr)) return false;
+    return true;
+  }
+
+  function getBookedTimesForDate(dateStr: string) {
+    return bookedSlots.filter((s) => s.date === dateStr).map((s) => s.time);
+  }
+
+  async function handleConfirm() {
+    if (!selectedDate || !selectedTime) return;
+    setLoading(true);
+    setError("");
+
+    const supabase = createClient();
+    const { error: insertError } = await supabase.from("appointments").insert({
+      citizen_id: userId,
+      appointment_date: selectedDate,
+      slot_time: selectedTime + ":00",
+      full_name: fullName.trim(),
+      phone: phone.trim(),
+      curp: curp.trim() || null,
+      motive: motive.trim(),
+      status: "confirmed",
+    });
+
+    if (insertError) {
+      if (insertError.code === "23505") {
+        setError("Ese horario acaba de ser reservado. Por favor elige otro.");
+      } else {
+        setError("Ocurrió un error al guardar tu cita. Intenta de nuevo.");
+      }
+      setLoading(false);
+      return;
+    }
+
+    setStep("confirm");
+    setLoading(false);
+  }
+
+  if (step === "confirm") {
+    return (
+      <div className="flex flex-col items-center justify-center text-center py-16">
+        <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mb-6">
+          <CheckCircle2 className="w-10 h-10 text-emerald-600" />
+        </div>
+        <h2 className="text-[32px] font-black text-gray-900 mb-3">¡Cita confirmada!</h2>
+        <p className="text-[17px] text-gray-600 mb-2">
+          Tu cita quedó agendada para el{" "}
+          <strong className="text-gray-900">
+            {selectedDate?.split("-").reverse().join("/")}
+          </strong>{" "}
+          a las <strong className="text-gray-900">{selectedTime} hrs</strong>.
+        </p>
+        <p className="text-[14px] text-gray-500 mb-10 max-w-sm">
+          Puedes ver y cancelar tu cita desde tu cuenta. Preséntate 10 minutos antes en las
+          oficinas del Diputado Armando Ruiz.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button
+            onClick={() => router.push("/mi-cuenta")}
+            className="btn-primary"
+          >
+            Ver mis citas
+          </button>
+          <button
+            onClick={() => router.push("/salud")}
+            className="btn-secondary"
+          >
+            Volver a Salud
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8">
+      {/* Calendar */}
+      <div className="bg-white rounded-3xl border-2 border-gray-100 p-6 shadow-sm h-fit">
+        {/* Month nav */}
+        <div className="flex items-center justify-between mb-5">
+          <button
+            onClick={prevMonth}
+            className="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
+            aria-label="Mes anterior"
+          >
+            <ChevronLeft className="w-5 h-5 text-gray-600" />
+          </button>
+          <span className="text-[16px] font-bold text-gray-900">
+            {MONTH_NAMES[viewMonth]} {viewYear}
+          </span>
+          <button
+            onClick={nextMonth}
+            className="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
+            aria-label="Mes siguiente"
+          >
+            <ChevronRight className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
+
+        {/* Day headers */}
+        <div className="grid grid-cols-7 mb-2">
+          {DAY_NAMES.map((d) => (
+            <div key={d} className="text-center text-[11px] font-bold text-gray-400 py-1">{d}</div>
+          ))}
+        </div>
+
+        {/* Days grid */}
+        <div className="grid grid-cols-7 gap-y-1">
+          {Array.from({ length: firstDay }).map((_, i) => (
+            <div key={`empty-${i}`} />
+          ))}
+          {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((d) => {
+            const dateStr = toDateStr(viewYear, viewMonth, d);
+            const selectable = isDaySelectable(d);
+            const isSelected = selectedDate === dateStr;
+            const isBlocked = blockedDays.includes(dateStr);
+            const date = new Date(viewYear, viewMonth, d);
+            const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+            const isPast = date < today;
+
+            return (
+              <button
+                key={d}
+                disabled={!selectable}
+                onClick={() => {
+                  setSelectedDate(dateStr);
+                  setSelectedTime(null);
+                  setStep("slots");
+                }}
+                className={`
+                  h-9 w-9 mx-auto rounded-full text-[13px] font-semibold transition-all
+                  ${isSelected
+                    ? "bg-naranja-500 text-white shadow-md"
+                    : selectable
+                    ? "hover:bg-naranja-100 text-gray-900 cursor-pointer"
+                    : isBlocked
+                    ? "text-red-400 line-through cursor-not-allowed opacity-60"
+                    : (isWeekend || isPast)
+                    ? "text-gray-300 cursor-not-allowed"
+                    : "text-gray-300 cursor-not-allowed"
+                  }
+                `}
+                aria-label={`${d} de ${MONTH_NAMES[viewMonth]}`}
+                aria-pressed={isSelected}
+              >
+                {d}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-5 pt-4 border-t border-gray-100 flex flex-col gap-2 text-[12px] text-gray-500">
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-naranja-500 inline-block" /> Día seleccionado
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-gray-200 inline-block" /> No disponible / fin de semana
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-red-300 inline-block" /> Día suspendido
+          </div>
+        </div>
+      </div>
+
+      {/* Right panel */}
+      <div>
+        {/* Time slots */}
+        {(step === "slots" || step === "form") && selectedDate && (
+          <div className="bg-white rounded-3xl border-2 border-gray-100 p-6 shadow-sm mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Clock className="w-5 h-5 text-naranja-500" />
+              <span className="text-[16px] font-bold text-gray-900">
+                Horarios — {selectedDate.split("-").reverse().join("/")}
+              </span>
+            </div>
+            <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
+              {SLOT_TIMES.map((t) => {
+                const booked = getBookedTimesForDate(selectedDate).includes(t);
+                const isSelected = selectedTime === t;
+                return (
+                  <button
+                    key={t}
+                    disabled={booked}
+                    onClick={() => {
+                      setSelectedTime(t);
+                      setStep("form");
+                    }}
+                    className={`
+                      py-2.5 rounded-xl text-[13px] font-semibold transition-all
+                      ${booked
+                        ? "bg-gray-100 text-gray-400 cursor-not-allowed line-through"
+                        : isSelected
+                        ? "bg-naranja-500 text-white shadow-md"
+                        : "bg-naranja-50 text-naranja-700 hover:bg-naranja-100 border border-naranja-200"
+                      }
+                    `}
+                    aria-label={`${t} ${booked ? "(ocupado)" : ""}`}
+                    aria-pressed={isSelected}
+                  >
+                    {t}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Booking form */}
+        {step === "form" && selectedDate && selectedTime && (
+          <div className="bg-white rounded-3xl border-2 border-gray-100 p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-5">
+              <Calendar className="w-5 h-5 text-naranja-500" />
+              <span className="text-[16px] font-bold text-gray-900">Datos de la cita</span>
+            </div>
+
+            <div className="flex items-center gap-3 mb-6 p-3 rounded-xl bg-naranja-50 border border-naranja-200">
+              <span className="text-naranja-600 font-black text-[14px]">
+                {selectedDate.split("-").reverse().join("/")} — {selectedTime} hrs
+              </span>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+                  Nombre completo *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-naranja-400
+                             outline-none text-[15px] text-gray-900 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+                  Teléfono *
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-naranja-400
+                             outline-none text-[15px] text-gray-900 transition-colors"
+                  placeholder="55 1234 5678"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+                  CURP <span className="text-gray-400 font-normal">(opcional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={curp}
+                  onChange={(e) => setCurp(e.target.value.toUpperCase())}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-naranja-400
+                             outline-none text-[15px] text-gray-900 transition-colors uppercase"
+                  placeholder="AAAA000000AAAAAA00"
+                  maxLength={18}
+                />
+              </div>
+
+              <div>
+                <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+                  Motivo de la cita *
+                </label>
+                <textarea
+                  required
+                  value={motive}
+                  onChange={(e) => setMotive(e.target.value)}
+                  rows={3}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-naranja-400
+                             outline-none text-[15px] text-gray-900 transition-colors resize-none"
+                  placeholder="Describe brevemente el motivo de tu consulta…"
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="mt-4 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-[14px]">
+                {error}
+              </div>
+            )}
+
+            <button
+              onClick={handleConfirm}
+              disabled={loading || !fullName.trim() || !phone.trim() || !motive.trim()}
+              className="btn-primary w-full mt-6 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <CheckCircle2 className="w-5 h-5" />
+              {loading ? "Guardando…" : "Confirmar cita"}
+            </button>
+          </div>
+        )}
+
+        {step === "calendar" && (
+          <div className="flex flex-col items-center justify-center h-48 text-center text-gray-400">
+            <Calendar className="w-12 h-12 mb-3 opacity-30" />
+            <p className="text-[15px]">Selecciona un día disponible en el calendario</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

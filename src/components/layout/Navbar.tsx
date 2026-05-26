@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Menu, X, Heart } from "lucide-react";
+import { Menu, X, Heart, User } from "lucide-react";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 const navLinks = [
@@ -86,6 +86,16 @@ export default function Navbar() {
 
             {/* CTA + hamburger */}
             <div className="flex items-center gap-3">
+              <Link
+                href="/mi-cuenta"
+                className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5
+                           text-gray-700 hover:text-naranja-600 hover:bg-naranja-50
+                           font-semibold text-[14px] rounded-full border border-gray-200
+                           hover:border-naranja-200 transition-all duration-200"
+              >
+                <User className="w-4 h-4" aria-hidden="true" />
+                Mi cuenta
+              </Link>
               <a
                 href="#donar"
                 onClick={(e) => handleAnchorClick(e, "#donar")}
@@ -158,7 +168,16 @@ export default function Navbar() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
+              className="flex flex-col gap-3"
             >
+              <Link
+                href="/mi-cuenta"
+                onClick={() => setOpen(false)}
+                className="btn-secondary w-full justify-center text-[18px]"
+              >
+                <User className="w-5 h-5" aria-hidden="true" />
+                Mi cuenta
+              </Link>
               <a
                 href="#donar"
                 className="btn-primary w-full justify-center text-[18px]"

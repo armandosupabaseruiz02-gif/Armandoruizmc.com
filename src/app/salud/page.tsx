@@ -173,6 +173,35 @@ export default function SaludPage() {
           </FadeIn>
         </div>
       </section>
+
+      {/* CTA Agendar Cita */}
+      <section className="py-20 bg-naranja-500 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" aria-hidden="true" />
+        <div className="relative max-w-3xl mx-auto px-5 sm:px-8 text-center">
+          <FadeIn>
+            <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-6">
+              <HeartPulse className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-[36px] sm:text-[48px] font-black text-white leading-tight mb-4">
+              ¿Necesitas orientación personalizada?
+            </h2>
+            <p className="text-[18px] text-white/90 mb-10 max-w-xl mx-auto">
+              Agenda una cita con nuestro equipo especializado. Te ayudamos a acceder a los
+              servicios de salud que te corresponden.
+            </p>
+            <Link href="/salud/agendar" className="inline-flex items-center gap-2
+              min-h-[56px] px-10 bg-white text-naranja-700 font-bold text-[17px]
+              rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1
+              transition-all duration-200 active:scale-[0.97]">
+              <ChevronRight className="w-5 h-5" />
+              Agendar cita ahora
+            </Link>
+            <p className="text-white/70 text-[14px] mt-4">
+              Lunes a viernes · 8:00 – 16:00 · Trámite gratuito
+            </p>
+          </FadeIn>
+        </div>
+      </section>
     </PageWrapper>
   );
 }
