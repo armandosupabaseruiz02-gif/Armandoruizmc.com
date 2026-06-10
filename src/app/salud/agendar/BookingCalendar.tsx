@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { ChevronLeft, ChevronRight, CheckCircle2, Clock, Calendar } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle2, Clock, Calendar, Building2, Video } from "lucide-react";
 
+// Horario de atención: lunes a viernes, 9:00 a 17:00 (última cita 16:30)
 const SLOT_TIMES = [
-  "08:00","08:30","09:00","09:30","10:00","10:30",
-  "11:00","11:30","12:00","12:30","13:00","13:30",
-  "14:00","14:30","15:00","15:30",
+  "09:00","09:30","10:00","10:30","11:00","11:30",
+  "12:00","12:30","13:00","13:30","14:00","14:30",
+  "15:00","15:30","16:00","16:30",
 ];
 
 const MONTH_NAMES = [
@@ -50,6 +51,7 @@ export default function BookingCalendar({
   const [phone, setPhone] = useState(defaultPhone);
   const [curp, setCurp] = useState(defaultCurp);
   const [motive, setMotive] = useState("");
+  const [modality, setModality] = useState<"presencial" | "en_linea">("presencial");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -94,6 +96,7 @@ export default function BookingCalendar({
       phone: phone.trim(),
       curp: curp.trim() || null,
       motive: motive.trim(),
+      modality,
       status: "confirmed",
     });
 
@@ -125,9 +128,20 @@ export default function BookingCalendar({
           </strong>{" "}
           a las <strong className="text-gray-900">{selectedTime} hrs</strong>.
         </p>
-        <p className="text-[14px] text-gray-500 mb-10 max-w-sm">
-          Puedes ver y cancelar tu cita desde tu cuenta. Preséntate 10 minutos antes en las
-          oficinas del Diputado Armando Ruiz.
+        <div className="inline-flex items-center gap-2 mb-5 px-4 py-2 rounded-full bg-naranja-100 border border-naranja-200">
+          {modality === "en_linea"
+            ? <Video className="w-4 h-4 text-naranja-600" aria-hidden="true" />
+            : <Building2 className="w-4 h-4 text-naranja-600" aria-hidden="true" />}
+          <span className="text-[14px] font-bold text-naranja-700">
+            {modality === "en_linea" ? "Cita en línea (videollamada)" : "Cita presencial"}
+          </span>
+        </div>
+        <p className="text-[15px] text-gray-600 mb-10 max-w-sm leading-relaxed">
+          Un asesor del Diputado Armando Ruiz te atenderá.{" "}
+          {modality === "en_linea"
+            ? "Te enviaremos el enlace de la videollamada antes de tu cita; también lo verás en tu cuenta."
+            : "Preséntate 10 minutos antes en las oficinas del Diputado."}{" "}
+          Puedes ver y cancelar tu cita desde tu cuenta cuando lo necesites.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <button
@@ -175,7 +189,7 @@ export default function BookingCalendar({
         {/* Day headers */}
         <div className="grid grid-cols-7 mb-2">
           {DAY_NAMES.map((d) => (
-            <div key={d} className="text-center text-[11px] font-bold text-gray-400 py-1">{d}</div>
+            <div key={d} className="text-center text-[12px] font-bold text-gray-500 py-1">{d}</div>
           ))}
         </div>
 
@@ -203,7 +217,7 @@ export default function BookingCalendar({
                   setStep("slots");
                 }}
                 className={`
-                  h-9 w-9 mx-auto rounded-full text-[13px] font-semibold transition-all
+                  h-11 w-11 mx-auto rounded-full text-[15px] font-semibold transition-all
                   ${isSelected
                     ? "bg-naranja-500 text-white shadow-md"
                     : selectable
@@ -248,7 +262,7 @@ export default function BookingCalendar({
                 Horarios — {selectedDate.split("-").reverse().join("/")}
               </span>
             </div>
-            <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
               {SLOT_TIMES.map((t) => {
                 const booked = getBookedTimesForDate(selectedDate).includes(t);
                 const isSelected = selectedTime === t;
@@ -261,7 +275,7 @@ export default function BookingCalendar({
                       setStep("form");
                     }}
                     className={`
-                      py-2.5 rounded-xl text-[13px] font-semibold transition-all
+                      min-h-[48px] py-3 rounded-xl text-[15px] font-semibold transition-all
                       ${booked
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed line-through"
                         : isSelected
@@ -293,6 +307,48 @@ export default function BookingCalendar({
                 {selectedDate.split("-").reverse().join("/")} — {selectedTime} hrs
               </span>
             </div>
+
+            {/* Modalidad de la cita */}
+            <fieldset className="mb-6">
+              <legend className="block text-[13px] font-semibold text-gray-700 mb-2">
+                ¿Cómo quieres tu cita? *
+              </legend>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {([
+                  { value: "presencial", icon: Building2, label: "Presencial", desc: "En las oficinas del Diputado" },
+                  { value: "en_linea",   icon: Video,     label: "En línea",   desc: "Por videollamada, desde casa" },
+                ] as const).map((opt) => {
+                  const Icon = opt.icon;
+                  const active = modality === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setModality(opt.value)}
+                      aria-pressed={active}
+                      className={`flex items-start gap-3 text-left p-4 rounded-2xl border-2 transition-all min-h-[64px]
+                        ${active
+                          ? "border-naranja-500 bg-naranja-50 shadow-sm"
+                          : "border-gray-200 bg-white hover:border-naranja-300"}`}
+                    >
+                      <span className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
+                        ${active ? "bg-naranja-500 text-white" : "bg-naranja-100 text-naranja-600"}`}>
+                        <Icon className="w-5 h-5" aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-[15px] font-bold text-gray-900">{opt.label}</span>
+                        <span className="block text-[13px] text-gray-600 leading-snug">{opt.desc}</span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              {modality === "en_linea" && (
+                <p className="text-[13px] text-gray-600 mt-2 leading-relaxed">
+                  Un asesor te enviará el enlace de la videollamada antes de tu cita. Lo verás también en tu cuenta.
+                </p>
+              )}
+            </fieldset>
 
             <div className="space-y-4">
               <div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { CreditCard, ArrowRight, ChevronDown } from "lucide-react";
+import { CreditCard, ArrowRight, ChevronDown, Accessibility } from "lucide-react";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 const wordReveal = { hidden: {}, visible: { transition: { staggerChildren: 0.07 } } };
 const wordItem   = {
@@ -77,7 +77,7 @@ export default function Hero() {
                                bg-naranja-100 border border-naranja-300
                                text-naranja-700 text-[13px] font-bold tracking-widest uppercase">
                 <span className="w-2 h-2 rounded-full bg-naranja-500 animate-pulse" />
-                Movimiento Naranja · Diputado CDMX
+                Movimiento Naranja · Diputado Federal
               </span>
             </motion.div>
 
@@ -91,21 +91,21 @@ export default function Hero() {
               <div className="overflow-hidden mt-1">
                 <SplitWords text="más" />
                 {" "}
-                <SplitWords text="Accesible" className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent" />
+                <SplitWords text="Accesible" className="text-highlight" />
               </div>
               <div className="overflow-hidden mt-1"><SplitWords text="e Incluyente" /></div>
             </h1>
 
             {/* Descripción */}
             <motion.p
-              className="text-[18px] sm:text-[20px] text-gray-600 leading-relaxed max-w-xl"
+              className="text-[18px] sm:text-[20px] text-gray-700 leading-relaxed max-w-xl"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
             >
               Soy{" "}
               <strong className="text-gray-900 font-bold">Armando Ruiz</strong>,{" "}
-              <strong className="text-naranja-600 font-bold">Diputado CDMX por la Ciudad de México</strong>.
+              <strong className="text-naranja-700 font-bold">Diputado Federal por la Ciudad de México</strong>.
               Aquí encontrarás todos los apoyos, trámites y servicios que mereces.
             </motion.p>
 
@@ -158,7 +158,7 @@ export default function Hero() {
                   </div>
                   <div className="text-center px-6">
                     <p className="text-gray-900 font-black text-[20px]">Armando Ruiz</p>
-                    <p className="text-naranja-600 text-[14px] font-bold mt-1">Diputado CDMX</p>
+                    <p className="text-naranja-600 text-[14px] font-bold mt-1">Diputado Federal</p>
                     <p className="text-naranja-400 text-[12px] font-semibold mt-0.5">Ciudad de México</p>
                     <p className="text-gray-400 text-[11px] mt-3">(Foto oficial pendiente)</p>
                   </div>
@@ -187,7 +187,9 @@ export default function Hero() {
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 >
-                  <span className="text-2xl">♿</span>
+                  <div className="w-8 h-8 rounded-full bg-naranja-100 flex items-center justify-center flex-shrink-0">
+                    <Accessibility className="w-[18px] h-[18px] text-naranja-600" strokeWidth={2} aria-hidden="true" />
+                  </div>
                   <div>
                     <p className="text-gray-900 text-[12px] font-bold">Inclusión</p>
                     <p className="text-naranja-500 text-[11px] font-semibold">para todos</p>

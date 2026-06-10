@@ -46,16 +46,16 @@ export default function QueHacemos() {
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         <FadeIn className="text-center mb-20">
-          <span className="section-badge-light mb-4">Qué Hacemos</span>
+          <span className="section-badge-light">Qué Hacemos</span>
           <h2
             id="que-hacemos-titulo"
             className="text-[40px] sm:text-[52px] font-black text-gray-900
-                       leading-tight tracking-tight mt-4 mb-5"
+                       leading-tight tracking-tight mt-5 mb-5"
           >
             Acciones concretas,{" "}
-            <span className="text-naranja-500">resultados reales</span>
+            <span className="text-highlight">resultados reales</span>
           </h2>
-          <p className="text-[18px] text-gray-900 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[18px] text-gray-800 max-w-2xl mx-auto leading-relaxed">
             Nuestro trabajo va más allá del discurso. Lo que hacemos todos los días por la comunidad.
           </p>
         </FadeIn>
@@ -69,7 +69,7 @@ export default function QueHacemos() {
             return (
               <StaggerItem key={a.num}>
                 <motion.div
-                  className="relative flex gap-6 p-8 rounded-card border border-gray-100
+                  className="relative flex gap-6 p-8 rounded-card border-2 border-gray-100
                                bg-white overflow-hidden cursor-default
                                hover:border-naranja-200 hover:shadow-card
                                transition-all duration-300 group"
@@ -99,7 +99,7 @@ export default function QueHacemos() {
                         {a.titulo}
                       </h3>
                     </div>
-                    <p className="text-[16px] text-gray-900 leading-relaxed">
+                    <p className="text-[16px] text-gray-800 leading-relaxed">
                       {a.descripcion}
                     </p>
                   </div>

@@ -68,7 +68,8 @@ export default async function AgendarPage() {
             Agenda tu cita
           </h1>
           <p className="text-[17px] text-gray-200 max-w-xl">
-            Selecciona el día y horario que mejor te convenga. Horario de atención: lunes a viernes de 8:00 a 16:00.
+            Selecciona el día y horario que mejor te convenga. Un asesor del Diputado te atenderá,
+            de forma presencial o en línea. Horario de atención: lunes a viernes de 9:00 a 17:00.
           </p>
         </div>
       </section>

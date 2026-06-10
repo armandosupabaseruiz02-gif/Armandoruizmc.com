@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
-import { Award, Heart, Users } from "lucide-react";
+import { Award, Heart, Users, Landmark } from "lucide-react";
 
 const logros = [
   { icon: Award, titulo: "Legislador comprometido", desc: "Iniciativas de ley por los derechos de personas con discapacidad en México." },
@@ -49,7 +49,9 @@ export default function QuienEsArmando() {
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <span className="text-2xl">🏛️</span>
+                  <div className="w-9 h-9 rounded-full bg-naranja-100 flex items-center justify-center flex-shrink-0">
+                    <Landmark className="w-[18px] h-[18px] text-naranja-600" strokeWidth={2} aria-hidden="true" />
+                  </div>
                   <div>
                     <p className="text-gray-900 text-[13px] font-black leading-tight">Cámara de</p>
                     <p className="text-naranja-600 text-[13px] font-black leading-tight">Diputados</p>
@@ -61,16 +63,16 @@ export default function QuienEsArmando() {
 
           <div className="order-1 lg:order-2">
             <FadeIn direction="left">
-              <span className="section-badge-light mb-5">Quién es Armando Ruiz</span>
-              <h2 id="armando-titulo" className="text-[40px] sm:text-[52px] font-black text-gray-900 leading-tight tracking-tight mt-4 mb-7">
-                Un legislador que <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">vive la inclusión</span>
+              <span className="section-badge-light">Quién es Armando Ruiz</span>
+              <h2 id="armando-titulo" className="text-[40px] sm:text-[52px] font-black text-gray-900 leading-tight tracking-tight mt-5 mb-7">
+                Un legislador que <span className="text-highlight">vive la inclusión</span>
               </h2>
-              <div className="space-y-4 text-[17px] text-gray-600 leading-relaxed">
+              <div className="space-y-4 text-[17px] text-gray-800 leading-relaxed">
                 <p>
                   Armando Ruiz es <strong className="text-gray-900 font-bold">Diputado Federal por la Ciudad de México</strong> del Movimiento Naranja. Como persona que vive con discapacidad y se desplaza en silla de ruedas, entiende profundamente los retos de esta comunidad.
                 </p>
                 <p>
-                  Su trabajo garantiza que los derechos de las personas con discapacidad sean <strong className="text-naranja-600 font-semibold">realidades accesibles</strong>, no solo palabras en papel.
+                  Su trabajo garantiza que los derechos de las personas con discapacidad sean <strong className="text-naranja-700 font-bold">realidades accesibles</strong>, no solo palabras en papel.
                 </p>
               </div>
             </FadeIn>
@@ -80,13 +82,13 @@ export default function QuienEsArmando() {
                 const Icon = l.icon;
                 return (
                   <StaggerItem key={l.titulo}>
-                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border-2 border-gray-100 hover:border-naranja-200 hover:shadow-card transition-all duration-300 group">
+                    <div className="flex items-center gap-4 p-5 rounded-card bg-white border-2 border-gray-100 hover:border-naranja-200 hover:shadow-card transition-all duration-300 group">
                       <div className="w-11 h-11 rounded-xl bg-naranja-100 flex items-center justify-center flex-shrink-0 group-hover:bg-naranja-200 transition-colors">
                         <Icon className="w-5 h-5 text-naranja-600" />
                       </div>
                       <div>
                         <p className="text-[15px] font-bold text-gray-900 leading-tight">{l.titulo}</p>
-                        <p className="text-[13px] text-gray-500 leading-snug mt-0.5">{l.desc}</p>
+                        <p className="text-[13px] text-gray-700 leading-snug mt-0.5">{l.desc}</p>
                       </div>
                     </div>
                   </StaggerItem>

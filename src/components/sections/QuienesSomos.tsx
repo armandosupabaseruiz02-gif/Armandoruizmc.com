@@ -35,7 +35,7 @@ export default function QuienesSomos() {
   return (
     <section
       id="quienes-somos"
-      className="py-28 bg-white relative overflow-hidden"
+      className="py-28 bg-warm-50 relative overflow-hidden"
       aria-labelledby="quienes-somos-titulo"
     >
       <div className="absolute inset-0 bg-dot-pattern opacity-50 pointer-events-none" aria-hidden="true" />
@@ -45,16 +45,16 @@ export default function QuienesSomos() {
 
           {/* Texto */}
           <FadeIn>
-            <span className="section-badge-light mb-5">Quiénes Somos</span>
+            <span className="section-badge-light">Quiénes Somos</span>
             <h2
               id="quienes-somos-titulo"
               className="text-[40px] sm:text-[52px] font-black text-gray-900
-                         leading-tight tracking-tight mt-4 mb-7"
+                         leading-tight tracking-tight mt-5 mb-7"
             >
               Un equipo comprometido con la{" "}
-              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">inclusión</span>
+              <span className="text-highlight">inclusión</span>
             </h2>
-            <div className="space-y-5 text-[17px] text-gray-600 leading-relaxed">
+            <div className="space-y-5 text-[17px] text-gray-800 leading-relaxed">
               <p>
                 Somos el equipo del{" "}
                 <strong className="text-gray-900 font-bold">Diputado Federal Armando Ruiz</strong>,
@@ -64,7 +64,7 @@ export default function QuienesSomos() {
               <p>
                 Nuestro trabajo se centra en legislar, gestionar y facilitar el acceso
                 a todos los programas y servicios para{" "}
-                <strong className="text-naranja-700 font-semibold">
+                <strong className="text-naranja-700 font-bold">
                   personas con discapacidad y sus familias
                 </strong>.
               </p>
@@ -82,7 +82,7 @@ export default function QuienesSomos() {
               return (
                 <StaggerItem key={v.titulo} direction="left">
                   <motion.div
-                    className={`flex items-start gap-5 p-6 rounded-2xl
+                    className={`flex items-start gap-5 p-6 rounded-card
                                border-2 ${v.border} bg-white
                                hover:shadow-card transition-all duration-300 group`}
                     whileHover={{ x: 6 }}
@@ -95,7 +95,7 @@ export default function QuienesSomos() {
                     </div>
                     <div>
                       <h3 className="text-[18px] font-bold text-gray-900 mb-1.5">{v.titulo}</h3>
-                      <p className="text-[15px] text-gray-600 leading-relaxed">{v.descripcion}</p>
+                      <p className="text-[15px] text-gray-700 leading-relaxed">{v.descripcion}</p>
                     </div>
                   </motion.div>
                 </StaggerItem>

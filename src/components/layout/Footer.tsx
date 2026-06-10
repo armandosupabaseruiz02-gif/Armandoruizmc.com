@@ -44,7 +44,7 @@ export default function Footer() {
               <div>
                 <p className="font-black text-white text-[16px] leading-tight">Armando Ruiz</p>
                 <p className="text-naranja-400 text-[11px] font-bold tracking-widest uppercase leading-tight">
-                  Diputado CDMX
+                  Diputado Federal
                 </p>
               </div>
             </div>
@@ -160,7 +160,7 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/25 text-[13px]">
-            © {new Date().getFullYear()} Armando Ruiz · Diputado CDMX · Movimiento Naranja
+            © {new Date().getFullYear()} Armando Ruiz · Diputado Federal · Movimiento Naranja
           </p>
           <div className="flex gap-6">
             {[

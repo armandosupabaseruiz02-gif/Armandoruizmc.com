@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   Calendar, Clock, CheckCircle2, XCircle, AlertCircle,
-  HeartPulse, LogOut, Plus, Settings,
+  HeartPulse, LogOut, Plus, Settings, Building2, Video,
 } from "lucide-react";
 
 interface Appointment {
@@ -17,6 +17,8 @@ interface Appointment {
   phone: string;
   motive: string;
   status: string;
+  modality?: string;
+  meeting_link?: string;
   created_at: string;
 }
 
@@ -155,9 +157,37 @@ export default function UserDashboard({
                           {a.slot_time.slice(0, 5)} hrs
                         </span>
                       </div>
-                      <p className="text-[14px] text-gray-500 leading-relaxed line-clamp-2">
+                      <div className="flex items-center gap-2 mb-3">
+                        {a.modality === "en_linea"
+                          ? <Video className="w-4 h-4 text-violet-600 flex-shrink-0" />
+                          : <Building2 className="w-4 h-4 text-amber-600 flex-shrink-0" />}
+                        <span className="text-[14px] font-semibold text-gray-700">
+                          {a.modality === "en_linea" ? "Cita en línea (videollamada)" : "Cita presencial"}
+                        </span>
+                      </div>
+                      <p className="text-[14px] text-gray-500 leading-relaxed line-clamp-2 mb-3">
                         <span className="font-semibold text-gray-700">Motivo:</span> {a.motive}
                       </p>
+                      {a.modality === "en_linea" && (
+                        a.meeting_link ? (
+                          <a
+                            href={a.meeting_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 min-h-[44px] px-5
+                                       bg-violet-600 hover:bg-violet-700 text-white font-bold text-[14px]
+                                       rounded-xl transition-colors"
+                          >
+                            <Video className="w-4 h-4" />
+                            Unirse a la videollamada
+                          </a>
+                        ) : (
+                          <p className="text-[13px] text-violet-700 bg-violet-50 border border-violet-200
+                                        rounded-xl px-4 py-2.5 inline-block">
+                            Un asesor te enviará el enlace de la videollamada antes de tu cita.
+                          </p>
+                        )
+                      )}
                     </div>
                     <button
                       onClick={() => handleCancel(a.id)}

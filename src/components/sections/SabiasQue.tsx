@@ -114,7 +114,7 @@ export default function SabiasQue() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.97 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="w-full bg-white rounded-3xl p-8 sm:p-10 shadow-xl border-2 border-naranja-100 text-left"
+              className="w-full bg-white rounded-card p-8 sm:p-10 shadow-xl border-2 border-naranja-100 text-left"
             >
               {/* Emoji + dato */}
               <div className="flex items-start gap-5 mb-6">
@@ -136,7 +136,7 @@ export default function SabiasQue() {
                                  flex-shrink-0 mt-0.5">
                   APA
                 </span>
-                <p className="text-[12px] text-gray-500 leading-relaxed font-mono italic">
+                <p className="text-[12px] text-gray-600 leading-relaxed font-mono italic">
                   {datos[current].fuente}
                 </p>
               </div>

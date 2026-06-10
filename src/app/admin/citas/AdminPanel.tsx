@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   Calendar, Clock, User, Phone, CheckCircle2,
-  XCircle, AlertTriangle, Ban, Plus, Trash2,
-  ChevronDown, ChevronUp, FileText,
+  XCircle, Ban, Trash2,
+  ChevronDown, ChevronUp, Building2, Video, Save,
 } from "lucide-react";
 
 interface Appointment {
@@ -17,6 +17,8 @@ interface Appointment {
   phone: string;
   motive: string;
   status: string;
+  modality?: string;
+  meeting_link?: string;
   cancelled_reason?: string;
   profiles?: { full_name: string; phone: string };
 }
@@ -65,6 +67,16 @@ export default function AdminPanel({
     setLoading(id);
     const supabase = createClient();
     await supabase.from("appointments").update({ status: "completed" }).eq("id", id);
+    router.refresh();
+    setLoading(null);
+  }
+
+  async function handleSaveLink(id: string, link: string) {
+    setLoading(id);
+    const supabase = createClient();
+    await supabase.from("appointments")
+      .update({ meeting_link: link.trim() || null })
+      .eq("id", id);
     router.refresh();
     setLoading(null);
   }
@@ -178,6 +190,7 @@ export default function AdminPanel({
                   onToggle={() => setExpanded(expanded === a.id ? null : a.id)}
                   onComplete={() => handleComplete(a.id)}
                   onCancel={() => handleAdminCancel(a.id)}
+                  onSaveLink={handleSaveLink}
                   loading={loading === a.id}
                   showActions
                 />
@@ -293,6 +306,7 @@ function AppointmentCard({
   onToggle,
   onComplete,
   onCancel,
+  onSaveLink,
   loading,
   showActions,
 }: {
@@ -301,10 +315,13 @@ function AppointmentCard({
   onToggle: () => void;
   onComplete: () => void;
   onCancel: () => void;
+  onSaveLink?: (id: string, link: string) => void | Promise<void>;
   loading: boolean;
   showActions: boolean;
 }) {
   const statusInfo = STATUS_LABELS[a.status] ?? STATUS_LABELS.completed;
+  const isOnline = a.modality === "en_linea";
+  const [link, setLink] = useState(a.meeting_link ?? "");
 
   return (
     <div className={`bg-white rounded-2xl border-2 transition-all duration-200
@@ -333,6 +350,14 @@ function AppointmentCard({
           </div>
         </div>
         <div className="flex items-center gap-3 flex-shrink-0">
+          <span className={`hidden sm:inline-flex items-center gap-1 px-3 py-1 rounded-full
+                            text-[11px] font-bold border
+                            ${isOnline
+                              ? "text-violet-700 bg-violet-100 border-violet-200"
+                              : "text-amber-700 bg-amber-100 border-amber-200"}`}>
+            {isOnline ? <Video className="w-3 h-3" /> : <Building2 className="w-3 h-3" />}
+            {isOnline ? "En línea" : "Presencial"}
+          </span>
           <span className={`hidden sm:inline-flex items-center px-3 py-1 rounded-full
                             text-[11px] font-bold border ${statusInfo.color}`}>
             {statusInfo.label}
@@ -362,6 +387,46 @@ function AppointmentCard({
             <p className="text-[11px] font-black text-gray-400 uppercase tracking-wide mb-1">Motivo de la cita</p>
             <p className="text-[14px] text-gray-700 leading-relaxed">{a.motive}</p>
           </div>
+
+          {/* Enlace de videollamada (solo citas en línea) */}
+          {isOnline && (
+            <div className="mb-4 p-4 rounded-xl bg-violet-50 border border-violet-200">
+              <p className="text-[11px] font-black text-violet-700 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                <Video className="w-3.5 h-3.5" />
+                Enlace de videollamada
+              </p>
+              {showActions && a.status === "confirmed" ? (
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input
+                    type="url"
+                    value={link}
+                    onChange={(e) => setLink(e.target.value)}
+                    placeholder="https://meet.google.com/…  o  https://zoom.us/…"
+                    className="flex-1 px-4 py-2.5 rounded-xl border-2 border-violet-200 focus:border-violet-400
+                               outline-none text-[14px] text-gray-900"
+                  />
+                  <button
+                    onClick={() => onSaveLink?.(a.id, link)}
+                    disabled={loading || link.trim() === (a.meeting_link ?? "")}
+                    className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5
+                               bg-violet-600 hover:bg-violet-700 text-white font-bold text-[14px]
+                               rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Save className="w-4 h-4" />
+                    Guardar enlace
+                  </button>
+                </div>
+              ) : a.meeting_link ? (
+                <a href={a.meeting_link} target="_blank" rel="noopener noreferrer"
+                   className="text-[14px] text-violet-700 font-semibold underline break-all">
+                  {a.meeting_link}
+                </a>
+              ) : (
+                <p className="text-[13px] text-gray-500 italic">Sin enlace asignado.</p>
+              )}
+            </div>
+          )}
+
           {showActions && a.status === "confirmed" && (
             <div className="flex gap-3">
               <button

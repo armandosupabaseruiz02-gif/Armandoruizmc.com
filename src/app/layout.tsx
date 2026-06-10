@@ -11,12 +11,12 @@ const atkinson = Atkinson_Hyperlegible({
 });
 
 export const metadata: Metadata = {
-  title: "Armando Ruiz | Diputado CDMX - Movimiento Naranja",
+  title: "Armando Ruiz | Diputado Federal · Movimiento Naranja",
   description:
     "Página oficial del Diputado Armando Ruiz. Apoyos, programas y servicios para personas con discapacidad en la Ciudad de México.",
-  keywords: ["Armando Ruiz", "Diputado CDMX", "Movimiento Naranja", "discapacidad", "Tarjeta Incluyente"],
+  keywords: ["Armando Ruiz", "Diputado Federal", "Movimiento Naranja", "discapacidad", "Tarjeta Incluyente"],
   openGraph: {
-    title: "Armando Ruiz | Diputado CDMX",
+    title: "Armando Ruiz | Diputado Federal",
     description: "Apoyos y servicios para personas con discapacidad en la Ciudad de México",
     locale: "es_MX",
     type: "website",

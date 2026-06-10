@@ -197,7 +197,7 @@ export default function SaludPage() {
               Agendar cita ahora
             </Link>
             <p className="text-white/70 text-[14px] mt-4">
-              Lunes a viernes · 8:00 – 16:00 · Trámite gratuito
+              Lunes a viernes · 9:00 – 17:00 · Presencial o en línea · Gratuito
             </p>
           </FadeIn>
         </div>

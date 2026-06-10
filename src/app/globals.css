@@ -113,7 +113,7 @@
   /* ——— CARDS ——— */
   .service-card {
     @apply relative flex flex-col h-full p-7
-           rounded-3xl border-2 border-gray-100
+           rounded-card border-2 border-gray-100
            bg-white overflow-hidden
            transition-all duration-300 cursor-pointer;
   }
@@ -131,6 +131,13 @@
 @layer utilities {
   .text-gradient {
     color: #ea6000;
+  }
+
+  /* Tratamiento ÚNICO de palabra destacada (highlight) en headings.
+     Se usa en TODA la home para mantener coherencia visual. */
+  .text-highlight {
+    @apply bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400
+           bg-clip-text text-transparent;
   }
 
   .bg-warm { background-color: #fffaf5; }

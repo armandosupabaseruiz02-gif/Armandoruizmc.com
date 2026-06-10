@@ -6,11 +6,13 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { Menu, X, Heart, User } from "lucide-react";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
+// El orden del menú coincide EXACTAMENTE con el orden visual de la home
+// (tras el Hero): Servicios → Quiénes Somos → Qué Hacemos → Armando Ruiz → ¿Sabías que?
 const navLinks = [
+  { href: "#servicios",     label: "Servicios" },
   { href: "#quienes-somos", label: "Quiénes Somos" },
   { href: "#que-hacemos",   label: "Qué Hacemos" },
   { href: "#armando-ruiz",  label: "Armando Ruiz" },
-  { href: "#servicios",     label: "Servicios" },
   { href: "#sabias-que",    label: "¿Sabías que?" },
 ];
 
@@ -62,7 +64,7 @@ export default function Navbar() {
               <div className="hidden sm:block">
                 <p className="font-black text-[16px] text-gray-900 leading-tight">Armando Ruiz</p>
                 <p className="text-naranja-600 text-[12px] font-bold tracking-widest uppercase leading-tight">
-                  Diputado CDMX · Movimiento Naranja
+                  Diputado Federal · Movimiento Naranja
                 </p>
               </div>
             </Link>

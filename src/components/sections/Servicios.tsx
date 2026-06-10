@@ -5,7 +5,7 @@ import { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import FadeIn from "@/components/ui/FadeIn";
 import {
   CreditCard, HeartPulse, ScrollText,
-  Briefcase, Building2, Handshake, ArrowRight,
+  Briefcase, Building2, Handshake, ArrowRight, Star,
 } from "lucide-react";
 
 const servicioDestacado = {
@@ -80,15 +80,15 @@ export default function Servicios() {
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         {/* Encabezado */}
         <FadeIn className="text-center mb-16">
-          <span className="section-badge-light mb-4">Apoyos y Servicios</span>
+          <span className="section-badge-light">Apoyos y Servicios</span>
           <h2
             id="servicios-titulo"
             className="text-[40px] sm:text-[52px] font-black text-gray-900
-                       leading-tight tracking-tight mt-4 mb-5"
+                       leading-tight tracking-tight mt-5 mb-5"
           >
             ¿En qué te podemos ayudar?
           </h2>
-          <p className="text-[18px] text-gray-900 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[18px] text-gray-800 max-w-2xl mx-auto leading-relaxed">
             Todos los apoyos, trámites y recursos para personas con discapacidad
             y sus familias en un solo lugar.
           </p>
@@ -117,14 +117,15 @@ export default function Servicios() {
                   {servicioDestacado.titulo}
                 </h3>
                 <span
-                  className="bg-naranja-500 text-white text-[11px] font-black
+                  className="inline-flex items-center gap-1.5 bg-naranja-500 text-white text-[11px] font-black
                                px-3 py-1 rounded-full tracking-wide uppercase"
                   aria-label="Servicio más solicitado"
                 >
-                  ✦ Más solicitado
+                  <Star className="w-3 h-3" fill="currentColor" strokeWidth={0} aria-hidden="true" />
+                  Más solicitado
                 </span>
               </div>
-              <p className="text-[16px] text-gray-900 leading-relaxed max-w-2xl">
+              <p className="text-[16px] text-gray-800 leading-relaxed max-w-2xl">
                 {servicioDestacado.descripcion}
               </p>
               <div
@@ -150,7 +151,7 @@ export default function Servicios() {
               <StaggerItem key={s.id}>
                 <Link
                   href={s.href}
-                  className="service-card border border-gray-100 bg-white
+                  className="service-card group
                              focus-visible:outline-4 focus-visible:outline-naranja-500
                              focus-visible:outline-offset-2"
                   aria-label={`${s.titulo}: ${s.descripcion}`}
@@ -165,7 +166,7 @@ export default function Servicios() {
                       {s.titulo}
                     </h3>
                   </div>
-                  <p className="text-[15px] text-gray-900 leading-relaxed flex-1">
+                  <p className="text-[15px] text-gray-800 leading-relaxed flex-1">
                     {s.descripcion}
                   </p>
                   <div

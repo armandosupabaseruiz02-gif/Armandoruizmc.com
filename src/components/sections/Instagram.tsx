@@ -36,16 +36,16 @@ export default function InstagramReels() {
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         <FadeIn className="text-center mb-16">
-          <span className="section-badge-light mb-4">Instagram</span>
+          <span className="section-badge-light">Instagram</span>
           <h2
             id="instagram-titulo"
             className="text-[40px] sm:text-[52px] font-black text-gray-900
-                       leading-tight tracking-tight mt-4 mb-5"
+                       leading-tight tracking-tight mt-5 mb-5"
           >
             Síguenos en{" "}
-            <span className="text-naranja-500">Instagram</span>
+            <span className="text-highlight">Instagram</span>
           </h2>
-          <p className="text-[18px] text-gray-600 max-w-xl mx-auto leading-relaxed">
+          <p className="text-[18px] text-gray-800 max-w-xl mx-auto leading-relaxed">
             Mira nuestros últimos videos y mantente informado de todo lo que hacemos por las personas con discapacidad.
           </p>
           <p className="text-naranja-600 text-[15px] font-bold mt-2">@armandoruizdiputado</p>
@@ -113,7 +113,7 @@ export default function InstagramReels() {
                     </div>
                   </div>
                   <div className="absolute top-3 left-3" aria-hidden="true">
-                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-lg bg-naranja-500 flex items-center justify-center">
                       <Instagram className="w-4 h-4 text-white" />
                     </div>
                   </div>
@@ -140,7 +140,7 @@ export default function InstagramReels() {
                   <Instagram className="w-10 h-10 text-naranja-300" aria-hidden="true" />
                 </div>
                 <div className="absolute top-3 right-3" aria-hidden="true">
-                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-lg bg-naranja-500 flex items-center justify-center">
                     <Instagram className="w-4 h-4 text-white" />
                   </div>
                 </div>
