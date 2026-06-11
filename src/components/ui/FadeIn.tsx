@@ -39,7 +39,8 @@ export default function FadeIn({
       transition: {
         duration,
         delay,
-        ease: "easeOut",
+        // Curva premium: arranque decidido, frenado muy suave
+        ease: [0.21, 0.65, 0.32, 1],
       },
     },
   };
@@ -108,12 +109,15 @@ export function StaggerItem({
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, ...dirMap[direction] },
+        hidden: { opacity: 0, scale: 0.97, ...dirMap[direction] },
         visible: {
           opacity: 1,
+          scale: 1,
           x: 0,
           y: 0,
-          transition: { duration: 0.6, ease: "easeOut" },
+          // Resorte físico: las cards "aterrizan" con vida propia
+          // (solo transform → barato incluso en celulares de gama baja)
+          transition: { type: "spring", stiffness: 120, damping: 17, mass: 0.9 },
         },
       }}
       className={className}

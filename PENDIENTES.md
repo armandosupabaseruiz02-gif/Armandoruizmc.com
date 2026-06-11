@@ -85,6 +85,7 @@
 - [x] **Aviso de Privacidad** creado como borrador LFPDPPP (`/aviso-privacidad`) — arregla enlace roto del footer. *(2026-06-08)*
 - [x] **Página de Accesibilidad** creada (`/accesibilidad`, Declaración de Accesibilidad) — arregla el otro enlace roto del footer. *(2026-06-08)*
 - [x] **Pase pre-lanzamiento** *(2026-06-10)*: build de producción sin errores (20 rutas); auditoría de enlaces internos (todos válidos); fix `/api/instagram` (500 → 200 con data vacía); SEO con dominio final (`metadataBase`, canonical, `robots.txt`, `sitemap.xml` con `armandoruizmc.com`); footer con Instagram real (`@armandoruizdiputado`) y FB/Twitter retirados hasta tener URLs reales; modales accesibles `ConfirmDialog` reemplazando `prompt()/confirm()` nativos.
+- [x] **Pase de calidad visual** *(2026-06-11)*: **header adaptable** (detecta secciones oscuras y cambia a tema oscuro con transición suave) + **barra de progreso de lectura** naranja; **carrete infinito (marquee)** para los reels de Instagram (pausa en hover/teclado, scroll manual con `prefers-reduced-motion`, clones no tabulables); **micro-animaciones de botones** (brillo que barre el primario, empuje de flechas); **animaciones de scroll premium** (easing refinado en FadeIn, resortes físicos en StaggerItem — solo transform, amigable con gama baja).
 
 ---
 

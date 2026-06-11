@@ -67,9 +67,33 @@
            rounded-2xl shadow-md hover:shadow-lg
            transition-all duration-200
            focus-visible:ring-4 focus-visible:ring-naranja-300
-           active:scale-[0.97];
+           active:scale-[0.97]
+           overflow-hidden;
   }
   .btn-primary:hover { transform: translateY(-2px); }
+
+  /* Brillo que barre el botón primario al pasar el mouse */
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: -130%;
+    width: 55%;
+    background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.35) 50%, transparent 80%);
+    transform: skewX(-18deg);
+    transition: left 0.55s ease;
+    pointer-events: none;
+  }
+  .btn-primary:hover::after { left: 170%; }
+
+  /* Empuje sutil del ícono final (flechas) al hacer hover en cualquier botón */
+  .btn-primary svg, .btn-secondary svg, .btn-outline svg {
+    transition: transform 0.22s ease;
+  }
+  .btn-primary:hover svg:last-child:not(:first-child),
+  .btn-secondary:hover svg:last-child:not(:first-child),
+  .btn-outline:hover svg:last-child:not(:first-child) {
+    transform: translateX(3px);
+  }
 
   .btn-secondary {
     @apply relative inline-flex items-center justify-center gap-2
@@ -125,6 +149,43 @@
   .glass-card {
     @apply rounded-2xl border border-naranja-200
            bg-white shadow-md;
+  }
+
+  /* ——— CARRETE INFINITO (marquee) ———
+     Carrusel auto-deslizante para los reels de Instagram.
+     - Se pausa al pasar el mouse o al navegar con teclado (focus)
+     - Con prefers-reduced-motion: se detiene y queda scroll manual */
+  .marquee-mask {
+    overflow-x: auto;
+    scrollbar-width: none;            /* Firefox */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  }
+  .marquee-mask::-webkit-scrollbar { display: none; }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 42s linear infinite;
+    will-change: transform;
+  }
+  .marquee-mask:hover .marquee-track,
+  .marquee-track:focus-within {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+    .marquee-clone { display: none; }   /* sin animación, no duplicar contenido */
+    .marquee-mask {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
   }
 }
 

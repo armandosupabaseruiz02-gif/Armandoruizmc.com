@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X, Heart, User } from "lucide-react";
@@ -31,13 +31,42 @@ export default function Navbar() {
   const [open, setOpen]         = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden]     = useState(false);
-  const { scrollY } = useScroll();
+  // Tema adaptable: "dark" cuando el navbar está sobre una sección oscura
+  // (heros bg-gray-900, sección naranja "¿Sabías que?"), "light" sobre fondos claros.
+  const [theme, setTheme]       = useState<"light" | "dark">("light");
+  const darkSections = useRef<HTMLElement[]>([]);
+  const { scrollY, scrollYProgress } = useScroll();
+
+  // Detecta qué hay debajo del navbar (franja a la mitad de su altura: y = 36px)
+  const probeTheme = useCallback(() => {
+    const y = 36;
+    const overDark = darkSections.current.some((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top <= y && r.bottom >= y;
+    });
+    setTheme(overDark ? "dark" : "light");
+  }, []);
+
+  useEffect(() => {
+    // Secciones oscuras: por clase de fondo o marcadas explícitamente
+    darkSections.current = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        'section[class*="bg-gray-900"], section[class*="bg-naranja-500"], [data-navbar-theme="dark"]'
+      )
+    );
+    probeTheme();
+    window.addEventListener("resize", probeTheme);
+    return () => window.removeEventListener("resize", probeTheme);
+  }, [probeTheme]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const prev = scrollY.getPrevious() ?? 0;
     setScrolled(latest > 40);
     setHidden(latest > prev && latest > 120);
+    probeTheme();
   });
+
+  const dark = theme === "dark";
 
   return (
     <>
@@ -46,10 +75,14 @@ export default function Navbar() {
         animate={{ y: hidden && !open ? -100 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        <div className={`transition-all duration-300 ${
-          scrolled
-            ? "bg-white/95 backdrop-blur-xl shadow-md border-b border-naranja-100"
-            : "bg-white/90 backdrop-blur-md"
+        <div className={`relative transition-colors duration-500 ${
+          dark
+            ? scrolled
+              ? "bg-gray-900/90 backdrop-blur-xl shadow-md border-b border-white/10"
+              : "bg-gray-900/70 backdrop-blur-md"
+            : scrolled
+              ? "bg-white/95 backdrop-blur-xl shadow-md border-b border-naranja-100"
+              : "bg-white/90 backdrop-blur-md"
         }`}>
           <nav
             className="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between h-[72px]"
@@ -62,8 +95,12 @@ export default function Navbar() {
                 <span className="text-white font-black text-[15px] tracking-tight">AR</span>
               </div>
               <div className="hidden sm:block">
-                <p className="font-black text-[16px] text-gray-900 leading-tight">Armando Ruiz</p>
-                <p className="text-naranja-600 text-[12px] font-bold tracking-widest uppercase leading-tight">
+                <p className={`font-black text-[16px] leading-tight transition-colors duration-500 ${
+                  dark ? "text-white" : "text-gray-900"
+                }`}>Armando Ruiz</p>
+                <p className={`text-[12px] font-bold tracking-widest uppercase leading-tight transition-colors duration-500 ${
+                  dark ? "text-naranja-400" : "text-naranja-600"
+                }`}>
                   Diputado Federal · Movimiento Naranja
                 </p>
               </div>
@@ -76,9 +113,13 @@ export default function Navbar() {
                   <a
                     href={link.href}
                     onClick={(e) => handleAnchorClick(e, link.href)}
-                    className="px-4 py-2 text-[14px] font-semibold text-gray-700 rounded-xl
-                               hover:text-naranja-600 hover:bg-naranja-50 transition-all duration-150
-                               focus-visible:outline-2 focus-visible:outline-naranja-500 cursor-pointer"
+                    className={`px-4 py-2 text-[14px] font-semibold rounded-xl
+                                transition-all duration-300 cursor-pointer
+                                focus-visible:outline-2 focus-visible:outline-naranja-500 ${
+                      dark
+                        ? "text-gray-200 hover:text-naranja-300 hover:bg-white/10"
+                        : "text-gray-700 hover:text-naranja-600 hover:bg-naranja-50"
+                    }`}
                   >
                     {link.label}
                   </a>
@@ -90,10 +131,13 @@ export default function Navbar() {
             <div className="flex items-center gap-3">
               <Link
                 href="/mi-cuenta"
-                className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5
-                           text-gray-700 hover:text-naranja-600 hover:bg-naranja-50
-                           font-semibold text-[14px] rounded-full border border-gray-200
-                           hover:border-naranja-200 transition-all duration-200"
+                className={`hidden sm:inline-flex items-center gap-2 px-4 py-2.5
+                            font-semibold text-[14px] rounded-full border
+                            transition-all duration-300 ${
+                  dark
+                    ? "text-gray-200 border-white/25 hover:text-white hover:bg-white/10 hover:border-white/50"
+                    : "text-gray-700 border-gray-200 hover:text-naranja-600 hover:bg-naranja-50 hover:border-naranja-200"
+                }`}
               >
                 <User className="w-4 h-4" aria-hidden="true" />
                 Mi cuenta
@@ -113,9 +157,11 @@ export default function Navbar() {
               </a>
 
               <button
-                className="lg:hidden w-11 h-11 flex items-center justify-center rounded-xl
-                           text-gray-700 hover:bg-naranja-50 transition-colors
-                           focus-visible:outline-2 focus-visible:outline-naranja-500"
+                className={`lg:hidden w-11 h-11 flex items-center justify-center rounded-xl
+                            transition-colors duration-300
+                            focus-visible:outline-2 focus-visible:outline-naranja-500 ${
+                  dark ? "text-gray-200 hover:bg-white/10" : "text-gray-700 hover:bg-naranja-50"
+                }`}
                 onClick={() => setOpen(!open)}
                 aria-expanded={open}
                 aria-controls="mobile-menu"
@@ -125,6 +171,14 @@ export default function Navbar() {
               </button>
             </div>
           </nav>
+
+          {/* Barra de progreso de lectura (naranja, al pie del navbar) */}
+          <motion.div
+            className="absolute bottom-0 inset-x-0 h-[3px] origin-left
+                       bg-gradient-to-r from-naranja-600 via-naranja-400 to-naranja-500"
+            style={{ scaleX: scrollYProgress }}
+            aria-hidden="true"
+          />
         </div>
       </motion.header>
 
