@@ -15,11 +15,10 @@ export interface InstagramPost {
 export async function GET() {
   const token = process.env.INSTAGRAM_ACCESS_TOKEN;
 
+  // Sin token aún (pre-lanzamiento): estado esperado, no error.
+  // Respondemos 200 con data vacía para que el frontend muestre placeholders.
   if (!token) {
-    return NextResponse.json(
-      { error: "INSTAGRAM_ACCESS_TOKEN no configurado" },
-      { status: 500 }
-    );
+    return NextResponse.json({ data: [] });
   }
 
   try {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import {
   Calendar, Clock, CheckCircle2, XCircle, AlertCircle,
   HeartPulse, LogOut, Plus, Settings, Building2, Video,
@@ -44,13 +45,13 @@ export default function UserDashboard({
 }) {
   const router = useRouter();
   const [cancelling, setCancelling] = useState<string | null>(null);
+  const [confirmCancelId, setConfirmCancelId] = useState<string | null>(null);
   const [error, setError] = useState("");
 
   const upcoming = appointments.filter((a) => a.status === "confirmed");
   const past     = appointments.filter((a) => a.status !== "confirmed");
 
   async function handleCancel(id: string) {
-    if (!confirm("¿Seguro que deseas cancelar esta cita?")) return;
     setCancelling(id);
     setError("");
 
@@ -66,6 +67,7 @@ export default function UserDashboard({
       router.refresh();
     }
     setCancelling(null);
+    setConfirmCancelId(null);
   }
 
   async function handleLogout() {
@@ -190,7 +192,7 @@ export default function UserDashboard({
                       )}
                     </div>
                     <button
-                      onClick={() => handleCancel(a.id)}
+                      onClick={() => setConfirmCancelId(a.id)}
                       disabled={cancelling === a.id}
                       className="inline-flex items-center gap-2 text-[13px] font-semibold
                                  text-red-600 hover:text-red-700 px-4 py-2 rounded-xl
@@ -244,6 +246,19 @@ export default function UserDashboard({
           </div>
         </div>
       )}
+
+      {/* Confirmación accesible para cancelar cita */}
+      <ConfirmDialog
+        open={confirmCancelId !== null}
+        title="¿Cancelar esta cita?"
+        description="Tu lugar quedará libre para otra persona. Si lo necesitas, puedes agendar una nueva cita cuando quieras."
+        confirmLabel="Sí, cancelar cita"
+        cancelLabel="No, conservarla"
+        tone="danger"
+        loading={cancelling !== null}
+        onConfirm={() => confirmCancelId && handleCancel(confirmCancelId)}
+        onClose={() => setConfirmCancelId(null)}
+      />
     </div>
   );
 }

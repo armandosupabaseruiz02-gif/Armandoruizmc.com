@@ -2,7 +2,21 @@
 
 > **Nota viva del proyecto.** Aquí registramos TODO lo que falta para dejar el portal
 > impecable. Claude consulta y actualiza este archivo en cada sesión.
-> Marca `[x]` lo completado. Última actualización: **2026-06-08**.
+> Marca `[x]` lo completado. Última actualización: **2026-06-10 (noche, pre-lanzamiento)**.
+
+---
+
+## 🚀 CHECKLIST DE LANZAMIENTO (mañana) — lo que falta para salir en vivo
+
+> El código está **listo y verificado** (build de producción sin errores, 20 rutas).
+> Lo que sigue es configuración de cuentas (David dijo: "al ratito"):
+
+1. [ ] **Comprar dominio `armandoruizmc.com`** (ya está en el carrito de Vercel, cuenta del diputado).
+2. [ ] **Vercel**: importar el repo `armandosupabaseruiz02-gif/Armandoruizmc.com` como proyecto (cuenta del diputado).
+3. [ ] **Vercel → Environment Variables**: `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` (copiar de `.env.local`).
+4. [ ] **Vercel → Domains**: conectar `armandoruizmc.com` al proyecto.
+5. [ ] **Supabase → Auth → URL Configuration**: Site URL = `https://armandoruizmc.com` y Redirect URLs con `/auth/callback`. ⚠️ Sin esto el login NO funciona en producción.
+6. [ ] Prueba final en producción: registro → login → agendar cita → verla en Mi Cuenta → gestionarla en admin.
 
 ---
 
@@ -25,8 +39,10 @@
 - [ ] **"Mi Expediente"**: permitir subir documentos (INE, recetas, dictámenes) y darles seguimiento, no solo ver citas.
 - [ ] **Home como lanzador de tareas** ("¿En qué te ayudamos hoy?") en lugar de scroll largo — estilo navegación Metro CDMX.
 - [ ] (Opcional) Selector de **tema** al agendar: Salud / Apoyo a discapacidad (hoy solo "salud").
-- [ ] Reemplazar `prompt()`/`confirm()`/`alert()` del panel admin y de Mi Cuenta por modales accesibles y on-brand.
+- [x] Reemplazar `prompt()`/`confirm()`/`alert()` por **modales accesibles** on-brand (`ConfirmDialog.tsx`) en admin y Mi Cuenta. *(2026-06-10)*
 - [ ] Probar de punta a punta el flujo de **modalidad** (presencial / en línea + enlace de videollamada) ahora que la migración ya se aplicó.
+- [ ] **Decisión post-lanzamiento** (de los apuntes de Obsidian): el spec dice que las citas deberían quedar `pendiente` hasta que el admin las **acepte/rechace**; hoy se auto-confirman. Cambiarlo requiere migración de BD + ajuste de flujos — decidir con calma, no el día del lanzamiento.
+- [ ] **Animación del sombrero ranchero naranja** (sello de marca del diputado) — esperando la foto que enviará David.
 
 ---
 
@@ -48,12 +64,12 @@
 
 ## 🚀 GIT / DEPLOY pendientes
 
-- [ ] **Reapuntar `origin`** al repo nuevo (hoy: `github.com/davidbello0203-crypto/Armando-Ruiz` → cuenta vieja). **Falta la URL del repo nuevo.**
-- [ ] **Configurar identidad de git** (nombre + correo de la cuenta nueva) — hoy no hay ninguna y un commit fallaría.
-- [ ] Primer **commit + push** de todo el trabajo (17+ archivos) al repo nuevo.
-- [ ] **Vercel**: confirmar variables de entorno (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`) en la cuenta nueva.
+- [x] **Repo nuevo conectado**: `origin` → `github.com/armandosupabaseruiz02-gif/Armandoruizmc.com`. *(2026-06-10)*
+- [x] **Identidad de git** configurada (Armando Ruiz MC / armandosupabaseruiz02@gmail.com). *(2026-06-10)*
+- [x] **Primer commit + push** al repo nuevo (commit `52749d2`, 20 archivos). Credencial guardada en llavero → próximos push automáticos. *(2026-06-10)*
+- [ ] **Vercel**: conectar el repo nuevo y confirmar variables de entorno (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`) en la cuenta nueva.
 - [ ] **Dominio propio** (no `.vercel.app`).
-- [ ] ✅ `.env.local` está en `.gitignore` y NO se sube (verificado 2026-06-08).
+- [x] ✅ `.env.local` está en `.gitignore` y NO se sube (verificado 2026-06-08).
 
 ---
 
@@ -68,6 +84,7 @@
   - Migración Supabase aplicada (`modality`, `meeting_link`).
 - [x] **Aviso de Privacidad** creado como borrador LFPDPPP (`/aviso-privacidad`) — arregla enlace roto del footer. *(2026-06-08)*
 - [x] **Página de Accesibilidad** creada (`/accesibilidad`, Declaración de Accesibilidad) — arregla el otro enlace roto del footer. *(2026-06-08)*
+- [x] **Pase pre-lanzamiento** *(2026-06-10)*: build de producción sin errores (20 rutas); auditoría de enlaces internos (todos válidos); fix `/api/instagram` (500 → 200 con data vacía); SEO con dominio final (`metadataBase`, canonical, `robots.txt`, `sitemap.xml` con `armandoruizmc.com`); footer con Instagram real (`@armandoruizdiputado`) y FB/Twitter retirados hasta tener URLs reales; modales accesibles `ConfirmDialog` reemplazando `prompt()/confirm()` nativos.
 
 ---
 

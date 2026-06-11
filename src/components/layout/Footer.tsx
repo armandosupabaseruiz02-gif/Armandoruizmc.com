@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Instagram, Facebook, Twitter, Phone, Mail, MapPin } from "lucide-react";
+import { Instagram, Phone, Mail, MapPin } from "lucide-react";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 const serviciosLinks = [
@@ -52,10 +52,9 @@ export default function Footer() {
               Trabajando por una Ciudad de México más incluyente y accesible para las personas con discapacidad.
             </p>
             <div className="flex gap-2">
+              {/* TODO: agregar Facebook/Twitter cuando existan los perfiles reales */}
               {[
-                { icon: Instagram, label: "Instagram de Armando Ruiz", href: "https://instagram.com" },
-                { icon: Facebook,  label: "Facebook de Armando Ruiz",  href: "https://facebook.com" },
-                { icon: Twitter,   label: "Twitter de Armando Ruiz",   href: "https://twitter.com" },
+                { icon: Instagram, label: "Instagram de Armando Ruiz", href: "https://www.instagram.com/armandoruizdiputado" },
               ].map((s) => (
                 <a
                   key={s.label}

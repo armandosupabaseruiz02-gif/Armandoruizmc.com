@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import {
   Calendar, Clock, User, Phone, CheckCircle2,
   XCircle, Ban, Trash2,
@@ -57,6 +58,9 @@ export default function AdminPanel({
   const [expanded, setExpanded] = useState<string | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState("");
+  // Diálogos de confirmación (reemplazan prompt/confirm nativos)
+  const [cancelTargetId, setCancelTargetId] = useState<string | null>(null);
+  const [unblockTargetId, setUnblockTargetId] = useState<string | null>(null);
 
   // Block day form
   const [newBlockDate, setNewBlockDate] = useState("");
@@ -81,9 +85,7 @@ export default function AdminPanel({
     setLoading(null);
   }
 
-  async function handleAdminCancel(id: string) {
-    const reason = prompt("Motivo de cancelación (opcional):");
-    if (reason === null) return; // user pressed cancel
+  async function handleAdminCancel(id: string, reason: string) {
     setLoading(id);
     const supabase = createClient();
     await supabase.from("appointments").update({
@@ -92,6 +94,7 @@ export default function AdminPanel({
     }).eq("id", id);
     router.refresh();
     setLoading(null);
+    setCancelTargetId(null);
   }
 
   async function handleBlockDay() {
@@ -116,10 +119,10 @@ export default function AdminPanel({
   }
 
   async function handleUnblockDay(id: string) {
-    if (!confirm("¿Desbloquear este día?")) return;
     const supabase = createClient();
     await supabase.from("blocked_days").delete().eq("id", id);
     router.refresh();
+    setUnblockTargetId(null);
   }
 
   const tabs = [
@@ -189,7 +192,7 @@ export default function AdminPanel({
                   expanded={expanded === a.id}
                   onToggle={() => setExpanded(expanded === a.id ? null : a.id)}
                   onComplete={() => handleComplete(a.id)}
-                  onCancel={() => handleAdminCancel(a.id)}
+                  onCancel={() => setCancelTargetId(a.id)}
                   onSaveLink={handleSaveLink}
                   loading={loading === a.id}
                   showActions
@@ -282,7 +285,7 @@ export default function AdminPanel({
                     </div>
                   </div>
                   <button
-                    onClick={() => handleUnblockDay(b.id)}
+                    onClick={() => setUnblockTargetId(b.id)}
                     className="inline-flex items-center gap-1.5 text-[13px] text-red-600
                                hover:text-red-700 font-semibold px-3 py-1.5 rounded-lg
                                border border-red-200 hover:bg-red-50 transition-all"
@@ -296,6 +299,33 @@ export default function AdminPanel({
           )}
         </div>
       )}
+
+      {/* Confirmación: cancelar cita (con motivo opcional) */}
+      <ConfirmDialog
+        open={cancelTargetId !== null}
+        title="¿Cancelar esta cita?"
+        description="El ciudadano verá su cita como cancelada por el equipo. Si escribes un motivo, también lo podrá ver."
+        inputLabel="Motivo de cancelación (opcional)"
+        inputPlaceholder="Ej. El asesor tuvo un imprevisto; te contactaremos para reagendar."
+        confirmLabel="Cancelar la cita"
+        cancelLabel="Volver"
+        tone="danger"
+        loading={loading !== null}
+        onConfirm={(reason) => cancelTargetId && handleAdminCancel(cancelTargetId, reason)}
+        onClose={() => setCancelTargetId(null)}
+      />
+
+      {/* Confirmación: desbloquear día */}
+      <ConfirmDialog
+        open={unblockTargetId !== null}
+        title="¿Desbloquear este día?"
+        description="El día volverá a estar disponible y los ciudadanos podrán agendar citas en él."
+        confirmLabel="Sí, desbloquear"
+        cancelLabel="Volver"
+        tone="primary"
+        onConfirm={() => unblockTargetId && handleUnblockDay(unblockTargetId)}
+        onClose={() => setUnblockTargetId(null)}
+      />
     </div>
   );
 }
