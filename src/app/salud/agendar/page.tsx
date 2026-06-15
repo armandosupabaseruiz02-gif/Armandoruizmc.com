@@ -33,7 +33,7 @@ export default async function AgendarPage() {
   const { data: bookedSlots } = await supabase
     .from("appointments")
     .select("appointment_date, slot_time")
-    .eq("status", "confirmed")
+    .in("status", ["pending", "confirmed"])
     .gte("appointment_date", today.toISOString().split("T")[0])
     .lte("appointment_date", until.toISOString().split("T")[0]);
 

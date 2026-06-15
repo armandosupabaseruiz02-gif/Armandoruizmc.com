@@ -31,7 +31,9 @@ interface BlockedDay {
 }
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
+  pending:              { label: "Pendiente",          color: "text-amber-800 bg-amber-100 border-amber-200" },
   confirmed:            { label: "Confirmada",         color: "text-emerald-700 bg-emerald-100 border-emerald-200" },
+  rejected:             { label: "Rechazada",          color: "text-red-700 bg-red-100 border-red-200" },
   completed:            { label: "Completada",         color: "text-blue-700 bg-blue-100 border-blue-200" },
   cancelled_by_citizen: { label: "Cancelada (ciudadano)", color: "text-gray-600 bg-gray-100 border-gray-200" },
   cancelled_by_admin:   { label: "Cancelada (admin)",  color: "text-red-700 bg-red-100 border-red-200" },
@@ -54,12 +56,13 @@ export default function AdminPanel({
   blockedDays: BlockedDay[];
 }) {
   const router = useRouter();
-  const [tab, setTab] = useState<"upcoming" | "past" | "blocked">("upcoming");
+  const [tab, setTab] = useState<"pending" | "upcoming" | "past" | "blocked">("pending");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState("");
   // Diálogos de confirmación (reemplazan prompt/confirm nativos)
   const [cancelTargetId, setCancelTargetId] = useState<string | null>(null);
+  const [rejectTargetId, setRejectTargetId] = useState<string | null>(null);
   const [unblockTargetId, setUnblockTargetId] = useState<string | null>(null);
 
   // Block day form
@@ -69,30 +72,63 @@ export default function AdminPanel({
 
   async function handleComplete(id: string) {
     setLoading(id);
+    setError("");
     const supabase = createClient();
-    await supabase.from("appointments").update({ status: "completed" }).eq("id", id);
-    router.refresh();
+    const { error: updateError } = await supabase.from("appointments").update({ status: "completed" }).eq("id", id);
+    if (updateError) setError("No se pudo marcar la cita como completada.");
+    else router.refresh();
     setLoading(null);
+  }
+
+  async function handleAccept(id: string) {
+    setLoading(id);
+    setError("");
+    const supabase = createClient();
+    const { error: updateError } = await supabase
+      .from("appointments")
+      .update({ status: "confirmed", cancelled_reason: null })
+      .eq("id", id);
+    if (updateError) setError("No se pudo aceptar la cita.");
+    else router.refresh();
+    setLoading(null);
+  }
+
+  async function handleReject(id: string, reason: string) {
+    setLoading(id);
+    setError("");
+    const supabase = createClient();
+    const { error: updateError } = await supabase
+      .from("appointments")
+      .update({ status: "rejected", cancelled_reason: reason || null })
+      .eq("id", id);
+    if (updateError) setError("No se pudo rechazar la cita.");
+    else router.refresh();
+    setLoading(null);
+    setRejectTargetId(null);
   }
 
   async function handleSaveLink(id: string, link: string) {
     setLoading(id);
+    setError("");
     const supabase = createClient();
-    await supabase.from("appointments")
+    const { error: updateError } = await supabase.from("appointments")
       .update({ meeting_link: link.trim() || null })
       .eq("id", id);
-    router.refresh();
+    if (updateError) setError("No se pudo guardar el enlace de videollamada.");
+    else router.refresh();
     setLoading(null);
   }
 
   async function handleAdminCancel(id: string, reason: string) {
     setLoading(id);
+    setError("");
     const supabase = createClient();
-    await supabase.from("appointments").update({
+    const { error: updateError } = await supabase.from("appointments").update({
       status: "cancelled_by_admin",
       cancelled_reason: reason || null,
     }).eq("id", id);
-    router.refresh();
+    if (updateError) setError("No se pudo cancelar la cita.");
+    else router.refresh();
     setLoading(null);
     setCancelTargetId(null);
   }
@@ -119,15 +155,23 @@ export default function AdminPanel({
   }
 
   async function handleUnblockDay(id: string) {
+    setError("");
     const supabase = createClient();
-    await supabase.from("blocked_days").delete().eq("id", id);
-    router.refresh();
+    const { error: deleteError } = await supabase.from("blocked_days").delete().eq("id", id);
+    if (deleteError) setError("No se pudo desbloquear el día.");
+    else router.refresh();
     setUnblockTargetId(null);
   }
 
+  const historicalAppointments = [
+    ...appointments.filter((a) => !["pending", "confirmed"].includes(a.status)),
+    ...pastAppointments,
+  ];
+
   const tabs = [
+    { key: "pending",  label: "Por revisar",       count: appointments.filter((a) => a.status === "pending").length },
     { key: "upcoming", label: "Próximas citas", count: appointments.filter((a) => a.status === "confirmed").length },
-    { key: "past",     label: "Historial",       count: pastAppointments.length },
+    { key: "past",     label: "Historial",       count: historicalAppointments.length },
     { key: "blocked",  label: "Días bloqueados", count: initialBlockedDays.length },
   ] as const;
 
@@ -136,10 +180,10 @@ export default function AdminPanel({
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         {[
+          { label: "Pendientes", value: appointments.filter((a) => a.status === "pending").length, color: "text-amber-600" },
           { label: "Próximas",  value: appointments.filter((a) => a.status === "confirmed").length,  color: "text-emerald-600" },
           { label: "Hoy",       value: appointments.filter((a) => a.appointment_date === new Date().toISOString().split("T")[0] && a.status === "confirmed").length, color: "text-naranja-600" },
           { label: "Días bloqueados", value: initialBlockedDays.length, color: "text-red-600" },
-          { label: "Completadas (total)", value: pastAppointments.filter((a) => a.status === "completed").length, color: "text-blue-600" },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-5 text-center shadow-sm">
             <p className={`text-[32px] font-black ${s.color}`}>{s.value}</p>
@@ -149,7 +193,7 @@ export default function AdminPanel({
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-6 border-b border-gray-200">
+      <div className="flex gap-2 mb-6 border-b border-gray-200 overflow-x-auto">
         {tabs.map((t) => (
           <button
             key={t.key}
@@ -177,6 +221,32 @@ export default function AdminPanel({
         </div>
       )}
 
+      {/* Pending review */}
+      {tab === "pending" && (
+        <div className="flex flex-col gap-3">
+          {appointments.filter((a) => a.status === "pending").length === 0 ? (
+            <p className="text-gray-400 text-center py-16">No hay solicitudes pendientes.</p>
+          ) : (
+            appointments
+              .filter((a) => a.status === "pending")
+              .map((a) => (
+                <AppointmentCard
+                  key={a.id}
+                  appointment={a}
+                  expanded={expanded === a.id}
+                  onToggle={() => setExpanded(expanded === a.id ? null : a.id)}
+                  onAccept={() => handleAccept(a.id)}
+                  onReject={() => setRejectTargetId(a.id)}
+                  onComplete={() => {}}
+                  onCancel={() => {}}
+                  loading={loading === a.id}
+                  showActions
+                />
+              ))
+          )}
+        </div>
+      )}
+
       {/* Upcoming */}
       {tab === "upcoming" && (
         <div className="flex flex-col gap-3">
@@ -191,6 +261,8 @@ export default function AdminPanel({
                   appointment={a}
                   expanded={expanded === a.id}
                   onToggle={() => setExpanded(expanded === a.id ? null : a.id)}
+                  onAccept={() => {}}
+                  onReject={() => {}}
                   onComplete={() => handleComplete(a.id)}
                   onCancel={() => setCancelTargetId(a.id)}
                   onSaveLink={handleSaveLink}
@@ -205,15 +277,17 @@ export default function AdminPanel({
       {/* Past */}
       {tab === "past" && (
         <div className="flex flex-col gap-3">
-          {pastAppointments.length === 0 ? (
+          {historicalAppointments.length === 0 ? (
             <p className="text-gray-400 text-center py-16">Sin historial.</p>
           ) : (
-            pastAppointments.map((a) => (
+            historicalAppointments.map((a) => (
               <AppointmentCard
                 key={a.id}
                 appointment={a}
                 expanded={expanded === a.id}
                 onToggle={() => setExpanded(expanded === a.id ? null : a.id)}
+                onAccept={() => {}}
+                onReject={() => {}}
                 onComplete={() => {}}
                 onCancel={() => {}}
                 loading={false}
@@ -302,6 +376,20 @@ export default function AdminPanel({
 
       {/* Confirmación: cancelar cita (con motivo opcional) */}
       <ConfirmDialog
+        open={rejectTargetId !== null}
+        title="¿Rechazar esta solicitud?"
+        description="El horario quedará disponible nuevamente. Puedes indicar un motivo para que el ciudadano entienda la decisión."
+        inputLabel="Motivo del rechazo (opcional)"
+        inputPlaceholder="Ej. No contamos con disponibilidad del especialista; te contactaremos con otra opción."
+        confirmLabel="Rechazar solicitud"
+        cancelLabel="Volver"
+        tone="danger"
+        loading={loading !== null}
+        onConfirm={(reason) => rejectTargetId && handleReject(rejectTargetId, reason)}
+        onClose={() => setRejectTargetId(null)}
+      />
+
+      <ConfirmDialog
         open={cancelTargetId !== null}
         title="¿Cancelar esta cita?"
         description="El ciudadano verá su cita como cancelada por el equipo. Si escribes un motivo, también lo podrá ver."
@@ -334,6 +422,8 @@ function AppointmentCard({
   appointment: a,
   expanded,
   onToggle,
+  onAccept,
+  onReject,
   onComplete,
   onCancel,
   onSaveLink,
@@ -343,6 +433,8 @@ function AppointmentCard({
   appointment: Appointment;
   expanded: boolean;
   onToggle: () => void;
+  onAccept: () => void;
+  onReject: () => void;
   onComplete: () => void;
   onCancel: () => void;
   onSaveLink?: (id: string, link: string) => void | Promise<void>;
@@ -355,7 +447,7 @@ function AppointmentCard({
 
   return (
     <div className={`bg-white rounded-2xl border-2 transition-all duration-200
-      ${a.status === "confirmed" ? "border-gray-100 hover:border-naranja-100" : "border-gray-100 opacity-80"}`}>
+      ${["pending", "confirmed"].includes(a.status) ? "border-gray-100 hover:border-naranja-100" : "border-gray-100 opacity-80"}`}>
       <button
         onClick={onToggle}
         className="w-full flex items-center justify-between gap-4 p-5 text-left"
@@ -478,6 +570,31 @@ function AppointmentCard({
               >
                 <XCircle className="w-4 h-4" />
                 Cancelar cita
+              </button>
+            </div>
+          )}
+
+          {showActions && a.status === "pending" && (
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={onAccept}
+                disabled={loading}
+                className="inline-flex items-center gap-2 text-[13px] font-semibold text-white
+                           px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700
+                           transition-all disabled:opacity-50"
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                Aceptar cita
+              </button>
+              <button
+                onClick={onReject}
+                disabled={loading}
+                className="inline-flex items-center gap-2 text-[13px] font-semibold
+                           text-red-600 px-4 py-2 rounded-xl border border-red-200
+                           hover:bg-red-50 transition-all disabled:opacity-50"
+              >
+                <XCircle className="w-4 h-4" />
+                Rechazar
               </button>
             </div>
           )}

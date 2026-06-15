@@ -86,7 +86,7 @@ export default function Servicios() {
             className="text-[40px] sm:text-[52px] font-black text-gray-900
                        leading-tight tracking-tight mt-5 mb-5"
           >
-            ¿En qué te podemos ayudar?
+            Explora todos los servicios
           </h2>
           <p className="text-[18px] text-gray-800 max-w-2xl mx-auto leading-relaxed">
             Todos los apoyos, trámites y recursos para personas con discapacidad

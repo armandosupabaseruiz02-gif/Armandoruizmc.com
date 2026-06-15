@@ -1,98 +1,102 @@
-# 📋 PENDIENTES — Portal Diputado Armando Ruiz
+# PENDIENTES - Portal Diputado Armando Ruiz
 
-> **Nota viva del proyecto.** Aquí registramos TODO lo que falta para dejar el portal
-> impecable. Claude consulta y actualiza este archivo en cada sesión.
-> Marca `[x]` lo completado. Última actualización: **2026-06-10 (noche, pre-lanzamiento)**.
+> Tablero operativo. Ultima reorganizacion: **2026-06-14**.
+> Fuente de verdad tecnica: codigo + `supabase/migrations/`.
 
----
+## Estado actual
 
-## 🚀 CHECKLIST DE LANZAMIENTO (mañana) — lo que falta para salir en vivo
+- Codigo local: lint y build de produccion correctos (22 rutas, 2026-06-14).
+- GitHub oficial: `armandosupabaseruiz02-gif/Armandoruizmc.com`.
+- Supabase local: variables configuradas en `.env.local`.
+- Dominio previsto: `armandoruizmc.com`.
+- Instagram API: sin token configurado.
 
-> El código está **listo y verificado** (build de producción sin errores, 20 rutas).
-> Lo que sigue es configuración de cuentas (David dijo: "al ratito"):
+## 1. Bloqueadores de lanzamiento
 
-1. [ ] **Comprar dominio `armandoruizmc.com`** (ya está en el carrito de Vercel, cuenta del diputado).
-2. [ ] **Vercel**: importar el repo `armandosupabaseruiz02-gif/Armandoruizmc.com` como proyecto (cuenta del diputado).
-3. [ ] **Vercel → Environment Variables**: `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` (copiar de `.env.local`).
-4. [ ] **Vercel → Domains**: conectar `armandoruizmc.com` al proyecto.
-5. [ ] **Supabase → Auth → URL Configuration**: Site URL = `https://armandoruizmc.com` y Redirect URLs con `/auth/callback`. ⚠️ Sin esto el login NO funciona en producción.
-6. [ ] Prueba final en producción: registro → login → agendar cita → verla en Mi Cuenta → gestionarla en admin.
+### Base de datos y seguridad
 
----
+- [x] Versionar migracion de seguridad y flujo de citas: `supabase/migrations/20260614_secure_appointments_workflow.sql`.
+- [ ] **MANUAL - Supabase:** hacer respaldo y ejecutar la migracion en SQL Editor.
+- [ ] **MANUAL - Supabase:** crear o identificar la cuenta administradora y asignarle `role = 'admin'` usando `supabase/README.md`.
+- [ ] Probar con dos cuentas: un ciudadano no puede ver citas ajenas, modificar roles ni entrar a `/admin/citas`.
 
-## 🔴 CRÍTICO — Legal y datos que solo David / el equipo pueden llenar
+### Legal y datos sensibles
 
-### Aviso de Privacidad (`/aviso-privacidad`) — ya creado como BORRADOR
-- [ ] Completar placeholders: **[NOMBRE LEGAL DEL RESPONSABLE]**, **[DOMICILIO]**, **[CORREO DE PRIVACIDAD]**, **[TELÉFONO]**, **[FECHA]**, **[URL DEL SITIO]**.
-- [ ] **Revisión y aprobación por área jurídica** antes de publicar (recaban datos sensibles de salud → consentimiento expreso obligatorio).
-- [ ] Definir transferencias reales de datos (apartado 7) y uso real de cookies (apartado 8).
-- [ ] Quitar el banner amarillo de "borrador" una vez aprobado.
+- [ ] **MANUAL - Equipo/juridico:** completar el Aviso de Privacidad con nombre legal, domicilio, correo, telefono, fecha y transferencias reales.
+- [ ] **MANUAL - Juridico:** aprobar el aviso antes de publicar. Se recopilan CURP y datos vinculados con salud.
+- [ ] **MANUAL - Equipo:** proporcionar correo real para privacidad y reportes de accesibilidad.
+- [ ] Retirar el banner de borrador del aviso solamente despues de su aprobacion.
 
-### Página de Accesibilidad (`/accesibilidad`) — ✅ creada (Declaración de Accesibilidad)
-- [ ] Reemplazar correo placeholder del botón "Reportar un problema" por el real (ver `// TODO`).
+### Publicacion
 
----
+- [ ] Subir a GitHub los cambios locales verificados.
+- [ ] **MANUAL - Cuenta del diputado:** comprar o confirmar la propiedad de `armandoruizmc.com`.
+- [ ] Conectar el repositorio oficial a Vercel en la cuenta del diputado.
+- [ ] Configurar en Vercel `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+- [ ] Conectar el dominio al proyecto de Vercel y esperar DNS/SSL.
+- [ ] Configurar Supabase Auth:
+  - Site URL: `https://armandoruizmc.com`.
+  - Redirect URL: `https://armandoruizmc.com/auth/callback`.
+  - Plantillas de confirmacion y recuperacion de contrasena.
+- [ ] Prueba final en produccion: registro -> confirmar correo -> login -> solicitar cita -> aceptar/rechazar en admin -> cancelar desde Mi Cuenta.
 
-## 🟠 FUNCIONALIDAD pendiente
+## 2. Funciones terminadas en codigo, pendientes de activacion
 
-- [ ] **Recordatorios por WhatsApp** de las citas (lo que más sube la asistencia con este público).
-- [ ] **"Mi Expediente"**: permitir subir documentos (INE, recetas, dictámenes) y darles seguimiento, no solo ver citas.
-- [ ] **Home como lanzador de tareas** ("¿En qué te ayudamos hoy?") en lugar de scroll largo — estilo navegación Metro CDMX.
-- [ ] (Opcional) Selector de **tema** al agendar: Salud / Apoyo a discapacidad (hoy solo "salud").
-- [x] Reemplazar `prompt()`/`confirm()`/`alert()` por **modales accesibles** on-brand (`ConfirmDialog.tsx`) en admin y Mi Cuenta. *(2026-06-10)*
-- [ ] Probar de punta a punta el flujo de **modalidad** (presencial / en línea + enlace de videollamada) ahora que la migración ya se aplicó.
-- [ ] **Decisión post-lanzamiento** (de los apuntes de Obsidian): el spec dice que las citas deberían quedar `pendiente` hasta que el admin las **acepte/rechace**; hoy se auto-confirman. Cambiarlo requiere migración de BD + ajuste de flujos — decidir con calma, no el día del lanzamiento.
-- [ ] **Animación del sombrero ranchero naranja** (sello de marca del diputado) — esperando la foto que enviará David.
+- [x] Redirecciones de login/registro/callback limitadas a rutas internas.
+- [x] Registro compatible con confirmacion por correo y metadata de nombre/telefono.
+- [x] Recuperacion y restablecimiento de contrasena.
+- [x] Solicitudes de cita en estado `pending`.
+- [x] Panel admin con bandeja "Por revisar", aceptar y rechazar con motivo.
+- [x] Mi Cuenta muestra estados pendiente, confirmada y rechazada.
+- [x] Cancelacion ciudadana mediante RPC restringida a la propia cita.
+- [x] RLS versionado para perfiles, citas y dias bloqueados.
+- [x] Horarios rechazados/cancelados pueden liberarse mediante indice unico parcial.
+- [ ] Aplicar la migracion Supabase para activar las funciones anteriores en la base real.
 
----
+## 3. Datos y conexiones que necesito del equipo
 
-## 🟡 CONTENIDO REAL pendiente (reemplazar placeholders)
+### Contacto e identidad
 
-### Sección Donar / Causas
-- [ ] **Correo o WhatsApp real del equipo** (hoy placeholder `contacto@armandoruiz.mx`) — ver `// TODO` en `Donar.tsx`.
-- [ ] Casos/causas reales (hoy 4 de ejemplo: Luis, Mariana, José, Valeria).
-- [ ] **Fotos + consentimiento firmado** del beneficiario/tutor antes de mostrar nombre y foto reales.
-- [ ] Costos reales de cada necesidad.
+- [ ] Telefono oficial.
+- [ ] Correo oficial general.
+- [ ] Correo especifico de privacidad, si sera distinto.
+- [ ] Domicilio completo de la oficina.
+- [ ] Foto oficial de Armando.
+- [ ] Foto del sombrero ranchero naranja para preparar la animacion de marca.
+- [ ] Confirmar perfiles sociales oficiales adicionales. Instagram ya apunta a `@armandoruizdiputado`.
 
-### Identidad y contacto
-- [ ] **Foto oficial de Armando** (hoy avatar con iniciales "AR" en Hero y QuienEsArmando).
-- [ ] **Footer**: teléfono real (hoy `(55) 5555-5555`), correo real, **domicilio real** de la oficina (hoy "Cámara de Diputados" genérico).
-- [ ] **Redes sociales del footer**: apuntan a `instagram.com` / `facebook.com` / `twitter.com` genéricos → poner URLs reales.
-- [ ] **Instagram**: configurar token/API real (hoy muestra placeholders) para `@armandoruizdiputado`.
+### Instagram
 
----
+- [ ] **MANUAL - Meta:** generar/configurar un token valido para la cuenta autorizada.
+- [ ] Agregar `INSTAGRAM_ACCESS_TOKEN` en Vercel, nunca en Git.
+- [ ] Verificar que `/api/instagram` muestre publicaciones reales.
 
-## 🚀 GIT / DEPLOY pendientes
+### Donaciones
 
-- [x] **Repo nuevo conectado**: `origin` → `github.com/armandosupabaseruiz02-gif/Armandoruizmc.com`. *(2026-06-10)*
-- [x] **Identidad de git** configurada (Armando Ruiz MC / armandosupabaseruiz02@gmail.com). *(2026-06-10)*
-- [x] **Primer commit + push** al repo nuevo (commit `52749d2`, 20 archivos). Credencial guardada en llavero → próximos push automáticos. *(2026-06-10)*
-- [ ] **Vercel**: conectar el repo nuevo y confirmar variables de entorno (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`) en la cuenta nueva.
-- [ ] **Dominio propio** (no `.vercel.app`).
-- [x] ✅ `.env.local` está en `.gitignore` y NO se sube (verificado 2026-06-08).
+- [ ] Correo o WhatsApp oficial para recibir solicitudes de ayuda.
+- [ ] Casos reales, costos y evidencia autorizada.
+- [ ] Consentimiento firmado del beneficiario/tutor antes de publicar nombre o fotografia.
+- [ ] Sustituir los cuatro casos de demostracion actuales.
 
----
+## 4. Mejoras posteriores al lanzamiento
 
-## ✅ HECHO (registro)
+- [ ] Recordatorios de citas por WhatsApp o correo.
+- [ ] "Mi Expediente" con documentos privados y seguimiento.
+- [ ] Backend de donaciones: casos, donantes, moderacion y Storage.
+- [ ] Panel admin como mini-CRM: notas, asignacion y metricas.
+- [ ] Permitir que un familiar gestione tramites por la persona con discapacidad.
+- [ ] Auditoria WCAG 2.1 AA con lectores de pantalla y navegacion por teclado.
+- [ ] Analitica respetuosa de privacidad y SEO por pagina.
 
-- [x] Coherencia visual de la home: ritmo de fondos, colores de texto, highlights unificados (`.text-highlight`), radios/bordes, orden menú = orden visual. *(2026-06-07)*
-- [x] Rediseño sección **Donar** → modelo de conexión directa (no maneja dinero), tablón de causas + transparencia + cómo funciona. *(2026-06-07)*
-- [x] **Sistema de citas profesionalizado** *(2026-06-08)*:
-  - Horario unificado a **9:00–17:00** (antes había 3 valores distintos).
-  - Accesibilidad: calendario y horarios más grandes para público mayor/baja visión.
-  - **Modalidad presencial / en línea** completa: selector al agendar, badge + campo de enlace de videollamada en panel admin, botón "Unirse a la videollamada" en Mi Cuenta.
-  - Migración Supabase aplicada (`modality`, `meeting_link`).
-- [x] **Aviso de Privacidad** creado como borrador LFPDPPP (`/aviso-privacidad`) — arregla enlace roto del footer. *(2026-06-08)*
-- [x] **Página de Accesibilidad** creada (`/accesibilidad`, Declaración de Accesibilidad) — arregla el otro enlace roto del footer. *(2026-06-08)*
-- [x] **Pase pre-lanzamiento** *(2026-06-10)*: build de producción sin errores (20 rutas); auditoría de enlaces internos (todos válidos); fix `/api/instagram` (500 → 200 con data vacía); SEO con dominio final (`metadataBase`, canonical, `robots.txt`, `sitemap.xml` con `armandoruizmc.com`); footer con Instagram real (`@armandoruizdiputado`) y FB/Twitter retirados hasta tener URLs reales; modales accesibles `ConfirmDialog` reemplazando `prompt()/confirm()` nativos.
-- [x] **Pase de calidad visual** *(2026-06-11)*: **header adaptable** (detecta secciones oscuras y cambia a tema oscuro con transición suave) + **barra de progreso de lectura** naranja; **carrete infinito (marquee)** para los reels de Instagram (pausa en hover/teclado, scroll manual con `prefers-reduced-motion`, clones no tabulables); **micro-animaciones de botones** (brillo que barre el primario, empuje de flechas); **animaciones de scroll premium** (easing refinado en FadeIn, resortes físicos en StaggerItem — solo transform, amigable con gama baja).
+## 5. Registro de trabajo terminado
 
----
-
-## 🎯 ROADMAP PROFESIONAL (visión a futuro)
-
-- [ ] **Accesibilidad bandera**: certificación WCAG 2.1 AA, barra de accesibilidad (texto más grande, alto contraste), lectura fácil, videos en LSM.
-- [ ] **Credibilidad / resultados**: sección con números reales (personas apoyadas, trámites gestionados, iniciativas).
-- [ ] **Panel admin como mini-CRM**: notas internas, asignación, métricas (citas que entran/resuelven, tiempo promedio).
-- [ ] Permitir que **un familiar gestione** por la persona con discapacidad.
-- [ ] SEO/metadata por página, analítica, optimización de imágenes.
+- [x] Home con lanzador de tareas `AyudaHoy`.
+- [x] Selector de tema en citas: Salud / Apoyo a discapacidad.
+- [x] Modalidad presencial / en linea y enlace de videollamada.
+- [x] Calendario 9:00-17:00, dias bloqueados y prevencion de doble reserva.
+- [x] Cuenta ciudadana y panel de administracion.
+- [x] Modales accesibles en lugar de `prompt`, `confirm` y `alert`.
+- [x] Aviso de Privacidad y Declaracion de Accesibilidad creados como borradores.
+- [x] SEO base, sitemap, robots e Instagram con fallback sin token.
+- [x] Navbar adaptable, progreso de lectura y animaciones con `prefers-reduced-motion`.
+- [x] ESLint actualizado para Next.js 16.

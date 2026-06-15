@@ -4,12 +4,13 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { getSafeRedirect } from "@/lib/auth/redirect";
 import { HeartPulse, Eye, EyeOff, ArrowLeft, LogIn } from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") ?? "/mi-cuenta";
+  const redirectTo = getSafeRedirect(searchParams.get("redirectTo"));
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -129,6 +130,13 @@ function LoginForm() {
             <LogIn className="w-5 h-5" />
             {loading ? "Iniciando sesión…" : "Iniciar sesión"}
           </button>
+
+          <Link
+            href="/auth/recuperar"
+            className="block text-center text-[14px] font-semibold text-naranja-600 hover:underline"
+          >
+            Olvidé mi contraseña
+          </Link>
         </form>
       </div>
     </div>

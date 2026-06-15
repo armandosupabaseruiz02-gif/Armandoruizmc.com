@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
+import AyudaHoy from "@/components/sections/AyudaHoy";
 import Servicios from "@/components/sections/Servicios";
 import QuienesSomos from "@/components/sections/QuienesSomos";
 import QueHacemos from "@/components/sections/QueHacemos";
@@ -15,6 +16,8 @@ export default function HomePage() {
       <Navbar />
       <main id="contenido-principal" tabIndex={-1}>
         <Hero />
+        {/* Lanzador de tareas: atajo prioritario; el scroll informativo sigue debajo */}
+        <AyudaHoy />
         <Servicios />
         <QuienesSomos />
         <QueHacemos />

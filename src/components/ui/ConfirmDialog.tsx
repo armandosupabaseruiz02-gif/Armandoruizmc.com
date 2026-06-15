@@ -44,10 +44,17 @@ export default function ConfirmDialog({
   const [inputValue, setInputValue] = useState("");
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  // Reset del input + foco inicial + cierre con Escape
+  // Reset del input al abrir — patrón recomendado por React:
+  // ajustar estado durante el render (sin efecto) cuando cambia una prop.
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) setInputValue("");
+  }
+
+  // Foco inicial + cierre con Escape
   useEffect(() => {
     if (!open) return;
-    setInputValue("");
     cancelRef.current?.focus();
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();

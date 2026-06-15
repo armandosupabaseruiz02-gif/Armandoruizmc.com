@@ -98,7 +98,7 @@ export default function Navbar() {
                 <p className={`font-black text-[16px] leading-tight transition-colors duration-500 ${
                   dark ? "text-white" : "text-gray-900"
                 }`}>Armando Ruiz</p>
-                <p className={`text-[12px] font-bold tracking-widest uppercase leading-tight transition-colors duration-500 ${
+                <p className={`text-[12px] font-bold tracking-widest uppercase leading-tight whitespace-nowrap transition-colors duration-500 ${
                   dark ? "text-naranja-400" : "text-naranja-600"
                 }`}>
                   Diputado Federal · Movimiento Naranja
@@ -106,14 +106,16 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* Links desktop */}
-            <ul className="hidden lg:flex items-center gap-1">
+            {/* Links desktop — visibles desde xl (1280px): debajo de eso el ancho
+                intrínseco del navbar (logo + 5 links + CTAs) no cabe en el
+                contenedor max-w-7xl y los labels se partían en dos líneas. */}
+            <ul className="hidden xl:flex items-center gap-1">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
                     onClick={(e) => handleAnchorClick(e, link.href)}
-                    className={`px-4 py-2 text-[14px] font-semibold rounded-xl
+                    className={`px-3 py-2 text-[14px] font-semibold rounded-xl whitespace-nowrap
                                 transition-all duration-300 cursor-pointer
                                 focus-visible:outline-2 focus-visible:outline-naranja-500 ${
                       dark
@@ -132,7 +134,7 @@ export default function Navbar() {
               <Link
                 href="/mi-cuenta"
                 className={`hidden sm:inline-flex items-center gap-2 px-4 py-2.5
-                            font-semibold text-[14px] rounded-full border
+                            font-semibold text-[14px] rounded-full border whitespace-nowrap
                             transition-all duration-300 ${
                   dark
                     ? "text-gray-200 border-white/25 hover:text-white hover:bg-white/10 hover:border-white/50"
@@ -147,7 +149,7 @@ export default function Navbar() {
                 onClick={(e) => handleAnchorClick(e, "#donar")}
                 className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5
                            bg-naranja-500 hover:bg-naranja-600
-                           text-white font-bold text-[14px]
+                           text-white font-bold text-[14px] whitespace-nowrap
                            rounded-full shadow-md hover:shadow-btn-glow
                            transition-all duration-200 hover:-translate-y-0.5
                            focus-visible:outline-2 focus-visible:outline-naranja-300 cursor-pointer"
@@ -157,7 +159,7 @@ export default function Navbar() {
               </a>
 
               <button
-                className={`lg:hidden w-11 h-11 flex items-center justify-center rounded-xl
+                className={`xl:hidden w-11 h-11 flex items-center justify-center rounded-xl
                             transition-colors duration-300
                             focus-visible:outline-2 focus-visible:outline-naranja-500 ${
                   dark ? "text-gray-200 hover:bg-white/10" : "text-gray-700 hover:bg-naranja-50"

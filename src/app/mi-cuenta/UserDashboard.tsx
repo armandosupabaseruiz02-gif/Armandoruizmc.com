@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import {
   Calendar, Clock, CheckCircle2, XCircle, AlertCircle,
-  HeartPulse, LogOut, Plus, Settings, Building2, Video,
+  HeartPulse, LogOut, Plus, Settings, Building2, Video, Hourglass,
 } from "lucide-react";
 
 interface Appointment {
@@ -20,11 +20,14 @@ interface Appointment {
   status: string;
   modality?: string;
   meeting_link?: string;
+  cancelled_reason?: string;
   created_at: string;
 }
 
 const STATUS_LABELS: Record<string, { label: string; color: string; icon: typeof CheckCircle2 }> = {
+  pending:                { label: "Pendiente de revisión", color: "text-amber-800 bg-amber-100 border-amber-200", icon: Hourglass },
   confirmed:              { label: "Confirmada",         color: "text-emerald-700 bg-emerald-100 border-emerald-200", icon: CheckCircle2 },
+  rejected:               { label: "No aceptada",        color: "text-red-700 bg-red-100 border-red-200",             icon: XCircle },
   completed:              { label: "Completada",         color: "text-blue-700 bg-blue-100 border-blue-200",          icon: CheckCircle2 },
   cancelled_by_citizen:   { label: "Cancelada por ti",   color: "text-gray-600 bg-gray-100 border-gray-200",          icon: XCircle },
   cancelled_by_admin:     { label: "Cancelada por admin",color: "text-red-700 bg-red-100 border-red-200",             icon: AlertCircle },
@@ -48,18 +51,17 @@ export default function UserDashboard({
   const [confirmCancelId, setConfirmCancelId] = useState<string | null>(null);
   const [error, setError] = useState("");
 
-  const upcoming = appointments.filter((a) => a.status === "confirmed");
-  const past     = appointments.filter((a) => a.status !== "confirmed");
+  const upcoming = appointments.filter((a) => ["pending", "confirmed"].includes(a.status));
+  const past = appointments.filter((a) => !["pending", "confirmed"].includes(a.status));
 
   async function handleCancel(id: string) {
     setCancelling(id);
     setError("");
 
     const supabase = createClient();
-    const { error: updateError } = await supabase
-      .from("appointments")
-      .update({ status: "cancelled_by_citizen" })
-      .eq("id", id);
+    const { error: updateError } = await supabase.rpc("cancel_my_appointment", {
+      p_appointment_id: id,
+    });
 
     if (updateError) {
       setError("No se pudo cancelar. Intenta de nuevo.");
@@ -122,7 +124,7 @@ export default function UserDashboard({
           <div className="flex flex-col items-center justify-center py-16 rounded-3xl
                           border-2 border-dashed border-gray-200 text-center">
             <HeartPulse className="w-12 h-12 text-gray-300 mb-3" />
-            <p className="text-[16px] text-gray-400 mb-5">No tienes citas próximas</p>
+            <p className="text-[16px] text-gray-400 mb-5">No tienes solicitudes activas</p>
             <Link href="/salud/agendar" className="btn-primary inline-flex text-[15px] min-h-[48px]">
               <Plus className="w-4 h-4" />
               Agendar cita
@@ -136,7 +138,9 @@ export default function UserDashboard({
               return (
                 <div
                   key={a.id}
-                  className="p-6 rounded-2xl bg-white border-2 border-naranja-100 shadow-sm"
+                  className={`p-6 rounded-2xl bg-white border-2 shadow-sm ${
+                    a.status === "pending" ? "border-amber-200" : "border-naranja-100"
+                  }`}
                 >
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
@@ -170,7 +174,12 @@ export default function UserDashboard({
                       <p className="text-[14px] text-gray-500 leading-relaxed line-clamp-2 mb-3">
                         <span className="font-semibold text-gray-700">Motivo:</span> {a.motive}
                       </p>
-                      {a.modality === "en_linea" && (
+                      {a.status === "pending" && (
+                        <p className="text-[13px] text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 inline-block mb-3">
+                          El equipo debe aceptar esta solicitud antes de confirmarla.
+                        </p>
+                      )}
+                      {a.status === "confirmed" && a.modality === "en_linea" && (
                         a.meeting_link ? (
                           <a
                             href={a.meeting_link}
@@ -233,6 +242,11 @@ export default function UserDashboard({
                         </span>
                       </div>
                       <p className="text-[13px] text-gray-500 line-clamp-1">{a.motive}</p>
+                      {a.cancelled_reason && (
+                        <p className="text-[13px] text-red-700 mt-2">
+                          <span className="font-semibold">Motivo:</span> {a.cancelled_reason}
+                        </p>
+                      )}
                     </div>
                     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full
                                       text-[11px] font-bold border ${statusInfo.color} flex-shrink-0`}>

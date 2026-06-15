@@ -4,12 +4,13 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { getSafeRedirect } from "@/lib/auth/redirect";
 import { HeartPulse, Eye, EyeOff, ArrowLeft, UserPlus } from "lucide-react";
 
 function RegistroForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") ?? "/mi-cuenta";
+  const redirectTo = getSafeRedirect(searchParams.get("redirectTo"));
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,6 +19,7 @@ function RegistroForm() {
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [confirmationSent, setConfirmationSent] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -29,11 +31,13 @@ function RegistroForm() {
     setError("");
 
     const supabase = createClient();
-    const { error: authError } = await supabase.auth.signUp({
+    const emailRedirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`;
+    const { data, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { full_name: fullName },
+        data: { full_name: fullName.trim(), phone: phone.trim() || null },
+        emailRedirectTo,
       },
     });
 
@@ -45,16 +49,38 @@ function RegistroForm() {
       return;
     }
 
-    // Update phone in profile
-    if (phone) {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        await supabase.from("profiles").update({ phone, full_name: fullName }).eq("id", user.id);
-      }
+    if (!data.session) {
+      setConfirmationSent(true);
+      setLoading(false);
+      return;
     }
 
-    router.push(redirectTo);
+    await supabase
+      .from("profiles")
+      .update({ full_name: fullName.trim(), phone: phone.trim() || null })
+      .eq("id", data.session.user.id);
+
+    router.replace(redirectTo);
     router.refresh();
+  }
+
+  if (confirmationSent) {
+    return (
+      <div className="min-h-screen bg-warm-50 flex items-center justify-center px-4 py-16">
+        <div className="w-full max-w-md bg-white border-2 border-naranja-100 rounded-3xl p-8 text-center shadow-sm">
+          <div className="w-14 h-14 mx-auto rounded-full bg-emerald-100 flex items-center justify-center mb-5">
+            <UserPlus className="w-7 h-7 text-emerald-700" aria-hidden="true" />
+          </div>
+          <h1 className="text-[28px] font-black text-gray-900 mb-3">Revisa tu correo</h1>
+          <p className="text-[15px] text-gray-600 leading-relaxed mb-7">
+            Enviamos un enlace de confirmación a <strong>{email}</strong>. Abre el enlace para activar tu cuenta.
+          </p>
+          <Link href="/auth/login" className="btn-primary inline-flex min-h-[48px]">
+            Ir a iniciar sesión
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (

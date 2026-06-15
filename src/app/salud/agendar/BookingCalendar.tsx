@@ -3,7 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { ChevronLeft, ChevronRight, CheckCircle2, Clock, Calendar, Building2, Video } from "lucide-react";
+import {
+  ChevronLeft, ChevronRight, CheckCircle2, Clock, Calendar,
+  Building2, Video, HeartPulse, Accessibility,
+} from "lucide-react";
 
 // Horario de atención: lunes a viernes, 9:00 a 17:00 (última cita 16:30)
 const SLOT_TIMES = [
@@ -11,6 +14,15 @@ const SLOT_TIMES = [
   "12:00","12:30","13:00","13:30","14:00","14:30",
   "15:00","15:30","16:00","16:30",
 ];
+
+// Temas de cita. La tabla `appointments` NO tiene columna de tema
+// (verificado 2026-06-11); para no requerir migración, el tema se guarda
+// de forma no destructiva como prefijo del motivo: "[Salud] …".
+const TOPIC_LABELS = {
+  salud: "Salud",
+  discapacidad: "Apoyo a discapacidad",
+} as const;
+type Topic = keyof typeof TOPIC_LABELS;
 
 const MONTH_NAMES = [
   "Enero","Febrero","Marzo","Abril","Mayo","Junio",
@@ -51,6 +63,7 @@ export default function BookingCalendar({
   const [phone, setPhone] = useState(defaultPhone);
   const [curp, setCurp] = useState(defaultCurp);
   const [motive, setMotive] = useState("");
+  const [topic, setTopic] = useState<Topic>("salud");
   const [modality, setModality] = useState<"presencial" | "en_linea">("presencial");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -95,9 +108,10 @@ export default function BookingCalendar({
       full_name: fullName.trim(),
       phone: phone.trim(),
       curp: curp.trim() || null,
-      motive: motive.trim(),
+      // El tema viaja como prefijo del motivo (sin migración de BD):
+      motive: `[${TOPIC_LABELS[topic]}] ${motive.trim()}`,
       modality,
-      status: "confirmed",
+      status: "pending",
     });
 
     if (insertError) {
@@ -120,28 +134,35 @@ export default function BookingCalendar({
         <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mb-6">
           <CheckCircle2 className="w-10 h-10 text-emerald-600" />
         </div>
-        <h2 className="text-[32px] font-black text-gray-900 mb-3">¡Cita confirmada!</h2>
+        <h2 className="text-[32px] font-black text-gray-900 mb-3">Solicitud enviada</h2>
         <p className="text-[17px] text-gray-600 mb-2">
-          Tu cita quedó agendada para el{" "}
+          Solicitaste una cita para el{" "}
           <strong className="text-gray-900">
             {selectedDate?.split("-").reverse().join("/")}
           </strong>{" "}
           a las <strong className="text-gray-900">{selectedTime} hrs</strong>.
         </p>
-        <div className="inline-flex items-center gap-2 mb-5 px-4 py-2 rounded-full bg-naranja-100 border border-naranja-200">
-          {modality === "en_linea"
-            ? <Video className="w-4 h-4 text-naranja-600" aria-hidden="true" />
-            : <Building2 className="w-4 h-4 text-naranja-600" aria-hidden="true" />}
-          <span className="text-[14px] font-bold text-naranja-700">
-            {modality === "en_linea" ? "Cita en línea (videollamada)" : "Cita presencial"}
-          </span>
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-naranja-100 border border-naranja-200">
+            {topic === "discapacidad"
+              ? <Accessibility className="w-4 h-4 text-naranja-600" aria-hidden="true" />
+              : <HeartPulse className="w-4 h-4 text-naranja-600" aria-hidden="true" />}
+            <span className="text-[14px] font-bold text-naranja-700">
+              Tema: {TOPIC_LABELS[topic]}
+            </span>
+          </div>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-naranja-100 border border-naranja-200">
+            {modality === "en_linea"
+              ? <Video className="w-4 h-4 text-naranja-600" aria-hidden="true" />
+              : <Building2 className="w-4 h-4 text-naranja-600" aria-hidden="true" />}
+            <span className="text-[14px] font-bold text-naranja-700">
+              {modality === "en_linea" ? "Cita en línea (videollamada)" : "Cita presencial"}
+            </span>
+          </div>
         </div>
         <p className="text-[15px] text-gray-600 mb-10 max-w-sm leading-relaxed">
-          Un asesor del Diputado Armando Ruiz te atenderá.{" "}
-          {modality === "en_linea"
-            ? "Te enviaremos el enlace de la videollamada antes de tu cita; también lo verás en tu cuenta."
-            : "Preséntate 10 minutos antes en las oficinas del Diputado."}{" "}
-          Puedes ver y cancelar tu cita desde tu cuenta cuando lo necesites.
+          El equipo revisará la solicitud antes de confirmarla. Puedes consultar su estado y
+          cancelarla desde Mi Cuenta. Si es en línea, el enlace aparecerá después de que sea aceptada.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <button
@@ -307,6 +328,43 @@ export default function BookingCalendar({
                 {selectedDate.split("-").reverse().join("/")} — {selectedTime} hrs
               </span>
             </div>
+
+            {/* Tema de la cita */}
+            <fieldset className="mb-6">
+              <legend className="block text-[13px] font-semibold text-gray-700 mb-2">
+                ¿Sobre qué tema es tu cita? *
+              </legend>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {([
+                  { value: "salud",        icon: HeartPulse,    label: TOPIC_LABELS.salud,        desc: "Medicamentos, terapias y gestiones médicas" },
+                  { value: "discapacidad", icon: Accessibility, label: TOPIC_LABELS.discapacidad, desc: "Trámites, tarjeta y apoyos de inclusión" },
+                ] as const).map((opt) => {
+                  const Icon = opt.icon;
+                  const active = topic === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setTopic(opt.value)}
+                      aria-pressed={active}
+                      className={`flex items-start gap-3 text-left p-4 rounded-2xl border-2 transition-all min-h-[64px]
+                        ${active
+                          ? "border-naranja-500 bg-naranja-50 shadow-sm"
+                          : "border-gray-200 bg-white hover:border-naranja-300"}`}
+                    >
+                      <span className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
+                        ${active ? "bg-naranja-500 text-white" : "bg-naranja-100 text-naranja-600"}`}>
+                        <Icon className="w-5 h-5" aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-[15px] font-bold text-gray-900">{opt.label}</span>
+                        <span className="block text-[13px] text-gray-600 leading-snug">{opt.desc}</span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
 
             {/* Modalidad de la cita */}
             <fieldset className="mb-6">
