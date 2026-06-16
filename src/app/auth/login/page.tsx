@@ -11,6 +11,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = getSafeRedirect(searchParams.get("redirectTo"));
+  const configError = searchParams.get("error") === "supabase-config";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,14 +24,25 @@ function LoginForm() {
     setLoading(true);
     setError("");
 
-    const supabase = createClient();
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    let authError: { message?: string } | null = null;
+
+    try {
+      const supabase = createClient();
+      const result = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      authError = result.error;
+    } catch {
+      authError = { message: "supabase-config" };
+    }
 
     if (authError) {
-      setError("Correo o contraseña incorrectos.");
+      setError(
+        authError.message === "supabase-config"
+          ? "Falta conectar Supabase en Vercel. Agrega NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY."
+          : "Correo o contraseña incorrectos."
+      );
       setLoading(false);
       return;
     }
@@ -72,6 +84,13 @@ function LoginForm() {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {configError && (
+            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[14px] font-medium">
+              Falta conectar Supabase en Vercel. La pagina publica puede abrir,
+              pero login, citas y admin necesitan las variables de Supabase.
+            </div>
+          )}
+
           <div>
             <label htmlFor="email" className="block text-[14px] font-semibold text-gray-700 mb-2">
               Correo electrónico

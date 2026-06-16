@@ -1,13 +1,15 @@
 # PENDIENTES - Portal Diputado Armando Ruiz
 
-> Tablero operativo. Ultima reorganizacion: **2026-06-14**.
+> Tablero operativo. Ultima reorganizacion: **2026-06-16**.
 > Fuente de verdad tecnica: codigo + `supabase/migrations/`.
 
 ## Estado actual
 
-- Codigo local: lint y build de produccion correctos (22 rutas, 2026-06-14).
+- Codigo local: lint y build de produccion correctos (22 rutas, 2026-06-16).
 - GitHub oficial: `armandosupabaseruiz02-gif/Armandoruizmc.com`.
 - Supabase local: variables configuradas en `.env.local`.
+- Vercel: proyecto `armandoruizmc-com`; build correcto, produccion necesita variables de Supabase para activar auth/citas/admin.
+- URL temporal de Vercel: `https://armandoruizmc-com.vercel.app`.
 - Dominio previsto: `armandoruizmc.com`.
 - Instagram API: sin token configurado.
 
@@ -29,9 +31,9 @@
 
 ### Publicacion
 
-- [ ] Subir a GitHub los cambios locales verificados.
+- [x] Subir a GitHub los cambios locales verificados.
 - [ ] **MANUAL - Cuenta del diputado:** comprar o confirmar la propiedad de `armandoruizmc.com`.
-- [ ] Conectar el repositorio oficial a Vercel en la cuenta del diputado.
+- [x] Conectar el repositorio oficial a Vercel en la cuenta del diputado.
 - [ ] Configurar en Vercel `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 - [ ] Conectar el dominio al proyecto de Vercel y esperar DNS/SSL.
 - [ ] Configurar Supabase Auth:
@@ -100,3 +102,4 @@
 - [x] SEO base, sitemap, robots e Instagram con fallback sin token.
 - [x] Navbar adaptable, progreso de lectura y animaciones con `prefers-reduced-motion`.
 - [x] ESLint actualizado para Next.js 16.
+- [x] Proteccion agregada para que paginas publicas no caigan en error 500 si faltan variables de Supabase en Vercel.
