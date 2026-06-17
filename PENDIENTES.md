@@ -103,3 +103,4 @@
 - [x] Navbar adaptable, progreso de lectura y animaciones con `prefers-reduced-motion`.
 - [x] ESLint actualizado para Next.js 16.
 - [x] Proteccion agregada para que paginas publicas no caigan en error 500 si faltan variables de Supabase en Vercel.
+- [x] Bot de orientacion gratuita agregado en Programas Sociales para sustituir el envio directo por correo.

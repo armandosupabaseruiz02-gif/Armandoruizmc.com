@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageWrapper from "@/components/layout/PageWrapper";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
-import { ScrollText, ArrowLeft, Users, ExternalLink, CheckCircle2 } from "lucide-react";
+import OrientationBot from "@/components/sections/OrientationBot";
+import { ScrollText, ArrowLeft, Users, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Programas Sociales | Armando Ruiz Diputado",
@@ -149,16 +150,12 @@ export default function ProgramasSocialesPage() {
             ))}
           </StaggerContainer>
 
-          <FadeIn className="mt-14 p-6 rounded-card bg-gray-900 border border-white/8 text-center">
-            <p className="text-gray-300 text-[15px] mb-4">
-              ¿Necesitas ayuda para aplicar a alguno de estos programas? El equipo del
-              Diputado Armando Ruiz puede orientarte gratuitamente.
+          <FadeIn className="mt-14">
+            <p className="text-center text-gray-700 text-[16px] mb-5 max-w-2xl mx-auto">
+              ¿Necesitas ayuda para aplicar a alguno de estos programas? Preguntale al bot y,
+              si tu caso requiere revisar documentos, agenda una cita personal con el equipo.
             </p>
-            <a href="mailto:contacto@armandoruiz.mx"
-               className="btn-primary inline-flex">
-              Solicitar orientación
-              <ExternalLink className="w-4 h-4" />
-            </a>
+            <OrientationBot />
           </FadeIn>
 
           <FadeIn className="mt-8 text-center">
