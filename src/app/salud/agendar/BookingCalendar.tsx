@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -50,6 +50,7 @@ export default function BookingCalendar({
   bookedSlots, blockedDays,
 }: Props) {
   const router = useRouter();
+  const containerRef = useRef<HTMLDivElement>(null);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -67,6 +68,21 @@ export default function BookingCalendar({
   const [modality, setModality] = useState<"presencial" | "en_linea">("presencial");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (step === "calendar") return;
+
+    const id = requestAnimationFrame(() => {
+      const targetY = Math.max(
+        0,
+        (containerRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY - 96
+      );
+
+      window.scrollTo({ top: targetY, behavior: "smooth" });
+    });
+
+    return () => cancelAnimationFrame(id);
+  }, [step]);
 
   // Calendar helpers
   const firstDay = new Date(viewYear, viewMonth, 1).getDay();
@@ -130,60 +146,65 @@ export default function BookingCalendar({
 
   if (step === "confirm") {
     return (
-      <div className="flex flex-col items-center justify-center text-center py-16">
-        <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mb-6">
-          <CheckCircle2 className="w-10 h-10 text-emerald-600" />
-        </div>
-        <h2 className="text-[32px] font-black text-gray-900 mb-3">Solicitud enviada</h2>
-        <p className="text-[17px] text-gray-600 mb-2">
-          Solicitaste una cita para el{" "}
-          <strong className="text-gray-900">
-            {selectedDate?.split("-").reverse().join("/")}
-          </strong>{" "}
-          a las <strong className="text-gray-900">{selectedTime} hrs</strong>.
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-naranja-100 border border-naranja-200">
-            {topic === "discapacidad"
-              ? <Accessibility className="w-4 h-4 text-naranja-600" aria-hidden="true" />
-              : <HeartPulse className="w-4 h-4 text-naranja-600" aria-hidden="true" />}
-            <span className="text-[14px] font-bold text-naranja-700">
-              Tema: {TOPIC_LABELS[topic]}
-            </span>
+      <div
+        ref={containerRef}
+        className="flex justify-center py-8 sm:py-12"
+      >
+        <div className="w-full max-w-[560px] min-h-[min(92vw,560px)] rounded-[2rem] border-2 border-emerald-100 bg-white shadow-sm px-5 py-8 sm:p-10 flex flex-col items-center justify-center text-center">
+          <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mb-6">
+            <CheckCircle2 className="w-10 h-10 text-emerald-600" />
           </div>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-naranja-100 border border-naranja-200">
-            {modality === "en_linea"
-              ? <Video className="w-4 h-4 text-naranja-600" aria-hidden="true" />
-              : <Building2 className="w-4 h-4 text-naranja-600" aria-hidden="true" />}
-            <span className="text-[14px] font-bold text-naranja-700">
-              {modality === "en_linea" ? "Cita en línea (videollamada)" : "Cita presencial"}
-            </span>
+          <h2 className="text-[30px] sm:text-[36px] font-black text-gray-900 mb-3">Solicitud enviada</h2>
+          <p className="text-[16px] sm:text-[17px] text-gray-600 mb-2">
+            Solicitaste una cita para el{" "}
+            <strong className="text-gray-900">
+              {selectedDate?.split("-").reverse().join("/")}
+            </strong>{" "}
+            a las <strong className="text-gray-900">{selectedTime} hrs</strong>.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-naranja-100 border border-naranja-200">
+              {topic === "discapacidad"
+                ? <Accessibility className="w-4 h-4 text-naranja-600" aria-hidden="true" />
+                : <HeartPulse className="w-4 h-4 text-naranja-600" aria-hidden="true" />}
+              <span className="text-[14px] font-bold text-naranja-700">
+                Tema: {TOPIC_LABELS[topic]}
+              </span>
+            </div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-naranja-100 border border-naranja-200">
+              {modality === "en_linea"
+                ? <Video className="w-4 h-4 text-naranja-600" aria-hidden="true" />
+                : <Building2 className="w-4 h-4 text-naranja-600" aria-hidden="true" />}
+              <span className="text-[14px] font-bold text-naranja-700">
+                {modality === "en_linea" ? "Cita en línea (videollamada)" : "Cita presencial"}
+              </span>
+            </div>
           </div>
-        </div>
-        <p className="text-[15px] text-gray-600 mb-10 max-w-sm leading-relaxed">
-          El equipo revisará la solicitud antes de confirmarla. Puedes consultar su estado y
-          cancelarla desde Mi Cuenta. Si es en línea, el enlace aparecerá después de que sea aceptada.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <button
-            onClick={() => router.push("/mi-cuenta")}
-            className="btn-primary"
-          >
-            Ver mis citas
-          </button>
-          <button
-            onClick={() => router.push("/salud")}
-            className="btn-secondary"
-          >
-            Volver a Salud
-          </button>
+          <p className="text-[15px] text-gray-600 mb-8 sm:mb-10 max-w-sm leading-relaxed">
+            El equipo revisará la solicitud antes de confirmarla. Puedes consultar su estado y
+            cancelarla desde Mi Cuenta. Si es en línea, el enlace aparecerá después de que sea aceptada.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <button
+              onClick={() => router.push("/mi-cuenta")}
+              className="btn-primary w-full sm:w-auto"
+            >
+              Ver mis citas
+            </button>
+            <button
+              onClick={() => router.push("/salud")}
+              className="btn-secondary w-full sm:w-auto"
+            >
+              Volver a Salud
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8">
+    <div ref={containerRef} className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8">
       {/* Calendar */}
       <div className="bg-white rounded-3xl border-2 border-gray-100 p-6 shadow-sm h-fit">
         {/* Month nav */}
