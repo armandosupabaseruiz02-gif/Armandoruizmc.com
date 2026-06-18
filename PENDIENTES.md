@@ -17,7 +17,7 @@
 ### Base de datos y seguridad
 
 - [x] Versionar migracion de seguridad y flujo de citas: `supabase/migrations/20260614_secure_appointments_workflow.sql`.
-- [ ] **MANUAL - Supabase:** hacer respaldo y ejecutar la migracion en SQL Editor.
+- [x] **MANUAL - Supabase:** ejecutar migraciones base en SQL Editor y verificar esquema real.
 - [ ] **MANUAL - Supabase:** crear o identificar la cuenta administradora y asignarle `role = 'admin'` usando `supabase/README.md`.
 - [ ] Probar con dos cuentas: un ciudadano no puede ver citas ajenas, modificar roles ni entrar a `/admin/citas`.
 
@@ -54,9 +54,12 @@
 - [x] Cancelacion ciudadana mediante RPC restringida a la propia cita.
 - [x] RLS versionado para perfiles, citas y dias bloqueados.
 - [x] Horarios rechazados/cancelados pueden liberarse mediante indice unico parcial.
-- [ ] Aplicar las migraciones Supabase para activar citas, seguridad y solicitudes internas en la base real:
+- [x] Aplicar las migraciones Supabase para activar citas, seguridad y solicitudes internas en la base real:
   - `supabase/migrations/20260614_secure_appointments_workflow.sql`
   - `supabase/migrations/20260617_contact_requests.sql`
+- [x] Endurecer permisos de funciones Supabase:
+  - `supabase/migrations/20260618_harden_function_permissions.sql`
+  - `supabase/migrations/20260618_revoke_unused_get_my_role.sql`
 
 ## 3. Datos y conexiones que necesito del equipo
 
