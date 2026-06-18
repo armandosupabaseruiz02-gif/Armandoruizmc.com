@@ -104,3 +104,6 @@
 - [x] ESLint actualizado para Next.js 16.
 - [x] Proteccion agregada para que paginas publicas no caigan en error 500 si faltan variables de Supabase en Vercel.
 - [x] Bot de orientacion gratuita agregado en Programas Sociales para sustituir el envio directo por correo.
+- [x] Formularios internos agregados para postulaciones, vacantes, aliados, donaciones y accesibilidad.
+- [x] Bandeja admin creada en `/admin/solicitudes`.
+- [ ] **MANUAL - Supabase:** aplicar `supabase/migrations/20260617_contact_requests.sql` para activar solicitudes internas.

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageWrapper from "@/components/layout/PageWrapper";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
-import { Briefcase, ArrowLeft, MapPin, Clock, Building, ExternalLink } from "lucide-react";
+import InternalRequestButton from "@/components/ui/InternalRequestButton";
+import { Briefcase, ArrowLeft, MapPin, Clock, Building, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Bolsa de Trabajo | Armando Ruiz Diputado",
@@ -157,15 +158,28 @@ export default function BolsaTrabajoPage() {
                                      rounded-full px-3 py-1 font-semibold">
                       ♿ Apta para: {v.discapacidad}
                     </span>
-                    <a
-                      href="mailto:contacto@armandoruiz.mx"
+                    <InternalRequestButton
+                      requestType="job_application"
+                      subject={`Postulación: ${v.puesto}`}
+                      triggerLabel="Postularme"
+                      title={`Postularme a ${v.puesto}`}
+                      description="Deja tus datos dentro del portal para que el equipo revise tu interés en esta vacante."
+                      messageLabel="Cuéntanos tu experiencia o habilidades"
+                      messagePlaceholder="Ej. Tengo experiencia en atención al cliente, puedo trabajar por teléfono..."
+                      organizationLabel="Empresa actual o última experiencia"
+                      metadata={{
+                        puesto: v.puesto,
+                        empresa: v.empresa,
+                        ubicacion: v.ubicacion,
+                        tipo: v.tipo,
+                        discapacidad: v.discapacidad,
+                      }}
                       className="inline-flex items-center gap-1.5 text-naranja-600 hover:text-naranja-700
                                  font-semibold text-[14px] transition-colors group-hover:underline"
-                      aria-label={`Postularse a ${v.puesto}`}
                     >
                       Postularme
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </InternalRequestButton>
                   </div>
                 </div>
               </StaggerItem>
@@ -179,9 +193,18 @@ export default function BolsaTrabajoPage() {
               Únete a nuestro programa de empresas accesibles. El Diputado Armando Ruiz
               conecta tu empresa con talento comprometido.
             </p>
-            <a href="mailto:contacto@armandoruiz.mx" className="btn-primary inline-flex">
-              Registrar vacante
-            </a>
+            <InternalRequestButton
+              requestType="vacancy_registration"
+              subject="Registro de vacante inclusiva"
+              triggerLabel="Registrar vacante"
+              title="Registrar una vacante"
+              description="Carga los datos de tu empresa dentro del portal para que el equipo revise la vacante."
+              messageLabel="Describe la vacante"
+              messagePlaceholder="Puesto, horario, sueldo aproximado, ubicación, ajustes razonables y contacto interno."
+              organizationLabel="Nombre de la empresa"
+              requireOrganization
+              className="btn-primary inline-flex"
+            />
           </FadeIn>
 
           <FadeIn className="mt-8 text-center">

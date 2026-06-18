@@ -143,15 +143,15 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a
-                  href="mailto:contacto@armandoruiz.mx"
+                <Link
+                  href="/programas-sociales#orientacion-gratuita"
                   className="flex items-center gap-3 text-white/45 hover:text-naranja-400 text-[14px]
                              transition-colors focus-visible:outline-2 focus-visible:outline-naranja-400"
-                  aria-label="Enviar correo electrónico"
+                  aria-label="Abrir orientacion dentro del portal"
                 >
                   <Mail className="w-4 h-4 text-naranja-400 flex-shrink-0" aria-hidden="true" />
-                  contacto@armandoruiz.mx
-                </a>
+                  Orientación en línea
+                </Link>
               </li>
             </ul>
           </div>

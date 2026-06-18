@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
+import InternalRequestButton from "@/components/ui/InternalRequestButton";
 import { ShieldCheck, MousePointerClick, MessagesSquare, HeartHandshake, ArrowRight } from "lucide-react";
 
 /* ───────────────────────────────────────────────────────────────
@@ -10,9 +10,7 @@ import { ShieldCheck, MousePointerClick, MessagesSquare, HeartHandshake, ArrowRi
    de personas reales y se conecta al donante con el beneficiario a
    través del EQUIPO, que verifica y comprueba la ayuda.
 
-   // TODO: reemplazar correo placeholder por el real / o WhatsApp del equipo
 ─────────────────────────────────────────────────────────────── */
-const EQUIPO_EMAIL = "contacto@armandoruiz.mx";
 
 /* ───────────────────────────────────────────────────────────────
    ESTRUCTURA DE DATOS DE LAS CAUSAS
@@ -83,19 +81,6 @@ const causas: Causa[] = [
 const pesos = (n: number) =>
   n.toLocaleString("es-MX", { style: "currency", currency: "MXN", minimumFractionDigits: 0 });
 
-/* Construye el mailto prellenado para contactar al equipo por una causa concreta */
-function mailtoCausa(causa: Causa) {
-  const asunto = `Quiero ayudar: ${causa.necesidad} para ${causa.nombre}`;
-  const cuerpo =
-    `Hola, equipo del Diputado Armando Ruiz:\n\n` +
-    `Quiero ayudar con esta causa:\n` +
-    `• Persona: ${causa.nombre}, ${causa.edad} años\n` +
-    `• Necesidad: ${causa.necesidad}\n` +
-    `• Costo aproximado: ${pesos(causa.costo)}\n\n` +
-    `Por favor contáctenme para coordinar la ayuda directa. Gracias.`;
-  return `mailto:${EQUIPO_EMAIL}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
-}
-
 const pasos = [
   {
     icon: MousePointerClick,
@@ -104,8 +89,8 @@ const pasos = [
   },
   {
     icon: MessagesSquare,
-    titulo: "Nos contactas",
-    texto: "Nos escribes con un clic. Nuestro equipo te responde y te guía.",
+    titulo: "Dejas tus datos",
+    texto: "Llenas el formulario dentro del portal. Nuestro equipo revisa tu solicitud.",
   },
   {
     icon: HeartHandshake,
@@ -229,17 +214,27 @@ export default function Donar() {
                         ¡Gracias! Esta causa ya se cumplió
                       </div>
                     ) : (
-                      <motion.a
-                        href={mailtoCausa(causa)}
+                      <InternalRequestButton
+                        requestType="donation"
+                        subject={`Quiero ayudar: ${causa.necesidad}`}
+                        triggerLabel="Quiero ayudar"
+                        title={`Ayudar a ${causa.nombre}`}
+                        description="Deja tus datos dentro del portal para que el equipo coordine la ayuda directa."
+                        messageLabel="¿Cómo quieres ayudar?"
+                        messagePlaceholder="Ej. Puedo apoyar con el monto completo, con una parte, con el producto o con transporte."
+                        metadata={{
+                          causa_id: causa.id,
+                          beneficiario: causa.nombre,
+                          edad: causa.edad,
+                          necesidad: causa.necesidad,
+                          costo: causa.costo,
+                        }}
                         className="btn-primary shadow-btn-glow w-full"
-                        whileHover={{ scale: 1.02, y: -2 }}
-                        whileTap={{ scale: 0.97 }}
-                        aria-label={`Quiero ayudar a ${causa.nombre} con ${causa.necesidad}. Se abrirá un correo para contactar al equipo.`}
                       >
                         <HeartHandshake className="w-5 h-5" aria-hidden="true" />
                         Quiero ayudar
                         <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                      </motion.a>
+                      </InternalRequestButton>
                     )}
                   </div>
                 </article>

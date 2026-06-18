@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageWrapper from "@/components/layout/PageWrapper";
 import FadeIn from "@/components/ui/FadeIn";
-import { Handshake, ArrowLeft, Mail, ArrowRight } from "lucide-react";
+import InternalRequestButton from "@/components/ui/InternalRequestButton";
+import { Handshake, ArrowLeft, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Aliados | Armando Ruiz Diputado",
@@ -66,11 +67,21 @@ export default function AliadosPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <a href="mailto:contacto@armandoruiz.mx"
-                 className="btn-primary inline-flex">
-                <Mail className="w-5 h-5" />
+              <InternalRequestButton
+                requestType="ally"
+                subject="Solicitud para ser aliado"
+                triggerLabel="Quiero ser aliado"
+                title="Quiero ser aliado"
+                description="Deja los datos de tu organización dentro del portal para que el equipo revise la alianza."
+                messageLabel="Cuéntanos cómo quieres colaborar"
+                messagePlaceholder="Describe tu organización, a quién atienden y qué tipo de colaboración proponen."
+                organizationLabel="Organización, fundación o empresa"
+                requireOrganization
+                className="btn-primary inline-flex"
+              >
+                <Handshake className="w-5 h-5" />
                 Quiero ser aliado
-              </a>
+              </InternalRequestButton>
               <Link href="/" className="btn-outline inline-flex">
                 <ArrowLeft className="w-5 h-5" />
                 Regresar al inicio
@@ -98,12 +109,21 @@ export default function AliadosPage() {
                 ))}
               </div>
               <div className="text-center mt-8">
-                <a href="mailto:contacto@armandoruiz.mx"
-                   className="inline-flex items-center gap-2 text-naranja-400 hover:text-naranja-300
-                              font-semibold text-[16px] transition-colors group">
+                <InternalRequestButton
+                  requestType="ally"
+                  subject="Más información sobre aliados"
+                  triggerLabel="Escríbenos para más información"
+                  title="Información para aliados"
+                  description="Pregunta dentro del portal y el equipo revisará tu solicitud."
+                  messageLabel="¿Qué información necesitas?"
+                  messagePlaceholder="Ej. Queremos conocer requisitos para sumar nuestra organización..."
+                  organizationLabel="Organización, fundación o empresa"
+                  className="inline-flex items-center gap-2 text-naranja-400 hover:text-naranja-300
+                             font-semibold text-[16px] transition-colors group"
+                >
                   Escríbenos para más información
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </a>
+                </InternalRequestButton>
               </div>
             </div>
           </FadeIn>

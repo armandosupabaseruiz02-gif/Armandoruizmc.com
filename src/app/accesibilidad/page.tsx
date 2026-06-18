@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageWrapper from "@/components/layout/PageWrapper";
+import InternalRequestButton from "@/components/ui/InternalRequestButton";
 import {
   ArrowLeft, Accessibility, Check, Keyboard, Eye,
-  Type, MousePointer2, Video, Mail,
+  Type, MousePointer2, Video,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -125,15 +126,19 @@ export default function AccesibilidadPage() {
               Tu experiencia nos ayuda a mejorar. Si algo te resultó difícil de usar, por favor
               cuéntanos qué pasó y con qué dispositivo, y lo resolveremos lo antes posible.
             </p>
-            <a
-              href="mailto:contacto@armandoruiz.mx?subject=Reporte%20de%20accesibilidad"
+            <InternalRequestButton
+              requestType="accessibility"
+              subject="Reporte de accesibilidad"
+              triggerLabel="Reportar un problema"
+              title="Reportar una barrera de accesibilidad"
+              description="Cuéntanos dentro del portal qué falló para que el equipo pueda revisarlo."
+              messageLabel="¿Qué problema encontraste?"
+              messagePlaceholder="Página, botón, dispositivo, lector de pantalla o navegador usado."
               className="btn-primary inline-flex"
-              aria-label="Reportar un problema de accesibilidad por correo"
             >
-              <Mail className="w-5 h-5" aria-hidden="true" />
+              <Accessibility className="w-5 h-5" aria-hidden="true" />
               Reportar un problema
-            </a>
-            {/* TODO: reemplazar correo placeholder por el real del equipo */}
+            </InternalRequestButton>
           </div>
 
           <div>

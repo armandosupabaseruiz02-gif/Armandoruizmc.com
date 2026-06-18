@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import {
   Calendar, Clock, CheckCircle2, XCircle, AlertCircle,
-  HeartPulse, LogOut, Plus, Settings, Building2, Video, Hourglass,
+  HeartPulse, LogOut, Plus, Settings, Building2, Video, Hourglass, Inbox,
 } from "lucide-react";
 
 interface Appointment {
@@ -86,10 +86,16 @@ export default function UserDashboard({
         <h2 className="text-[24px] font-black text-gray-900">Mis citas</h2>
         <div className="flex items-center gap-3">
           {isAdmin && (
-            <Link href="/admin/citas" className="btn-secondary inline-flex text-[14px] min-h-[44px] px-5">
-              <Settings className="w-4 h-4" />
-              Panel admin
-            </Link>
+            <>
+              <Link href="/admin/citas" className="btn-secondary inline-flex text-[14px] min-h-[44px] px-5">
+                <Settings className="w-4 h-4" />
+                Citas
+              </Link>
+              <Link href="/admin/solicitudes" className="btn-secondary inline-flex text-[14px] min-h-[44px] px-5">
+                <Inbox className="w-4 h-4" />
+                Solicitudes
+              </Link>
+            </>
           )}
           <Link href="/salud/agendar" className="btn-primary inline-flex text-[14px] min-h-[44px] px-5">
             <Plus className="w-4 h-4" />
