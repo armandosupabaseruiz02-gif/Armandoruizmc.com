@@ -5,7 +5,7 @@
 begin;
 
 alter table public.profiles
-  alter column role set default 'ciudadano';
+  alter column role set default 'citizen';
 
 create or replace function public.handle_new_user()
 returns trigger
@@ -18,7 +18,7 @@ begin
     new.id,
     coalesce(new.raw_user_meta_data ->> 'full_name', ''),
     nullif(new.raw_user_meta_data ->> 'phone', ''),
-    'ciudadano'
+    'citizen'
   )
   on conflict (id) do update
     set full_name = excluded.full_name,

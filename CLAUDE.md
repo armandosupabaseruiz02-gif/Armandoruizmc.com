@@ -13,8 +13,8 @@ Portal web **oficial** del **Diputado Armando Ruiz** (Cámara de Diputados, CDMX
 3. **Cuentas separadas a propósito** (David le vendió la propiedad; solo da mantenimiento):
    - GitHub del diputado: `armandosupabaseruiz02-gif` → repo `Armandoruizmc.com`.
    - Vercel: cuenta propia del diputado (NO la personal de David `davidbellocrypto`).
-   - El `origin` local aún apunta a la cuenta vieja (`davidbello0203-crypto/Armando-Ruiz`) — pendiente reapuntar.
-4. **Dominio primero:** dominio definitivo = **`armandoruizmc.com`** (comprándose por Vercel). Configura Supabase Auth (Site URL + Redirect URLs), env vars y correos con ESE dominio.
+   - El `origin` local apunta al repo oficial del diputado: `https://github.com/armandosupabaseruiz02-gif/Armandoruizmc.com.git`.
+4. **Dominio primero:** dominio definitivo = **`armandoruizmc.com`**. Configura Supabase Auth (Site URL + Redirect URLs), env vars y correos con ESE dominio.
 5. **Marca:** naranja `#FF6B00` cálido; nunca azules fríos, gradientes morado-azul ni glassmorphism. Tono claro, humano, español neutro mexicano, CTAs que nombran lo que se obtiene. Detalle en `PRODUCT.md`.
 6. **Datos sensibles de salud:** Aviso de Privacidad (LFPDPPP) debe estar aprobado por jurídico antes de publicar; mostrar nombre/foto de beneficiarios/donantes requiere consentimiento firmado.
 

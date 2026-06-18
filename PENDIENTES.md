@@ -1,16 +1,15 @@
 # PENDIENTES - Portal Diputado Armando Ruiz
 
-> Tablero operativo. Ultima reorganizacion: **2026-06-16**.
+> Tablero operativo. Ultima reorganizacion: **2026-06-18**.
 > Fuente de verdad tecnica: codigo + `supabase/migrations/`.
 
 ## Estado actual
 
-- Codigo local: lint y build de produccion correctos (22 rutas, 2026-06-16).
+- Codigo local: lint y build de produccion correctos (23 rutas, 2026-06-17).
 - GitHub oficial: `armandosupabaseruiz02-gif/Armandoruizmc.com`.
 - Supabase local: variables configuradas en `.env.local`.
-- Vercel: proyecto `armandoruizmc-com`; build correcto, produccion necesita variables de Supabase para activar auth/citas/admin.
-- URL temporal de Vercel: `https://armandoruizmc-com.vercel.app`.
-- Dominio previsto: `armandoruizmc.com`.
+- Vercel: proyecto `armandoruizmc-com`; dominio conectado `https://armandoruizmc.com`.
+- Dominio principal: `armandoruizmc.com`.
 - Instagram API: sin token configurado.
 
 ## 1. Bloqueadores de lanzamiento
@@ -32,13 +31,15 @@
 ### Publicacion
 
 - [x] Subir a GitHub los cambios locales verificados.
-- [ ] **MANUAL - Cuenta del diputado:** comprar o confirmar la propiedad de `armandoruizmc.com`.
+- [x] **MANUAL - Cuenta del diputado:** comprar o confirmar la propiedad de `armandoruizmc.com`.
 - [x] Conectar el repositorio oficial a Vercel en la cuenta del diputado.
-- [ ] Configurar en Vercel `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
-- [ ] Conectar el dominio al proyecto de Vercel y esperar DNS/SSL.
+- [ ] Confirmar en Vercel `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Production.
+- [x] Conectar el dominio al proyecto de Vercel y esperar DNS/SSL.
 - [ ] Configurar Supabase Auth:
   - Site URL: `https://armandoruizmc.com`.
   - Redirect URL: `https://armandoruizmc.com/auth/callback`.
+  - Redirect URL adicional si se usara `www`: `https://www.armandoruizmc.com/auth/callback`.
+  - Redirect URL local para pruebas: `http://localhost:3000/auth/callback`.
   - Plantillas de confirmacion y recuperacion de contrasena.
 - [ ] Prueba final en produccion: registro -> confirmar correo -> login -> solicitar cita -> aceptar/rechazar en admin -> cancelar desde Mi Cuenta.
 
@@ -53,7 +54,9 @@
 - [x] Cancelacion ciudadana mediante RPC restringida a la propia cita.
 - [x] RLS versionado para perfiles, citas y dias bloqueados.
 - [x] Horarios rechazados/cancelados pueden liberarse mediante indice unico parcial.
-- [ ] Aplicar la migracion Supabase para activar las funciones anteriores en la base real.
+- [ ] Aplicar las migraciones Supabase para activar citas, seguridad y solicitudes internas en la base real:
+  - `supabase/migrations/20260614_secure_appointments_workflow.sql`
+  - `supabase/migrations/20260617_contact_requests.sql`
 
 ## 3. Datos y conexiones que necesito del equipo
 
