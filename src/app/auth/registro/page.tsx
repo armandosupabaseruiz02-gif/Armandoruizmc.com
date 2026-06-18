@@ -27,6 +27,28 @@ function getStrengthInfo(score: number) {
   return { label: "Muy segura", color: "bg-emerald-600", text: "text-emerald-800", width: "w-full" };
 }
 
+function getSignUpErrorMessage(message: string) {
+  const normalized = message.toLowerCase();
+
+  if (normalized.includes("already registered") || normalized.includes("already exists")) {
+    return "Este correo ya tiene una cuenta. Inicia sesión.";
+  }
+  if (normalized.includes("rate limit") || normalized.includes("too many")) {
+    return "Hubo demasiados intentos. Espera un momento y vuelve a intentar.";
+  }
+  if (normalized.includes("signup") && normalized.includes("disabled")) {
+    return "El registro está desactivado en este momento. Revisa la configuración de Supabase Auth.";
+  }
+  if (normalized.includes("password")) {
+    return "Supabase rechazó la contraseña. Usa mínimo 8 caracteres y combina letras con números.";
+  }
+  if (normalized.includes("email")) {
+    return "Supabase rechazó el correo. Revisa que esté bien escrito.";
+  }
+
+  return `No se pudo crear la cuenta. Detalle: ${message}`;
+}
+
 function RegistroForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -46,10 +68,18 @@ function RegistroForm() {
   const strength = getStrengthInfo(passwordScore);
   const passwordsMatch = password.length > 0 && password === confirmPassword;
   const confirmStarted = confirmPassword.length > 0;
+  const passwordReady = passwordScore >= 3;
+  const submitHint = !passwordReady
+    ? "Completa una contraseña aceptable para crear tu cuenta."
+    : !confirmStarted
+      ? "Repite tu contraseña para confirmar que está bien escrita."
+      : !passwordsMatch
+        ? "Las dos contraseñas deben ser iguales."
+        : "";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (passwordScore < 3) {
+    if (!passwordReady) {
       setError("Usa una contraseña más segura: mínimo 8 caracteres y combina letras con números.");
       return;
     }
@@ -60,38 +90,41 @@ function RegistroForm() {
     setLoading(true);
     setError("");
 
-    const supabase = createClient();
-    const emailRedirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`;
-    const { data, error: authError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: fullName.trim(), phone: phone.trim() || null },
-        emailRedirectTo,
-      },
-    });
+    try {
+      const supabase = createClient();
+      const emailRedirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`;
+      const { data, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName.trim(), phone: phone.trim() || null },
+          emailRedirectTo,
+        },
+      });
 
-    if (authError) {
-      setError(authError.message === "User already registered"
-        ? "Este correo ya tiene una cuenta. Inicia sesión."
-        : "Ocurrió un error. Intenta de nuevo.");
+      if (authError) {
+        setError(getSignUpErrorMessage(authError.message));
+        setLoading(false);
+        return;
+      }
+
+      if (!data.session) {
+        setConfirmationSent(true);
+        setLoading(false);
+        return;
+      }
+
+      await supabase
+        .from("profiles")
+        .update({ full_name: fullName.trim(), phone: phone.trim() || null })
+        .eq("id", data.session.user.id);
+
+      router.replace(redirectTo);
+      router.refresh();
+    } catch {
+      setError("No se pudo crear la cuenta en este momento. Revisa tu conexión e intenta de nuevo.");
       setLoading(false);
-      return;
     }
-
-    if (!data.session) {
-      setConfirmationSent(true);
-      setLoading(false);
-      return;
-    }
-
-    await supabase
-      .from("profiles")
-      .update({ full_name: fullName.trim(), phone: phone.trim() || null })
-      .eq("id", data.session.user.id);
-
-    router.replace(redirectTo);
-    router.refresh();
   }
 
   if (confirmationSent) {
@@ -305,12 +338,18 @@ function RegistroForm() {
 
           <button
             type="submit"
-            disabled={loading || passwordScore < 3 || !passwordsMatch}
+            disabled={loading}
             className="btn-primary w-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <UserPlus className="w-5 h-5" />
             {loading ? "Creando cuenta…" : "Crear cuenta"}
           </button>
+
+          {submitHint && (
+            <p className="text-[13px] text-amber-700 text-center font-semibold -mt-2">
+              {submitHint}
+            </p>
+          )}
 
           <p className="text-[12px] text-gray-400 text-center leading-relaxed">
             Al registrarte aceptas el uso de tus datos exclusivamente para gestionar tus citas
