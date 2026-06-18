@@ -5,24 +5,70 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { getSafeRedirect } from "@/lib/auth/redirect";
-import { HeartPulse, Eye, EyeOff, ArrowLeft, LogIn } from "lucide-react";
+import { getSafeEmail } from "@/lib/auth/email";
+import { HeartPulse, Eye, EyeOff, ArrowLeft, LogIn, UserPlus } from "lucide-react";
+
+function getRegisterHref(redirectTo: string, email: string) {
+  const params = new URLSearchParams({ redirectTo });
+  const safeEmail = getSafeEmail(email);
+
+  if (safeEmail) {
+    params.set("email", safeEmail);
+  }
+
+  return `/auth/registro?${params.toString()}`;
+}
+
+function getLoginErrorInfo(message: string | undefined) {
+  if (message === "supabase-config") {
+    return {
+      message: "Falta conectar Supabase en Vercel. Agrega NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+      showRegisterHelp: false,
+    };
+  }
+
+  const normalized = message?.toLowerCase() ?? "";
+
+  if (normalized.includes("email not confirmed")) {
+    return {
+      message: "Tu cuenta ya fue creada, pero falta confirmar tu correo. Revisa tu bandeja de entrada.",
+      showRegisterHelp: false,
+    };
+  }
+
+  if (normalized.includes("rate limit") || normalized.includes("too many")) {
+    return {
+      message: "Hubo demasiados intentos. Espera un momento y vuelve a intentar.",
+      showRegisterHelp: false,
+    };
+  }
+
+  return {
+    message: "No encontramos una cuenta registrada con ese correo. Si ya tienes cuenta, revisa la contraseña; si no, regístrate.",
+    showRegisterHelp: true,
+  };
+}
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = getSafeRedirect(searchParams.get("redirectTo"));
   const configError = searchParams.get("error") === "supabase-config";
+  const initialEmail = getSafeEmail(searchParams.get("email"));
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showRegisterHelp, setShowRegisterHelp] = useState(false);
+  const registerHref = getRegisterHref(redirectTo, email);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setShowRegisterHelp(false);
 
     let authError: { message?: string } | null = null;
 
@@ -38,11 +84,9 @@ function LoginForm() {
     }
 
     if (authError) {
-      setError(
-        authError.message === "supabase-config"
-          ? "Falta conectar Supabase en Vercel. Agrega NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY."
-          : "Correo o contraseña incorrectos."
-      );
+      const errorInfo = getLoginErrorInfo(authError.message);
+      setError(errorInfo.message);
+      setShowRegisterHelp(errorInfo.showRegisterHelp);
       setLoading(false);
       return;
     }
@@ -77,7 +121,7 @@ function LoginForm() {
         <h1 className="text-[32px] font-black text-gray-900 mb-2">Iniciar sesión</h1>
         <p className="text-[15px] text-gray-500 mb-8">
           ¿No tienes cuenta?{" "}
-          <Link href={`/auth/registro?redirectTo=${encodeURIComponent(redirectTo)}`}
+          <Link href={registerHref}
                 className="text-naranja-600 font-semibold hover:underline">
             Regístrate aquí
           </Link>
@@ -136,8 +180,17 @@ function LoginForm() {
           </div>
 
           {error && (
-            <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-[14px] font-medium">
-              {error}
+            <div className="space-y-3 rounded-xl bg-red-50 border border-red-200 p-4 text-[14px]">
+              <p className="text-red-700 font-medium">{error}</p>
+              {showRegisterHelp && (
+                <Link
+                  href={registerHref}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-naranja-500 px-4 py-2.5 text-white font-black hover:bg-naranja-600 transition-colors"
+                >
+                  <UserPlus className="w-4 h-4" aria-hidden="true" />
+                  Registrarme con este correo
+                </Link>
+              )}
             </div>
           )}
 

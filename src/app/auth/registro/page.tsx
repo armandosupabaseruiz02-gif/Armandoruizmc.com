@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { getSafeRedirect } from "@/lib/auth/redirect";
+import { getSafeEmail } from "@/lib/auth/email";
 import { HeartPulse, Eye, EyeOff, ArrowLeft, UserPlus, CheckCircle2, Circle } from "lucide-react";
 
 const PASSWORD_RULES = [
@@ -53,9 +54,10 @@ function RegistroForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = getSafeRedirect(searchParams.get("redirectTo"));
+  const initialEmail = getSafeEmail(searchParams.get("email"));
 
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(initialEmail);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -171,7 +173,7 @@ function RegistroForm() {
         <h1 className="text-[32px] font-black text-gray-900 mb-2">Crear cuenta</h1>
         <p className="text-[15px] text-gray-500 mb-8">
           ¿Ya tienes cuenta?{" "}
-          <Link href={`/auth/login?redirectTo=${encodeURIComponent(redirectTo)}`}
+          <Link href={`/auth/login?redirectTo=${encodeURIComponent(redirectTo)}${email ? `&email=${encodeURIComponent(email)}` : ""}`}
                 className="text-naranja-600 font-semibold hover:underline">
             Inicia sesión
           </Link>
