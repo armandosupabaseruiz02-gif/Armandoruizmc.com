@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 // Referencia global para que cualquier componente pueda llamar scrollTo
@@ -24,11 +25,21 @@ export function lenisScrollTo(target: string) {
   }
 }
 
+function scrollToTop() {
+  if (_lenis) {
+    _lenis.scrollTo(0, { immediate: true });
+  } else {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }
+}
+
 export default function SmoothScrollProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.4,
@@ -52,6 +63,15 @@ export default function SmoothScrollProvider({
       _lenis = null;
     };
   }, []);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => {
+      if (window.location.hash) return;
+      scrollToTop();
+    });
+
+    return () => cancelAnimationFrame(id);
+  }, [pathname]);
 
   return <>{children}</>;
 }
