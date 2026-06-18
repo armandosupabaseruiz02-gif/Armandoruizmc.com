@@ -31,6 +31,13 @@ https://www.armandoruizmc.com/auth/callback
 http://localhost:3000/auth/callback
 ```
 
+Si Supabase no respeta el `next` usado en confirmacion o recuperacion, agregar tambien:
+
+```text
+https://armandoruizmc.com/auth/callback?next=/mi-cuenta
+https://armandoruizmc.com/auth/callback?next=/auth/restablecer
+```
+
 Si pruebas localmente en otro puerto, agrega tambien esa URL, por ejemplo:
 
 ```text
@@ -38,6 +45,29 @@ http://localhost:3001/auth/callback
 ```
 
 4. Revisar las plantillas de correo de confirmacion y recuperacion para que mencionen `armandoruizmc.com`.
+
+## Correos transaccionales
+
+Supabase Auth puede mandar correos de confirmacion y recuperacion, pero el SMTP default de Supabase no es para produccion. Para que lleguen correos a ciudadanos reales:
+
+1. Crear/conectar Resend.
+2. Verificar `armandoruizmc.com` en Resend.
+3. Configurar DNS del dominio: SPF, DKIM y DMARC.
+4. En Supabase Dashboard ir a **Authentication** -> **SMTP Settings**.
+5. Activar Custom SMTP con los datos de Resend.
+6. Mantener `mailer_autoconfirm` apagado para exigir confirmacion de correo.
+7. Revisar estas plantillas en **Authentication** -> **Email Templates**:
+   - Confirm signup.
+   - Reset password.
+
+Los correos de citas no los manda Supabase Auth. Esos se deben enviar desde la app con `RESEND_API_KEY` en Vercel y codigo server-side:
+
+- Bienvenida despues de confirmar cuenta.
+- Cita creada y pendiente de revision.
+- Cita confirmada.
+- Cita rechazada.
+- Cita cancelada por admin.
+- Cita cancelada por ciudadano.
 
 ## Administrador inicial
 

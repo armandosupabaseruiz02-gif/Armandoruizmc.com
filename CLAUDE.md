@@ -41,7 +41,7 @@ Comandos: `npm run dev` · `npm run build` · `npm run start` · `npm run lint`.
 3. **Panel admin** — gestiona citas y modera perfiles de donación; va hacia mini-CRM.
 
 ## Estado y pendientes
-Ver **`PENDIENTES.md`** (nota viva, actualízala al hacer cambios). Resumen de lo más importante por hacer: comprar dominio + reapuntar git/Vercel a la cuenta nueva; completar Aviso de Privacidad + revisión jurídica; contenido real (foto del diputado, contacto del footer, token de Instagram, casos reales de Donar); recordatorios por WhatsApp; "Mi Expediente" (subir documentos); home como lanzador de tareas; reemplazar `prompt/confirm/alert` por modales accesibles.
+Ver **`PENDIENTES.md`** (nota viva, actualízala al hacer cambios). Estado actual: GitHub, Vercel y dominio `armandoruizmc.com` ya están conectados en cuentas del diputado; Supabase Auth ya recibe registro, confirmación por correo y login en producción. Prioridad inmediata: configurar correo transaccional de producción con Resend/SMTP, asegurar Redirect URLs de Supabase Auth, implementar correos de citas, completar Aviso de Privacidad + revisión jurídica, contenido real (foto del diputado, contacto del footer, token de Instagram, casos reales de Donar), recordatorios por WhatsApp y "Mi Expediente" (subir documentos).
 
 ## Al terminar un cambio
 - Actualiza `PENDIENTES.md` (marca `[x]` lo hecho, agrega lo nuevo).

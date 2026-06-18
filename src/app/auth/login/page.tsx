@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { getSafeRedirect } from "@/lib/auth/redirect";
 import { getSafeEmail } from "@/lib/auth/email";
@@ -23,6 +23,12 @@ function getLoginErrorInfo(message: string | undefined) {
   if (message === "supabase-config") {
     return {
       message: "Falta conectar Supabase en Vercel. Agrega NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+      showRegisterHelp: false,
+    };
+  }
+  if (message === "auth-timeout") {
+    return {
+      message: "El inicio de sesión tardó demasiado. Revisa tu conexión e intenta de nuevo.",
       showRegisterHelp: false,
     };
   }
@@ -49,8 +55,21 @@ function getLoginErrorInfo(message: string | undefined) {
   };
 }
 
+async function withTimeout<T>(promise: Promise<T>, milliseconds: number): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  const timeout = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error("auth-timeout")), milliseconds);
+  });
+
+  try {
+    return await Promise.race([promise, timeout]);
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
+
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = getSafeRedirect(searchParams.get("redirectTo"));
   const configError = searchParams.get("error") === "supabase-config";
@@ -74,13 +93,20 @@ function LoginForm() {
 
     try {
       const supabase = createClient();
-      const result = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const result = await withTimeout(
+        supabase.auth.signInWithPassword({
+          email,
+          password,
+        }),
+        15000
+      );
       authError = result.error;
-    } catch {
-      authError = { message: "supabase-config" };
+    } catch (error) {
+      authError = {
+        message: error instanceof Error && error.message === "auth-timeout"
+          ? "auth-timeout"
+          : "supabase-config",
+      };
     }
 
     if (authError) {
@@ -91,8 +117,8 @@ function LoginForm() {
       return;
     }
 
-    router.push(redirectTo);
-    router.refresh();
+    window.location.assign(redirectTo);
+    setTimeout(() => setLoading(false), 8000);
   }
 
   return (

@@ -5,14 +5,34 @@
 
 ## Estado actual
 
-- Codigo local: lint y build de produccion correctos (23 rutas, 2026-06-17).
+- Codigo local: lint y build de produccion correctos (23 rutas, 2026-06-18).
 - GitHub oficial: `armandosupabaseruiz02-gif/Armandoruizmc.com`.
 - Supabase local: variables configuradas en `.env.local`.
 - Vercel: proyecto `armandoruizmc-com`; dominio conectado `https://armandoruizmc.com`.
 - Dominio principal: `armandoruizmc.com`.
+- Supabase Auth en produccion: registro, confirmacion por correo y login ya llegan a Supabase; falta endurecer correo SMTP y probar flujo completo.
 - Instagram API: sin token configurado.
 
 ## 1. Bloqueadores de lanzamiento
+
+### Prioridad cero: correos transaccionales y login estable
+
+- [x] Confirmar que Supabase ya envia correo de confirmacion desde produccion.
+- [x] Confirmar que Supabase registra login exitoso despues de confirmar correo.
+- [x] Corregir login para que no se quede cargando si la navegacion posterior falla.
+- [ ] **MANUAL - Resend/Vercel:** crear o conectar cuenta Resend para correo transaccional.
+- [ ] **MANUAL - DNS:** verificar `armandoruizmc.com` en Resend con SPF, DKIM y DMARC.
+- [ ] **MANUAL - Vercel:** agregar `RESEND_API_KEY` en Production y Preview.
+- [ ] **MANUAL - Supabase Auth:** configurar Custom SMTP usando Resend para confirmacion de cuenta y recuperacion de contrasena.
+- [ ] **MANUAL - Supabase Auth:** revisar plantillas de `Confirm signup` y `Reset password` con tono oficial y enlaces a `armandoruizmc.com`.
+- [ ] Implementar correos propios de la app:
+  - [ ] Bienvenida despues de confirmar cuenta.
+  - [ ] Cita creada en estado pendiente.
+  - [ ] Cita confirmada por admin.
+  - [ ] Cita rechazada por admin.
+  - [ ] Cita cancelada por admin.
+  - [ ] Cita cancelada por ciudadano.
+- [ ] Probar flujo final: registro -> correo confirmacion -> confirmar -> login -> crear cita -> correo pendiente -> admin confirma/cancela -> correo de estado.
 
 ### Base de datos y seguridad
 
@@ -33,14 +53,18 @@
 - [x] Subir a GitHub los cambios locales verificados.
 - [x] **MANUAL - Cuenta del diputado:** comprar o confirmar la propiedad de `armandoruizmc.com`.
 - [x] Conectar el repositorio oficial a Vercel en la cuenta del diputado.
-- [ ] Confirmar en Vercel `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Production.
+- [x] Confirmar en Vercel `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Production.
 - [x] Conectar el dominio al proyecto de Vercel y esperar DNS/SSL.
 - [ ] Configurar Supabase Auth:
   - Site URL: `https://armandoruizmc.com`.
   - Redirect URL: `https://armandoruizmc.com/auth/callback`.
+  - Redirect URL con query para confirmacion/restablecimiento si Supabase lo requiere:
+    `https://armandoruizmc.com/auth/callback?next=/mi-cuenta`
+    `https://armandoruizmc.com/auth/callback?next=/auth/restablecer`
   - Redirect URL adicional si se usara `www`: `https://www.armandoruizmc.com/auth/callback`.
   - Redirect URL local para pruebas: `http://localhost:3000/auth/callback`.
   - Plantillas de confirmacion y recuperacion de contrasena.
+  - Custom SMTP para envios reales a ciudadanos.
 - [ ] Prueba final en produccion: registro -> confirmar correo -> login -> solicitar cita -> aceptar/rechazar en admin -> cancelar desde Mi Cuenta.
 
 ## 2. Funciones terminadas en codigo, pendientes de activacion
@@ -112,4 +136,4 @@
 - [x] Bot de orientacion gratuita agregado en Programas Sociales para sustituir el envio directo por correo.
 - [x] Formularios internos agregados para postulaciones, vacantes, aliados, donaciones y accesibilidad.
 - [x] Bandeja admin creada en `/admin/solicitudes`.
-- [ ] **MANUAL - Supabase:** aplicar `supabase/migrations/20260617_contact_requests.sql` para activar solicitudes internas.
+- [x] **MANUAL - Supabase:** aplicar `supabase/migrations/20260617_contact_requests.sql` para activar solicitudes internas.
