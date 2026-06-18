@@ -80,6 +80,14 @@ export default function AdminPanel({
     setLoading(null);
   }
 
+  async function notifyAppointmentStatus(id: string, type: string, reason?: string) {
+    await fetch("/api/appointments/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type, appointmentId: id, reason }),
+    }).catch(() => null);
+  }
+
   async function handleAccept(id: string) {
     setLoading(id);
     setError("");
@@ -89,7 +97,10 @@ export default function AdminPanel({
       .update({ status: "confirmed", cancelled_reason: null })
       .eq("id", id);
     if (updateError) setError("No se pudo aceptar la cita.");
-    else router.refresh();
+    else {
+      await notifyAppointmentStatus(id, "confirmed");
+      router.refresh();
+    }
     setLoading(null);
   }
 
@@ -102,7 +113,10 @@ export default function AdminPanel({
       .update({ status: "rejected", cancelled_reason: reason || null })
       .eq("id", id);
     if (updateError) setError("No se pudo rechazar la cita.");
-    else router.refresh();
+    else {
+      await notifyAppointmentStatus(id, "rejected", reason);
+      router.refresh();
+    }
     setLoading(null);
     setRejectTargetId(null);
   }
@@ -128,7 +142,10 @@ export default function AdminPanel({
       cancelled_reason: reason || null,
     }).eq("id", id);
     if (updateError) setError("No se pudo cancelar la cita.");
-    else router.refresh();
+    else {
+      await notifyAppointmentStatus(id, "cancelled_by_admin", reason);
+      router.refresh();
+    }
     setLoading(null);
     setCancelTargetId(null);
   }

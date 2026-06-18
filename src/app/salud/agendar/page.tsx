@@ -78,6 +78,7 @@ export default async function AgendarPage() {
         <div className="max-w-4xl mx-auto px-5 sm:px-8">
           <BookingCalendar
             userId={user.id}
+            userEmail={user.email ?? ""}
             defaultName={profile?.full_name ?? ""}
             defaultPhone={profile?.phone ?? ""}
             defaultCurp={profile?.curp ?? ""}

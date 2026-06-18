@@ -66,6 +66,11 @@ export default function UserDashboard({
     if (updateError) {
       setError("No se pudo cancelar. Intenta de nuevo.");
     } else {
+      await fetch("/api/appointments/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "cancelled_by_citizen", appointmentId: id }),
+      }).catch(() => null);
       router.refresh();
     }
     setCancelling(null);

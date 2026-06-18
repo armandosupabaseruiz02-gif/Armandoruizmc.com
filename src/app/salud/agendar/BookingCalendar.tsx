@@ -36,6 +36,7 @@ function toDateStr(y: number, m: number, d: number) {
 
 interface Props {
   userId: string;
+  userEmail: string;
   defaultName: string;
   defaultPhone: string;
   defaultCurp: string;
@@ -46,7 +47,7 @@ interface Props {
 type Step = "calendar" | "slots" | "form" | "confirm";
 
 export default function BookingCalendar({
-  userId, defaultName, defaultPhone, defaultCurp,
+  userId, userEmail, defaultName, defaultPhone, defaultCurp,
   bookedSlots, blockedDays,
 }: Props) {
   const router = useRouter();
@@ -117,8 +118,9 @@ export default function BookingCalendar({
     setError("");
 
     const supabase = createClient();
-    const { error: insertError } = await supabase.from("appointments").insert({
+    const appointmentRecord = {
       citizen_id: userId,
+      citizen_email: userEmail,
       appointment_date: selectedDate,
       slot_time: selectedTime + ":00",
       full_name: fullName.trim(),
@@ -128,7 +130,25 @@ export default function BookingCalendar({
       motive: `[${TOPIC_LABELS[topic]}] ${motive.trim()}`,
       modality,
       status: "pending",
-    });
+    };
+
+    let { data: createdAppointment, error: insertError } = await supabase
+      .from("appointments")
+      .insert(appointmentRecord)
+      .select("id")
+      .single();
+
+    if (insertError && insertError.message.toLowerCase().includes("citizen_email")) {
+      const { citizen_email: _citizenEmail, ...recordWithoutEmail } = appointmentRecord;
+      const retry = await supabase
+        .from("appointments")
+        .insert(recordWithoutEmail)
+        .select("id")
+        .single();
+
+      createdAppointment = retry.data;
+      insertError = retry.error;
+    }
 
     if (insertError) {
       if (insertError.code === "23505") {
@@ -139,6 +159,23 @@ export default function BookingCalendar({
       setLoading(false);
       return;
     }
+
+    await fetch("/api/appointments/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "created",
+        appointment: {
+          id: createdAppointment?.id,
+          fullName: fullName.trim(),
+          phone: phone.trim(),
+          date: selectedDate,
+          time: selectedTime + ":00",
+          motive: `[${TOPIC_LABELS[topic]}] ${motive.trim()}`,
+          modality,
+        },
+      }),
+    }).catch(() => null);
 
     setStep("confirm");
     setLoading(false);

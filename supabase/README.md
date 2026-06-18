@@ -10,7 +10,8 @@ Las migraciones de esta carpeta son la fuente versionada del esquema y sus permi
 4. Ejecutar, en orden:
    - `migrations/20260614_secure_appointments_workflow.sql`
    - `migrations/20260617_contact_requests.sql`
-5. Probar registro, cita pendiente, aceptacion, rechazo, cancelacion y solicitudes internas.
+   - `migrations/20260618_appointment_email_notifications.sql`
+5. Probar registro, cita pendiente, aceptacion, rechazo, cancelacion, correos de citas y solicitudes internas.
 
 ## Auth y dominio
 
@@ -62,8 +63,14 @@ Supabase Auth puede mandar correos de confirmacion y recuperacion, pero el SMTP 
 
 Los correos de citas no los manda Supabase Auth. Esos se deben enviar desde la app con `RESEND_API_KEY` en Vercel y codigo server-side:
 
-- Bienvenida despues de confirmar cuenta.
-- Cita creada y pendiente de revision.
+- `RESEND_API_KEY`: llave privada de Resend. Requerida para enviar.
+- `APPOINTMENTS_ADMIN_EMAIL`: correo interno que recibe avisos de citas nuevas. Opcional pero recomendado.
+- `EMAIL_FROM`: remitente, por ejemplo `Portal Armando Ruiz <noreply@armandoruizmc.com>`. Opcional; si falta, la app usa ese valor por defecto.
+
+Ya esta versionado el envio de:
+
+- Cita creada y pendiente de revision al ciudadano.
+- Aviso de cita nueva al admin si `APPOINTMENTS_ADMIN_EMAIL` existe.
 - Cita confirmada.
 - Cita rechazada.
 - Cita cancelada por admin.

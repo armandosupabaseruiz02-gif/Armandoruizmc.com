@@ -5,12 +5,12 @@
 
 ## Estado actual
 
-- Codigo local: lint y build de produccion correctos (23 rutas, 2026-06-18).
+- Codigo local: lint y build de produccion correctos (24 rutas, 2026-06-18).
 - GitHub oficial: `armandosupabaseruiz02-gif/Armandoruizmc.com`.
 - Supabase local: variables configuradas en `.env.local`.
 - Vercel: proyecto `armandoruizmc-com`; dominio conectado `https://armandoruizmc.com`.
 - Dominio principal: `armandoruizmc.com`.
-- Supabase Auth en produccion: registro, confirmacion por correo y login ya llegan a Supabase; falta endurecer correo SMTP y probar flujo completo.
+- Supabase Auth en produccion: registro, confirmacion por correo y login ya llegan a Supabase; Custom SMTP con Resend configurado manualmente el 2026-06-18; falta prueba completa.
 - Instagram API: sin token configurado.
 
 ## 1. Bloqueadores de lanzamiento
@@ -20,18 +20,20 @@
 - [x] Confirmar que Supabase ya envia correo de confirmacion desde produccion.
 - [x] Confirmar que Supabase registra login exitoso despues de confirmar correo.
 - [x] Corregir login para que no se quede cargando si la navegacion posterior falla.
-- [ ] **MANUAL - Resend/Vercel:** crear o conectar cuenta Resend para correo transaccional.
-- [ ] **MANUAL - DNS:** verificar `armandoruizmc.com` en Resend con SPF, DKIM y DMARC.
+- [x] **MANUAL - Resend:** crear o conectar cuenta Resend para correo transaccional.
+- [x] **MANUAL - DNS:** verificar `armandoruizmc.com` en Resend con SPF, DKIM y DMARC.
 - [ ] **MANUAL - Vercel:** agregar `RESEND_API_KEY` en Production y Preview.
-- [ ] **MANUAL - Supabase Auth:** configurar Custom SMTP usando Resend para confirmacion de cuenta y recuperacion de contrasena.
+- [ ] **MANUAL - Vercel:** agregar `APPOINTMENTS_ADMIN_EMAIL` con el correo que recibira avisos de citas nuevas.
+- [x] **MANUAL - Supabase Auth:** configurar Custom SMTP usando Resend para confirmacion de cuenta y recuperacion de contrasena.
 - [ ] **MANUAL - Supabase Auth:** revisar plantillas de `Confirm signup` y `Reset password` con tono oficial y enlaces a `armandoruizmc.com`.
 - [ ] Implementar correos propios de la app:
   - [ ] Bienvenida despues de confirmar cuenta.
-  - [ ] Cita creada en estado pendiente.
-  - [ ] Cita confirmada por admin.
-  - [ ] Cita rechazada por admin.
-  - [ ] Cita cancelada por admin.
-  - [ ] Cita cancelada por ciudadano.
+  - [x] Cita creada en estado pendiente.
+  - [x] Cita confirmada por admin.
+  - [x] Cita rechazada por admin.
+  - [x] Cita cancelada por admin.
+  - [x] Cita cancelada por ciudadano.
+- [ ] **MANUAL - Supabase:** ejecutar `supabase/migrations/20260618_appointment_email_notifications.sql` para guardar el correo del ciudadano en cada cita.
 - [ ] Probar flujo final: registro -> correo confirmacion -> confirmar -> login -> crear cita -> correo pendiente -> admin confirma/cancela -> correo de estado.
 
 ### Base de datos y seguridad
@@ -81,6 +83,8 @@
 - [x] Aplicar las migraciones Supabase para activar citas, seguridad y solicitudes internas en la base real:
   - `supabase/migrations/20260614_secure_appointments_workflow.sql`
   - `supabase/migrations/20260617_contact_requests.sql`
+- [ ] Aplicar la migracion para correos de citas:
+  - `supabase/migrations/20260618_appointment_email_notifications.sql`
 - [x] Endurecer permisos de funciones Supabase:
   - `supabase/migrations/20260618_harden_function_permissions.sql`
   - `supabase/migrations/20260618_revoke_unused_get_my_role.sql`
