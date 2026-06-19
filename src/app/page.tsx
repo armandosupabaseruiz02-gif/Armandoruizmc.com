@@ -1,4 +1,3 @@
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import AyudaHoy from "@/components/sections/AyudaHoy";
@@ -13,7 +12,6 @@ import Donar from "@/components/sections/Donar";
 export default function HomePage() {
   return (
     <>
-      <Navbar />
       <main id="contenido-principal" tabIndex={-1}>
         <Hero />
         {/* Lanzador de tareas: atajo prioritario; el scroll informativo sigue debajo */}

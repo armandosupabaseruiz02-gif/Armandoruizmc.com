@@ -142,3 +142,4 @@
 - [x] Restablecimiento de contrasena con confirmacion y medidor de seguridad.
 - [x] Modales principales con cierre por Escape y trampa de foco por teclado.
 - [x] Dependencias actualizadas a Next `16.2.9`, React `19.2.4` y audit de produccion limpio.
+- [x] Header/navbar global retirado por solicitud del cliente.
