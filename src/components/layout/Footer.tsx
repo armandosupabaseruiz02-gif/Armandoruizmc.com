@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Instagram, Phone, Mail, MapPin } from "lucide-react";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
@@ -9,7 +10,7 @@ const serviciosLinks = [
   { href: "/salud",              label: "Gestiones de Salud" },
   { href: "/programas-sociales", label: "Programas Sociales" },
   { href: "/bolsa-trabajo",      label: "Bolsa de Trabajo" },
-  { href: "/secretarias",        label: "Secretarías del Estado" },
+  { href: "/secretarias",        label: "Secretarías CDMX" },
   { href: "/aliados",            label: "Aliados" },
 ];
 
@@ -21,13 +22,21 @@ const infoLinks = [
   { href: "#donar",         label: "Donar" },
 ];
 
-function handleAnchor(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+function handleAnchor(e: React.MouseEvent<HTMLAnchorElement>, href: string, isHome: boolean) {
   if (!href.startsWith("#")) return;
+  if (!isHome) return;
   e.preventDefault();
   lenisScrollTo(href);
 }
 
+function getAnchorHref(href: string, isHome: boolean) {
+  return href.startsWith("#") && !isHome ? `/${href}` : href;
+}
+
 export default function Footer() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
   return (
     <footer style={{ backgroundColor: "#18120d" }} role="contentinfo">
       <div className="h-1 bg-gradient-to-r from-naranja-400 via-naranja-500 to-naranja-400" />
@@ -105,8 +114,8 @@ export default function Footer() {
               {infoLinks.map((link) => (
                 <li key={link.href}>
                   <a
-                    href={link.href}
-                    onClick={(e) => handleAnchor(e, link.href)}
+                    href={getAnchorHref(link.href, isHome)}
+                    onClick={(e) => handleAnchor(e, link.href, isHome)}
                     className="text-white/45 hover:text-naranja-400 text-[14px] transition-colors
                                flex items-center gap-2 group cursor-pointer
                                focus-visible:outline-2 focus-visible:outline-naranja-400"
@@ -131,16 +140,9 @@ export default function Footer() {
                   Cámara de Diputados,<br />Ciudad de México
                 </span>
               </li>
-              <li>
-                <a
-                  href="tel:+525555555555"
-                  className="flex items-center gap-3 text-white/45 hover:text-naranja-400 text-[14px]
-                             transition-colors focus-visible:outline-2 focus-visible:outline-naranja-400"
-                  aria-label="Llamar al teléfono de la oficina"
-                >
-                  <Phone className="w-4 h-4 text-naranja-400 flex-shrink-0" aria-hidden="true" />
-                  (55) 5555-5555
-                </a>
+              <li className="flex items-center gap-3 text-white/45 text-[14px]">
+                <Phone className="w-4 h-4 text-naranja-400 flex-shrink-0" aria-hidden="true" />
+                Teléfono oficial por confirmar
               </li>
               <li>
                 <Link

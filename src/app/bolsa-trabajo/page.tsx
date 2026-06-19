@@ -6,8 +6,8 @@ import InternalRequestButton from "@/components/ui/InternalRequestButton";
 import { Briefcase, ArrowLeft, MapPin, Clock, Building, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Bolsa de Trabajo | Armando Ruiz Diputado",
-  description: "Empleos inclusivos para personas con discapacidad en el Estado de México. Empresas comprometidas con la inclusión laboral.",
+  title: "Bolsa de Trabajo",
+  description: "Empleos inclusivos para personas con discapacidad en la Ciudad de México. Empresas comprometidas con la inclusión laboral.",
 };
 
 const vacantes = [
@@ -104,7 +104,7 @@ export default function BolsaTrabajoPage() {
               <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Inclusivo</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
-              Vacantes de empleos dignos para personas con discapacidad en el Estado de México.
+              Vacantes de empleos dignos para personas con discapacidad en la Ciudad de México.
               Empresas comprometidas con la inclusión laboral real.
             </p>
           </FadeIn>

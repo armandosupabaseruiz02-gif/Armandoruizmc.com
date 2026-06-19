@@ -84,6 +84,7 @@ export default function Hero() {
             {/* Título con word reveal */}
             <h1
               id="hero-titulo"
+              aria-label="Por una CDMX más Accesible e Incluyente"
               className="text-[48px] sm:text-[64px] lg:text-[72px] font-black
                          text-gray-900 leading-[1.0] tracking-tight"
             >

@@ -6,8 +6,8 @@ import OrientationBot from "@/components/sections/OrientationBot";
 import { ScrollText, ArrowLeft, Users, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Programas Sociales | Armando Ruiz Diputado",
-  description: "Catálogo de programas sociales gubernamentales para personas con discapacidad en el Estado de México.",
+  title: "Programas Sociales",
+  description: "Catálogo de programas sociales gubernamentales para personas con discapacidad en la Ciudad de México.",
 };
 
 const programas = [
@@ -26,8 +26,8 @@ const programas = [
     monto: "$1,600 bimestrales",
     beneficio: "Apoyo económico para continuar o reincorporarse a estudios de básica, media y superior.",
     requisitos: ["Estar inscrito en escuela pública", "Tener discapacidad certificada", "CURP y comprobante de estudios"],
-    color: "border-blue-200 bg-blue-50",
-    tag: "bg-blue-600",
+    color: "border-amber-200 bg-amber-50",
+    tag: "bg-amber-600",
   },
   {
     nombre: "Programa Inclúyeme – Empleo con Apoyo",
@@ -44,8 +44,8 @@ const programas = [
     monto: "$1,900 mensuales",
     beneficio: "Para familiares que cuidan de tiempo completo a personas con discapacidad severa.",
     requisitos: ["Ser cuidador primario de persona con discapacidad severa", "No recibir otro apoyo del mismo programa", "Comprobante domicilio CDMX"],
-    color: "border-violet-200 bg-violet-50",
-    tag: "bg-violet-600",
+    color: "border-red-200 bg-red-50",
+    tag: "bg-red-600",
   },
   {
     nombre: "Apoyo para Adaptación de Vivienda",
@@ -75,7 +75,7 @@ export default function ProgramasSocialesPage() {
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute inset-0 bg-grid-pattern opacity-30" />
           <div className="absolute bottom-0 left-1/2 w-[600px] h-[400px] rounded-full
-                          bg-blue-500/10 blur-[100px] -translate-x-1/2" />
+                          bg-naranja-500/10 blur-[100px] -translate-x-1/2" />
         </div>
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8">
           <FadeIn>
@@ -86,7 +86,7 @@ export default function ProgramasSocialesPage() {
             </Link>
 
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center">
+              <div className="w-16 h-16 rounded-2xl bg-naranja-500 flex items-center justify-center">
                 <ScrollText className="w-8 h-8 text-white" />
               </div>
               <span className="section-badge-dark">Programas Sociales</span>

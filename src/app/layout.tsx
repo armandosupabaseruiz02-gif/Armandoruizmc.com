@@ -11,7 +11,7 @@ const atkinson = Atkinson_Hyperlegible({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://armandoruizmc.com"),
+  metadataBase: new URL("https://www.armandoruizmc.com"),
   title: {
     default: "Armando Ruiz | Diputado Federal · Movimiento Naranja",
     template: "%s | Armando Ruiz Diputado",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Armando Ruiz | Diputado Federal",
     description: "Apoyos y servicios para personas con discapacidad en la Ciudad de México",
-    url: "https://armandoruizmc.com",
+    url: "https://www.armandoruizmc.com",
     siteName: "Armando Ruiz · Diputado Federal",
     locale: "es_MX",
     type: "website",

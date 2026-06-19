@@ -5,7 +5,7 @@ import PageWrapper from "@/components/layout/PageWrapper";
 import UserDashboard from "./UserDashboard";
 
 export const metadata: Metadata = {
-  title: "Mis Citas | Armando Ruiz Diputado",
+  title: "Mis Citas",
   description: "Gestiona tus citas de salud agendadas con el equipo del Diputado Armando Ruiz.",
 };
 

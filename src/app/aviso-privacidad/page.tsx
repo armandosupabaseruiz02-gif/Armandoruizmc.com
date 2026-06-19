@@ -4,7 +4,7 @@ import PageWrapper from "@/components/layout/PageWrapper";
 import { ArrowLeft, ShieldCheck, AlertTriangle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Aviso de Privacidad | Armando Ruiz Diputado",
+  title: "Aviso de Privacidad",
   description:
     "Aviso de Privacidad Integral conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.",
 };

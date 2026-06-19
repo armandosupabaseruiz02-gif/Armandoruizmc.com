@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X, Heart, User } from "lucide-react";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
@@ -19,15 +20,26 @@ const navLinks = [
 function handleAnchorClick(
   e: React.MouseEvent<HTMLAnchorElement>,
   href: string,
+  isHome: boolean,
   closeMobile?: () => void,
 ) {
   if (!href.startsWith("#")) return;
+  if (!isHome) {
+    closeMobile?.();
+    return;
+  }
   e.preventDefault();
   closeMobile?.();
   lenisScrollTo(href);
 }
 
+function getAnchorHref(href: string, isHome: boolean) {
+  return href.startsWith("#") && !isHome ? `/${href}` : href;
+}
+
 export default function Navbar() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [open, setOpen]         = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden]     = useState(false);
@@ -113,8 +125,8 @@ export default function Navbar() {
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <a
-                    href={link.href}
-                    onClick={(e) => handleAnchorClick(e, link.href)}
+                    href={getAnchorHref(link.href, isHome)}
+                    onClick={(e) => handleAnchorClick(e, link.href, isHome)}
                     className={`px-3 py-2 text-[14px] font-semibold rounded-xl whitespace-nowrap
                                 transition-all duration-300 cursor-pointer
                                 focus-visible:outline-2 focus-visible:outline-naranja-500 ${
@@ -145,8 +157,8 @@ export default function Navbar() {
                 Mi cuenta
               </Link>
               <a
-                href="#donar"
-                onClick={(e) => handleAnchorClick(e, "#donar")}
+                href={getAnchorHref("#donar", isHome)}
+                onClick={(e) => handleAnchorClick(e, "#donar", isHome)}
                 className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5
                            bg-naranja-500 hover:bg-naranja-600
                            text-white font-bold text-[14px] whitespace-nowrap
@@ -210,11 +222,11 @@ export default function Navbar() {
                   transition={{ delay: 0.05 * i + 0.1 }}
                 >
                   <a
-                    href={link.href}
+                    href={getAnchorHref(link.href, isHome)}
                     className="flex items-center min-h-[60px] text-[24px] font-black
                                text-gray-900 hover:text-naranja-600 transition-colors py-2
                                focus-visible:outline-2 focus-visible:outline-naranja-500"
-                    onClick={(e) => handleAnchorClick(e, link.href, () => setOpen(false))}
+                    onClick={(e) => handleAnchorClick(e, link.href, isHome, () => setOpen(false))}
                   >
                     {link.label}
                   </a>
@@ -237,9 +249,9 @@ export default function Navbar() {
                 Mi cuenta
               </Link>
               <a
-                href="#donar"
+                href={getAnchorHref("#donar", isHome)}
                 className="btn-primary w-full justify-center text-[18px]"
-                onClick={(e) => handleAnchorClick(e, "#donar", () => setOpen(false))}
+                onClick={(e) => handleAnchorClick(e, "#donar", isHome, () => setOpen(false))}
               >
                 <Heart className="w-5 h-5" fill="white" aria-hidden="true" />
                 Donar ahora

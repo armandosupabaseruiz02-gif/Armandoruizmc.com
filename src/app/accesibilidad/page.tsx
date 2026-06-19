@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Accesibilidad | Armando Ruiz Diputado",
+  title: "Accesibilidad",
   description:
     "Declaración de Accesibilidad del portal del Diputado Armando Ruiz. Nuestro compromiso con un sitio usable para todas las personas.",
 };

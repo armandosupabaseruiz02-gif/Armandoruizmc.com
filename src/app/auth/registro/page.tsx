@@ -9,11 +9,11 @@ import { getSafeEmail } from "@/lib/auth/email";
 import { HeartPulse, Eye, EyeOff, ArrowLeft, UserPlus, CheckCircle2, Circle } from "lucide-react";
 
 const PASSWORD_RULES = [
-  { label: "8 caracteres o mas", test: (value: string) => value.length >= 8 },
-  { label: "Una mayuscula", test: (value: string) => /[A-ZÁÉÍÓÚÑ]/.test(value) },
-  { label: "Una minuscula", test: (value: string) => /[a-záéíóúñ]/.test(value) },
-  { label: "Un numero", test: (value: string) => /\d/.test(value) },
-  { label: "Un simbolo", test: (value: string) => /[^A-Za-zÁÉÍÓÚÑáéíóúñ0-9]/.test(value) },
+  { label: "8 caracteres o más", test: (value: string) => value.length >= 8 },
+  { label: "Una mayúscula", test: (value: string) => /[A-ZÁÉÍÓÚÑ]/.test(value) },
+  { label: "Una minúscula", test: (value: string) => /[a-záéíóúñ]/.test(value) },
+  { label: "Un número", test: (value: string) => /\d/.test(value) },
+  { label: "Un símbolo", test: (value: string) => /[^A-Za-zÁÉÍÓÚÑáéíóúñ0-9]/.test(value) },
 ];
 
 function getPasswordScore(password: string) {
@@ -21,8 +21,8 @@ function getPasswordScore(password: string) {
 }
 
 function getStrengthInfo(score: number) {
-  if (score <= 1) return { label: "Muy debil", color: "bg-red-500", text: "text-red-700", width: "w-1/5" };
-  if (score === 2) return { label: "Debil", color: "bg-orange-500", text: "text-orange-700", width: "w-2/5" };
+  if (score <= 1) return { label: "Muy débil", color: "bg-red-500", text: "text-red-700", width: "w-1/5" };
+  if (score === 2) return { label: "Débil", color: "bg-orange-500", text: "text-orange-700", width: "w-2/5" };
   if (score === 3) return { label: "Aceptable", color: "bg-amber-500", text: "text-amber-700", width: "w-3/5" };
   if (score === 4) return { label: "Buena", color: "bg-emerald-500", text: "text-emerald-700", width: "w-4/5" };
   return { label: "Muy segura", color: "bg-emerald-600", text: "text-emerald-800", width: "w-full" };

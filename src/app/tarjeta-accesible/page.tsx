@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Tarjeta Accesible CDMX | Armando Ruiz Diputado",
+  title: "Tarjeta Accesible CDMX",
   description: "Conoce cómo tramitar la Tarjeta de Discapacidad CDMX paso a paso, sus beneficios y dónde obtenerla.",
 };
 

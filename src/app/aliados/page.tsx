@@ -6,7 +6,7 @@ import InternalRequestButton from "@/components/ui/InternalRequestButton";
 import { Handshake, ArrowLeft, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Aliados | Armando Ruiz Diputado",
+  title: "Aliados",
   description: "Red de aliados del Diputado Armando Ruiz: organizaciones, fundaciones y empresas comprometidas con la inclusión.",
 };
 
@@ -42,7 +42,7 @@ export default function AliadosPage() {
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
               Construimos una red de organizaciones, fundaciones y empresas comprometidas
-              con la inclusión y los derechos de las personas con discapacidad en el Estado de México.
+              con la inclusión y los derechos de las personas con discapacidad en la Ciudad de México.
             </p>
           </FadeIn>
         </div>

@@ -17,9 +17,9 @@ const valores = [
     icon: Eye,
     titulo: "Nuestra Visión",
     descripcion: "Una Ciudad de México plenamente accesible, donde la discapacidad no sea un obstáculo para el desarrollo personal, laboral y social de nadie.",
-    color: "text-blue-600",
-    bg: "bg-blue-100",
-    border: "border-blue-200",
+    color: "text-naranja-700",
+    bg: "bg-naranja-100",
+    border: "border-naranja-200",
   },
   {
     icon: Shield,

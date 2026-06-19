@@ -41,6 +41,17 @@ function escapeHtml(value: string) {
     .replace(/"/g, "&quot;");
 }
 
+function getSafeHttpUrl(value?: string | null) {
+  if (!value) return "";
+
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:" ? url.toString() : "";
+  } catch {
+    return "";
+  }
+}
+
 function layout(title: string, intro: string, details: string, footer?: string) {
   return `
     <div style="margin:0;padding:0;background:#f7f4ef;font-family:Arial,sans-serif;color:#1f2937;">
@@ -59,7 +70,7 @@ function layout(title: string, intro: string, details: string, footer?: string) 
             ${details}
           </div>
           <p style="margin:0;font-size:14px;line-height:1.6;color:#6b7280;">
-            ${footer || "Puedes revisar tus citas desde Mi Cuenta en armandoruizmc.com."}
+            ${footer || "Puedes revisar tus citas desde Mi Cuenta en www.armandoruizmc.com."}
           </p>
         </div>
       </div>
@@ -68,8 +79,9 @@ function layout(title: string, intro: string, details: string, footer?: string) 
 }
 
 function appointmentDetails(data: AppointmentEmailData) {
-  const meetingLink = data.meetingLink
-    ? `<p style="margin:10px 0 0;"><strong>Enlace:</strong> <a href="${escapeHtml(data.meetingLink)}">${escapeHtml(data.meetingLink)}</a></p>`
+  const safeMeetingLink = getSafeHttpUrl(data.meetingLink);
+  const meetingLink = safeMeetingLink
+    ? `<p style="margin:10px 0 0;"><strong>Enlace:</strong> <a href="${escapeHtml(safeMeetingLink)}">${escapeHtml(safeMeetingLink)}</a></p>`
     : "";
   const reason = data.reason
     ? `<p style="margin:10px 0 0;"><strong>Motivo del cambio:</strong> ${escapeHtml(data.reason)}</p>`
@@ -93,7 +105,7 @@ function textDetails(data: AppointmentEmailData) {
     `Hora: ${formatTime(data.time)}`,
     `Modalidad: ${modalityLabel(data.modality)}`,
     `Motivo: ${data.motive}`,
-    data.meetingLink ? `Enlace: ${data.meetingLink}` : "",
+    getSafeHttpUrl(data.meetingLink) ? `Enlace: ${getSafeHttpUrl(data.meetingLink)}` : "",
     data.reason ? `Motivo del cambio: ${data.reason}` : "",
   ].filter(Boolean).join("\n");
 }
@@ -156,5 +168,17 @@ export function citizenAppointmentCancelledEmail(data: AppointmentEmailData): Em
       appointmentDetails(data)
     ),
     text: `Tu cita fue cancelada.\n\n${textDetails(data)}`,
+  };
+}
+
+export function citizenAppointmentMeetingLinkEmail(data: AppointmentEmailData): EmailContent {
+  return {
+    subject: "Enlace de videollamada de tu cita",
+    html: layout(
+      "Enlace de videollamada listo",
+      "El equipo agregó el enlace para tu cita en línea. Guárdalo y entra unos minutos antes de la hora programada.",
+      appointmentDetails(data)
+    ),
+    text: `Enlace de videollamada listo.\n\n${textDetails(data)}`,
   };
 }

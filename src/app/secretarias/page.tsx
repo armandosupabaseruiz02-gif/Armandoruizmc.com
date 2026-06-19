@@ -5,14 +5,14 @@ import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import { Building2, ArrowLeft, Phone, Globe, ChevronRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Secretarías del Estado | Armando Ruiz Diputado",
+  title: "Secretarías CDMX",
   description: "Directorio de secretarías de gobierno CDMX especializadas en discapacidad, salud e inclusión.",
 };
 
 const secretarias = [
   {
     nombre: "SIBISO – Secretaría de Inclusión y Bienestar Social",
-    descripcion: "Dependencia central para programas sociales, apoyos económicos y servicios de inclusión para personas con discapacidad en el Estado de México.",
+    descripcion: "Dependencia central para programas sociales, apoyos económicos y servicios de inclusión para personas con discapacidad en la Ciudad de México.",
     servicios: ["Pensión para personas con discapacidad", "Apoyo a cuidadores", "Programas de inclusión social"],
     tel: "55 5345-8000",
     url: "https://sibiso.cdmx.gob.mx",
@@ -25,17 +25,17 @@ const secretarias = [
     servicios: ["Aparatos ortopédicos y prótesis", "Sillas de ruedas", "Centros de rehabilitación", "Orientación jurídica"],
     tel: "55 5605-0049",
     url: "https://dif.cdmx.gob.mx",
-    color: "border-blue-200",
-    iconBg: "bg-blue-600",
+    color: "border-emerald-200",
+    iconBg: "bg-emerald-600",
   },
   {
     nombre: "IFDP – Instituto para la Integración al Desarrollo de las Personas con Discapacidad",
-    descripcion: "Institución especializada en la promoción de derechos, accesibilidad e inclusión laboral y social de personas con discapacidad en el Estado de México.",
+    descripcion: "Institución especializada en la promoción de derechos, accesibilidad e inclusión laboral y social de personas con discapacidad en la Ciudad de México.",
     servicios: ["Tarjeta de Discapacidad CDMX", "Asesoría legal", "Vinculación laboral", "Accesibilidad urbana"],
     tel: "55 5652-7940",
     url: "https://ifdp.cdmx.gob.mx",
-    color: "border-violet-200",
-    iconBg: "bg-violet-600",
+    color: "border-amber-200",
+    iconBg: "bg-amber-600",
   },
   {
     nombre: "Secretaría de Salud CDMX",
@@ -92,7 +92,7 @@ export default function SecretariasPage() {
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute inset-0 bg-grid-pattern opacity-30" />
           <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full
-                          bg-violet-500/10 blur-[100px] translate-x-1/4" />
+                          bg-naranja-500/10 blur-[100px] translate-x-1/4" />
         </div>
 
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8">
@@ -104,10 +104,10 @@ export default function SecretariasPage() {
             </Link>
 
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-2xl bg-violet-600 flex items-center justify-center">
+              <div className="w-16 h-16 rounded-2xl bg-naranja-500 flex items-center justify-center">
                 <Building2 className="w-8 h-8 text-white" />
               </div>
-              <span className="section-badge-dark">Secretarías del Estado</span>
+              <span className="section-badge-dark">Secretarías CDMX</span>
             </div>
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">

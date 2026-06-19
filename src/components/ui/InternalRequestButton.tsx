@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -52,6 +52,10 @@ export default function InternalRequestButton({
   const [organization, setOrganization] = useState("");
   const [message, setMessage] = useState("");
   const [consent, setConsent] = useState(false);
+  const [website, setWebsite] = useState("");
+  const [openedAt, setOpenedAt] = useState<number | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const fullNameRef = useRef<HTMLInputElement>(null);
   const titleId = useId();
   const descriptionId = useId();
 
@@ -61,10 +65,61 @@ export default function InternalRequestButton({
     setError("");
   }
 
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const focusId = requestAnimationFrame(() => fullNameRef.current?.focus());
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        if (state !== "loading") {
+          setOpen(false);
+          setError("");
+        }
+        return;
+      }
+
+      if (event.key !== "Tab" || !dialogRef.current) return;
+
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) => element.offsetParent !== null);
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      cancelAnimationFrame(focusId);
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open, state]);
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setState("loading");
     setError("");
+
+    if (website || (openedAt && Date.now() - openedAt < 1500)) {
+      setState("success");
+      return;
+    }
 
     if (!consent) {
       setError("Necesitamos tu autorizacion para usar estos datos y dar seguimiento.");
@@ -94,6 +149,7 @@ export default function InternalRequestButton({
       setOrganization("");
       setMessage("");
       setConsent(false);
+      setWebsite("");
     } catch {
       setState("error");
       setError(
@@ -104,12 +160,20 @@ export default function InternalRequestButton({
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={className}>
+      <button
+        type="button"
+        onClick={() => {
+          setOpen(true);
+          setOpenedAt(Date.now());
+        }}
+        className={className}
+      >
         {children ?? triggerLabel}
       </button>
 
       {open && (
         <div
+          ref={dialogRef}
           className="fixed inset-0 z-[80] flex items-center justify-center bg-gray-950/70 px-4 py-8"
           role="dialog"
           aria-modal="true"
@@ -165,12 +229,25 @@ export default function InternalRequestButton({
                 </div>
               ) : (
                 <>
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor={`${titleId}-website`}>Sitio web</label>
+                    <input
+                      id={`${titleId}-website`}
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={website}
+                      onChange={(event) => setWebsite(event.target.value)}
+                    />
+                  </div>
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="sm:col-span-2">
                       <label className="block text-[13px] font-bold text-gray-700 mb-1">
                         Nombre completo *
                       </label>
                       <input
+                        ref={fullNameRef}
                         required
                         value={fullName}
                         onChange={(event) => setFullName(event.target.value)}

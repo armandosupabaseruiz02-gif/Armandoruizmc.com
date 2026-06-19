@@ -28,7 +28,7 @@ const STATUS_LABELS: Record<string, { label: string; color: string; icon: typeof
   pending:                { label: "Pendiente de revisión", color: "text-amber-800 bg-amber-100 border-amber-200", icon: Hourglass },
   confirmed:              { label: "Confirmada",         color: "text-emerald-700 bg-emerald-100 border-emerald-200", icon: CheckCircle2 },
   rejected:               { label: "No aceptada",        color: "text-red-700 bg-red-100 border-red-200",             icon: XCircle },
-  completed:              { label: "Completada",         color: "text-blue-700 bg-blue-100 border-blue-200",          icon: CheckCircle2 },
+  completed:              { label: "Completada",         color: "text-emerald-700 bg-emerald-100 border-emerald-200", icon: CheckCircle2 },
   cancelled_by_citizen:   { label: "Cancelada por ti",   color: "text-gray-600 bg-gray-100 border-gray-200",          icon: XCircle },
   cancelled_by_admin:     { label: "Cancelada por admin",color: "text-red-700 bg-red-100 border-red-200",             icon: AlertCircle },
 };
@@ -176,7 +176,7 @@ export default function UserDashboard({
                       </div>
                       <div className="flex items-center gap-2 mb-3">
                         {a.modality === "en_linea"
-                          ? <Video className="w-4 h-4 text-violet-600 flex-shrink-0" />
+                          ? <Video className="w-4 h-4 text-naranja-600 flex-shrink-0" />
                           : <Building2 className="w-4 h-4 text-amber-600 flex-shrink-0" />}
                         <span className="text-[14px] font-semibold text-gray-700">
                           {a.modality === "en_linea" ? "Cita en línea (videollamada)" : "Cita presencial"}
@@ -197,14 +197,14 @@ export default function UserDashboard({
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 min-h-[44px] px-5
-                                       bg-violet-600 hover:bg-violet-700 text-white font-bold text-[14px]
+                                       bg-naranja-600 hover:bg-naranja-700 text-white font-bold text-[14px]
                                        rounded-xl transition-colors"
                           >
                             <Video className="w-4 h-4" />
                             Unirse a la videollamada
                           </a>
                         ) : (
-                          <p className="text-[13px] text-violet-700 bg-violet-50 border border-violet-200
+                          <p className="text-[13px] text-naranja-700 bg-naranja-50 border border-naranja-200
                                         rounded-xl px-4 py-2.5 inline-block">
                             Un asesor te enviará el enlace de la videollamada antes de tu cita.
                           </p>

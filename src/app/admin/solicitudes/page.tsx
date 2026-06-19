@@ -4,9 +4,10 @@ import { redirect } from "next/navigation";
 import { ArrowLeft, Inbox, Mail, Phone, UserRound } from "lucide-react";
 import PageWrapper from "@/components/layout/PageWrapper";
 import { createClient } from "@/lib/supabase/server";
+import RequestStatusSelect from "./RequestStatusSelect";
 
 export const metadata: Metadata = {
-  title: "Admin · Solicitudes | Armando Ruiz Diputado",
+  title: "Admin · Solicitudes",
 };
 
 type ContactRequest = {
@@ -113,7 +114,7 @@ export default async function AdminSolicitudesPage() {
             <div className="grid grid-cols-1 gap-5">
               {(requests as ContactRequest[]).map((request) => (
                 <article key={request.id} className="rounded-card bg-white border border-gray-100 shadow-card p-6">
-                  <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+                  <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                     <div>
                       <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span className="rounded-full bg-naranja-100 text-naranja-700 border border-naranja-200 px-3 py-1 text-[12px] font-black">
@@ -128,6 +129,7 @@ export default async function AdminSolicitudesPage() {
                       </h2>
                       <p className="text-[13px] text-gray-500 mt-1">{formatDate(request.created_at)}</p>
                     </div>
+                    <RequestStatusSelect requestId={request.id} currentStatus={request.status} />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">

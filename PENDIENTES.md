@@ -5,11 +5,11 @@
 
 ## Estado actual
 
-- Codigo local: lint y build de produccion correctos (26 rutas, 2026-06-19).
+- Codigo local: lint, build de produccion y audit de dependencias de produccion correctos (26 rutas, 2026-06-19).
 - GitHub oficial: `armandosupabaseruiz02-gif/Armandoruizmc.com`.
 - Supabase local: variables configuradas en `.env.local`.
-- Vercel: proyecto `armandoruizmc-com`; dominio conectado `https://armandoruizmc.com`.
-- Dominio principal: `armandoruizmc.com`.
+- Vercel: proyecto `armandoruizmc-com`; dominio conectado y redirigiendo a `https://www.armandoruizmc.com`.
+- Dominio canonico del codigo: `https://www.armandoruizmc.com`.
 - Supabase Auth en produccion: registro, confirmacion por correo y login ya llegan a Supabase; Custom SMTP con Resend configurado; correos de citas conectados con Resend; falta prueba completa de usuario/admin.
 - Instagram API: sin token configurado.
 
@@ -45,12 +45,12 @@
 - [x] Confirmar en Vercel `RESEND_API_KEY` y `APPOINTMENTS_ADMIN_EMAIL` en Production.
 - [x] Conectar el dominio al proyecto de Vercel y esperar DNS/SSL.
 - [ ] Configurar Supabase Auth:
-  - Site URL: `https://armandoruizmc.com`.
-  - Redirect URL: `https://armandoruizmc.com/auth/callback`.
+  - Site URL: `https://www.armandoruizmc.com`.
+  - Redirect URL: `https://www.armandoruizmc.com/auth/callback`.
   - Redirect URL con query para confirmacion/restablecimiento si Supabase lo requiere:
-    `https://armandoruizmc.com/auth/callback?next=/mi-cuenta`
-    `https://armandoruizmc.com/auth/callback?next=/auth/restablecer`
-  - Redirect URL adicional si se usara `www`: `https://www.armandoruizmc.com/auth/callback`.
+    `https://www.armandoruizmc.com/auth/callback?next=/mi-cuenta`
+    `https://www.armandoruizmc.com/auth/callback?next=/auth/restablecer`
+  - Redirect URL adicional para dominio sin `www`: `https://armandoruizmc.com/auth/callback`.
   - Redirect URL local para pruebas: `http://localhost:3000/auth/callback`.
   - Plantillas de confirmacion y recuperacion de contrasena.
 - [ ] Prueba final en produccion: registro -> confirmar correo -> login -> solicitar cita -> aceptar/rechazar en admin -> cancelar desde Mi Cuenta.
@@ -132,3 +132,13 @@
 - [x] Correos de citas implementados con Resend: solicitud pendiente, aviso al responsable, confirmacion, rechazo y cancelacion.
 - [x] Migracion `20260618_appointment_email_notifications.sql` aplicada y verificada contra Supabase.
 - [x] Favicon y Apple icon reemplazados por el emblema de sombrero con fondo transparente.
+- [x] SEO canonico actualizado a `https://www.armandoruizmc.com` en metadata, sitemap y robots.
+- [x] Titulos duplicados corregidos y textos de Estado de Mexico cambiados a CDMX.
+- [x] Paleta depurada: se retiraron azules/morados frios de paginas y paneles principales.
+- [x] Navbar y footer ahora navegan a `/#seccion` cuando se usan fuera de la home.
+- [x] Correos de citas endurecidos: el cliente manda `appointmentId` y el servidor lee la cita real en Supabase.
+- [x] Enlaces de videollamada validados como `http(s)` y correo agregado cuando el admin guarda el enlace.
+- [x] Solicitudes internas con honeypot/tiempo minimo anti-spam y selector de estado en admin.
+- [x] Restablecimiento de contrasena con confirmacion y medidor de seguridad.
+- [x] Modales principales con cierre por Escape y trampa de foco por teclado.
+- [x] Dependencias actualizadas a Next `16.2.9`, React `19.2.4` y audit de produccion limpio.

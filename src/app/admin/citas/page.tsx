@@ -5,7 +5,7 @@ import PageWrapper from "@/components/layout/PageWrapper";
 import AdminPanel from "./AdminPanel";
 
 export const metadata: Metadata = {
-  title: "Admin · Citas | Armando Ruiz Diputado",
+  title: "Admin · Citas",
 };
 
 export default async function AdminCitasPage() {

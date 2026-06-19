@@ -49,7 +49,7 @@ const servicios = [
   {
     id: "secretarias",
     icon: Building2,
-    titulo: "Secretarías del Estado",
+    titulo: "Secretarías CDMX",
     descripcion:
       "Directorio de secretarías de gobierno CDMX especializadas en discapacidad y salud, con links directos.",
     cta: "Ver directorio",

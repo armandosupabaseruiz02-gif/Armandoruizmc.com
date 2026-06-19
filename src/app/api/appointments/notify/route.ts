@@ -5,19 +5,10 @@ import {
   citizenAppointmentCancelledEmail,
   citizenAppointmentConfirmedEmail,
   citizenAppointmentCreatedEmail,
+  citizenAppointmentMeetingLinkEmail,
   citizenAppointmentRejectedEmail,
 } from "@/lib/email/appointments";
 import { getAdminNotificationEmail, sendEmail } from "@/lib/email/resend";
-
-type AppointmentPayload = {
-  id?: string;
-  fullName: string;
-  phone?: string;
-  date: string;
-  time: string;
-  motive: string;
-  modality?: string;
-};
 
 type AppointmentRecord = {
   id: string;
@@ -52,19 +43,17 @@ const APPOINTMENT_SELECT_WITH_EMAIL = [
 const APPOINTMENT_SELECT_WITHOUT_EMAIL = APPOINTMENT_SELECT_WITH_EMAIL
   .replace("citizen_email,", "");
 
-function isAppointmentPayload(value: unknown): value is AppointmentPayload {
-  if (!value || typeof value !== "object") return false;
-  const appointment = value as Record<string, unknown>;
-  return (
-    typeof appointment.fullName === "string" &&
-    typeof appointment.date === "string" &&
-    typeof appointment.time === "string" &&
-    typeof appointment.motive === "string"
-  );
-}
-
-function isStatus(value: unknown): value is "confirmed" | "rejected" | "cancelled_by_admin" | "cancelled_by_citizen" {
-  return ["confirmed", "rejected", "cancelled_by_admin", "cancelled_by_citizen"].includes(String(value));
+function isNotificationType(
+  value: unknown
+): value is "created" | "confirmed" | "rejected" | "cancelled_by_admin" | "cancelled_by_citizen" | "meeting_link_updated" {
+  return [
+    "created",
+    "confirmed",
+    "rejected",
+    "cancelled_by_admin",
+    "cancelled_by_citizen",
+    "meeting_link_updated",
+  ].includes(String(value));
 }
 
 async function getProfileRole(supabase: Awaited<ReturnType<typeof createClient>>, userId: string) {
@@ -75,6 +64,19 @@ async function getProfileRole(supabase: Awaited<ReturnType<typeof createClient>>
     .single();
 
   return data?.role;
+}
+
+function getAppointmentEmailData(appointment: AppointmentRecord, reason?: string | null) {
+  return {
+    fullName: appointment.full_name,
+    phone: appointment.phone,
+    date: appointment.appointment_date,
+    time: appointment.slot_time,
+    motive: appointment.motive,
+    modality: appointment.modality,
+    meetingLink: appointment.meeting_link,
+    reason,
+  };
 }
 
 async function fetchAppointment(
@@ -117,30 +119,31 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => null) as Record<string, unknown> | null;
 
-  if (!body || typeof body.type !== "string") {
+  if (!body || !isNotificationType(body.type) || typeof body.appointmentId !== "string") {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
+  const { data: appointment, error } = await fetchAppointment(supabase, body.appointmentId);
+
+  if (error || !appointment) {
+    return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
+  }
+
   if (body.type === "created") {
-    if (!isAppointmentPayload(body.appointment)) {
-      return NextResponse.json({ error: "Invalid appointment" }, { status: 400 });
+    if (appointment.citizen_id !== user.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const appointment = body.appointment;
-    const citizenEmail = user.email;
+    const citizenEmail = "citizen_email" in appointment && typeof appointment.citizen_email === "string"
+      ? appointment.citizen_email
+      : user.email;
 
     if (!citizenEmail) {
       return NextResponse.json({ sent: false, skipped: true });
     }
 
-    const citizenEmailContent = citizenAppointmentCreatedEmail({
-      fullName: appointment.fullName,
-      phone: appointment.phone,
-      date: appointment.date,
-      time: appointment.time,
-      motive: appointment.motive,
-      modality: appointment.modality,
-    });
+    const emailData = getAppointmentEmailData(appointment);
+    const citizenEmailContent = citizenAppointmentCreatedEmail(emailData);
 
     const adminEmail = getAdminNotificationEmail();
     const tasks = [
@@ -153,14 +156,7 @@ export async function POST(request: Request) {
     ];
 
     if (adminEmail) {
-      const adminEmailContent = adminAppointmentCreatedEmail({
-        fullName: appointment.fullName,
-        phone: appointment.phone,
-        date: appointment.date,
-        time: appointment.time,
-        motive: appointment.motive,
-        modality: appointment.modality,
-      });
+      const adminEmailContent = adminAppointmentCreatedEmail(emailData);
 
       tasks.push(sendEmail({
         to: adminEmail,
@@ -174,21 +170,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ sent: results.some((result) => result.status === "fulfilled" && result.value.sent) });
   }
 
-  if (!isStatus(body.type) || typeof body.appointmentId !== "string") {
-    return NextResponse.json({ error: "Invalid notification type" }, { status: 400 });
-  }
-
   const role = await getProfileRole(supabase, user.id);
   const isCitizenCancellation = body.type === "cancelled_by_citizen";
 
   if (!isCitizenCancellation && role !== "admin") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
-
-  const { data: appointment, error } = await fetchAppointment(supabase, body.appointmentId);
-
-  if (error || !appointment) {
-    return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
   }
 
   if (isCitizenCancellation && appointment.citizen_id !== user.id) {
@@ -205,22 +191,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ sent: false, skipped: true, reason: "Missing citizen email" });
   }
 
-  const emailData = {
-    fullName: appointment.full_name,
-    phone: appointment.phone,
-    date: appointment.appointment_date,
-    time: appointment.slot_time,
-    motive: appointment.motive,
-    modality: appointment.modality,
-    meetingLink: appointment.meeting_link,
-    reason: typeof body.reason === "string" ? body.reason : appointment.cancelled_reason,
-  };
+  if (body.type === "meeting_link_updated" && !appointment.meeting_link) {
+    return NextResponse.json({ sent: false, skipped: true, reason: "Missing meeting link" });
+  }
+
+  const reason = typeof body.reason === "string" ? body.reason : appointment.cancelled_reason;
+  const emailData = getAppointmentEmailData(appointment, reason);
 
   const content = body.type === "confirmed"
     ? citizenAppointmentConfirmedEmail(emailData)
     : body.type === "rejected"
       ? citizenAppointmentRejectedEmail(emailData)
-      : citizenAppointmentCancelledEmail(emailData);
+      : body.type === "meeting_link_updated"
+        ? citizenAppointmentMeetingLinkEmail(emailData)
+        : citizenAppointmentCancelledEmail(emailData);
 
   const result = await sendEmail({
     to: citizenEmail,

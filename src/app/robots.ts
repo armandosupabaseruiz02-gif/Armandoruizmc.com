@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       // Rutas privadas o sin valor para buscadores
       disallow: ["/admin/", "/mi-cuenta", "/auth/", "/api/"],
     },
-    sitemap: "https://armandoruizmc.com/sitemap.xml",
+    sitemap: "https://www.armandoruizmc.com/sitemap.xml",
   };
 }

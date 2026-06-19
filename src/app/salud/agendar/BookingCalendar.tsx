@@ -165,15 +165,7 @@ export default function BookingCalendar({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         type: "created",
-        appointment: {
-          id: createdAppointment?.id,
-          fullName: fullName.trim(),
-          phone: phone.trim(),
-          date: selectedDate,
-          time: selectedTime + ":00",
-          motive: `[${TOPIC_LABELS[topic]}] ${motive.trim()}`,
-          modality,
-        },
+        appointmentId: createdAppointment?.id,
       }),
     }).catch(() => null);
 

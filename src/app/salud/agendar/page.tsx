@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ArrowLeft, HeartPulse } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Agendar Cita de Salud | Armando Ruiz Diputado",
+  title: "Agendar Cita de Salud",
   description: "Agenda tu cita de asesoría de salud con el equipo del Diputado Armando Ruiz.",
 };
 

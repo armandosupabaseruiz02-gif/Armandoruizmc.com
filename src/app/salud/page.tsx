@@ -5,7 +5,7 @@ import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import { HeartPulse, ArrowLeft, Phone, ExternalLink, ChevronRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Gestiones de Salud | Armando Ruiz Diputado",
+  title: "Gestiones de Salud",
   description: "Apoyos de salud para personas con discapacidad en CDMX: medicamentos, terapias, aparatos ortopédicos y más.",
 };
 
@@ -23,10 +23,10 @@ const gestiones = [
     titulo: "Aparatos ortopédicos y sillas de ruedas",
     descripcion: "El DIF CDMX y CRIT proporcionan sillas de ruedas, prótesis, muletas y otros aparatos a personas que los necesitan.",
     pasos: ["Solicita valoración médica en el DIF más cercano", "Presenta dictamen médico", "Espera asignación (aprox. 30 días hábiles)"],
-    color: "bg-blue-600",
-    border: "border-blue-100",
-    bg: "bg-blue-50",
-    text: "text-blue-700",
+    color: "bg-amber-600",
+    border: "border-amber-100",
+    bg: "bg-amber-50",
+    text: "text-amber-700",
   },
   {
     titulo: "Terapias de rehabilitación",
@@ -41,10 +41,10 @@ const gestiones = [
     titulo: "Consultas especializadas",
     descripcion: "Los Hospitales Generales de la CDMX cuentan con clínicas especializadas para personas con diferentes tipos de discapacidad.",
     pasos: ["Acude a tu médico familiar para referencia", "Agenda cita en el Hospital General correspondiente", "Lleva tu historial médico y estudios previos"],
-    color: "bg-violet-600",
-    border: "border-violet-100",
-    bg: "bg-violet-50",
-    text: "text-violet-700",
+    color: "bg-naranja-600",
+    border: "border-naranja-100",
+    bg: "bg-naranja-50",
+    text: "text-naranja-700",
   },
 ];
 
