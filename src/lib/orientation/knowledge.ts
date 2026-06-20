@@ -26,7 +26,7 @@ const defaultAnswer: OrientationAnswer = {
     "Si tu caso ya es muy personal o requiere revisar documentos, lo correcto es agendar una cita con el equipo para que te den seguimiento humano.",
   ],
   links: [
-    { label: "Ver todos los servicios", href: "/#servicios" },
+    { label: "Ver accesos directos", href: "/#ayuda-hoy" },
     { label: "Agendar cita personal", href: "/salud/agendar" },
   ],
 };

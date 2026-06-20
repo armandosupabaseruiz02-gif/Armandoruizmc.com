@@ -1,7 +1,6 @@
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import AyudaHoy from "@/components/sections/AyudaHoy";
-import Servicios from "@/components/sections/Servicios";
 import QuienesSomos from "@/components/sections/QuienesSomos";
 import QueHacemos from "@/components/sections/QueHacemos";
 import QuienEsArmando from "@/components/sections/QuienEsArmando";
@@ -16,7 +15,6 @@ export default function HomePage() {
         <Hero />
         {/* Lanzador de tareas: atajo prioritario; el scroll informativo sigue debajo */}
         <AyudaHoy />
-        <Servicios />
         <QuienesSomos />
         <QueHacemos />
         <QuienEsArmando />

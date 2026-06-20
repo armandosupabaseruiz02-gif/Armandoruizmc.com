@@ -12,6 +12,7 @@
 - Dominio canonico del codigo: `https://www.armandoruizmc.com`.
 - Supabase Auth en produccion: registro, confirmacion por correo y login ya llegan a Supabase; Custom SMTP con Resend configurado; correos de citas conectados con Resend; falta prueba completa de usuario/admin.
 - Instagram API: sin token configurado.
+- Rediseño visual en local: header limpio reconstruido, hero con React Bits CardSwap, seccion `Rutas de apoyo` retirada de la landing, y limpieza de `Atencion ciudadana` / `Como te ayudamos`. Pendiente aprobacion visual antes de hacer push.
 
 ## 1. Bloqueadores de lanzamiento
 
@@ -39,6 +40,7 @@
 ### Publicacion
 
 - [x] Subir a GitHub los cambios locales verificados.
+- [ ] Aprobar visualmente en `http://localhost:3000` el rediseño local de landing/header antes de hacer push.
 - [x] **MANUAL - Cuenta del diputado:** comprar o confirmar la propiedad de `armandoruizmc.com`.
 - [x] Conectar el repositorio oficial a Vercel en la cuenta del diputado.
 - [x] Confirmar en Vercel `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Production.
@@ -142,4 +144,6 @@
 - [x] Restablecimiento de contrasena con confirmacion y medidor de seguridad.
 - [x] Modales principales con cierre por Escape y trampa de foco por teclado.
 - [x] Dependencias actualizadas a Next `16.2.9`, React `19.2.4` y audit de produccion limpio.
-- [x] Header/navbar global retirado por solicitud del cliente.
+- [x] Header/navbar reconstruido en local sin el bloque grande `AR / Armando Ruiz / Diputado Federal`.
+- [x] Landing preparada en local para nueva fase visual: se retiro la seccion `Rutas de apoyo` y se conservan accesos directos.
+- [x] React Bits CardSwap instalado via shadcn, convertido a TSX/Tailwind en `src/components/CardSwap.tsx`, integrado en hero y validado con lint/build local.

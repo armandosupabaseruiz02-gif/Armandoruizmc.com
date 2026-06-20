@@ -83,10 +83,10 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Servicios */}
+          {/* Trámites y apoyos */}
           <div>
             <h3 className="text-[12px] font-black text-white/30 tracking-[0.12em] uppercase mb-5">
-              Servicios
+              Trámites y apoyos
             </h3>
             <ul className="space-y-2.5">
               {serviciosLinks.map((link) => (

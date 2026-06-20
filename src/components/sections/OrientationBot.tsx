@@ -24,7 +24,7 @@ const welcomeAnswer: OrientationAnswer = {
   ],
   links: [
     { label: "Agendar cita personal", href: "/salud/agendar" },
-    { label: "Ver servicios", href: "/#servicios" },
+    { label: "Ver accesos directos", href: "/#ayuda-hoy" },
   ],
 };
 

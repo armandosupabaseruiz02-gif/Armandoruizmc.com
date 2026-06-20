@@ -2,14 +2,57 @@
 
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { CreditCard, ArrowRight, ChevronDown, Accessibility } from "lucide-react";
+import {
+  ArrowRight,
+  Briefcase,
+  CalendarHeart,
+  ChevronDown,
+  CreditCard,
+  ScrollText,
+} from "lucide-react";
+import CardSwap, { Card } from "@/components/CardSwap";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
+
 const wordReveal = { hidden: {}, visible: { transition: { staggerChildren: 0.07 } } };
 const wordItem   = {
   hidden:  { y: "110%", opacity: 0 },
   visible: { y: "0%",   opacity: 1, transition: { duration: 0.65, ease: "easeOut" as const } },
 };
+
+const heroRoutes = [
+  {
+    title: "Tarjeta Accesible",
+    description: "Revisa requisitos, beneficios y la ruta para iniciar el trámite.",
+    badge: "Trámite",
+    href: "/tarjeta-accesible",
+    icon: CreditCard,
+    gradient: "from-naranja-500 to-amber-500",
+  },
+  {
+    title: "Cita de salud",
+    description: "Agenda una orientación para explicar tu caso con más detalle.",
+    badge: "Cita",
+    href: "/salud/agendar",
+    icon: CalendarHeart,
+    gradient: "from-red-500 to-naranja-500",
+  },
+  {
+    title: "Programas sociales",
+    description: "Encuentra apoyos públicos y qué necesita preparar la persona.",
+    badge: "Apoyos",
+    href: "/programas-sociales",
+    icon: ScrollText,
+    gradient: "from-gray-950 to-naranja-800",
+  },
+  {
+    title: "Bolsa de trabajo",
+    description: "Conecta vacantes incluyentes con personas que buscan empleo.",
+    badge: "Trabajo",
+    href: "/bolsa-trabajo",
+    icon: Briefcase,
+    gradient: "from-amber-600 to-orange-800",
+  },
+];
 
 function SplitWords({ text, className }: { text: string; className?: string }) {
   return (
@@ -24,14 +67,12 @@ function SplitWords({ text, className }: { text: string; className?: string }) {
 }
 
 export default function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y       = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const { scrollY } = useScroll();
+  const y       = useTransform(scrollY, [0, 700], [0, 100]);
+  const opacity = useTransform(scrollY, [0, 420], [1, 0]);
 
   return (
     <section
-      ref={ref}
       id="inicio"
       className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-warm-50"
       aria-labelledby="hero-titulo"
@@ -107,7 +148,7 @@ export default function Hero() {
               Soy{" "}
               <strong className="text-gray-900 font-bold">Armando Ruiz</strong>,{" "}
               <strong className="text-naranja-700 font-bold">Diputado Federal por la Ciudad de México</strong>.
-              Aquí encontrarás todos los apoyos, trámites y servicios que mereces.
+              Aquí encontrarás rutas claras para apoyos, trámites y seguimiento ciudadano.
             </motion.p>
 
             {/* CTAs */}
@@ -123,80 +164,68 @@ export default function Hero() {
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <button
-                onClick={() => lenisScrollTo("#servicios")}
+                onClick={() => lenisScrollTo("#quienes-somos")}
                 className="btn-secondary"
               >
-                Ver todos los servicios
+                Ver cómo te ayudamos
               </button>
             </motion.div>
 
           </div>
 
-          {/* Card foto */}
+          {/* CardSwap React Bits */}
           <motion.div
             className="hidden lg:flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-            aria-hidden="true"
           >
-            <div className="relative w-full max-w-[380px]">
-              {/* Sombra de fondo */}
-              <div className="absolute inset-4 bg-naranja-300 rounded-[32px] blur-2xl opacity-30 scale-95" />
+            <div className="relative h-[500px] w-full max-w-[430px]" aria-label="Rutas destacadas">
+              <div className="absolute inset-8 rounded-[40px] bg-naranja-300/30 blur-3xl" aria-hidden="true" />
+              <div className="absolute bottom-10 right-5 h-44 w-44 rounded-full bg-amber-200/60 blur-2xl" aria-hidden="true" />
 
-              {/* Card principal */}
-              <div className="relative w-full aspect-[3/4] rounded-[32px]
-                              bg-white border-2 border-naranja-200
-                              overflow-hidden shadow-xl">
-                {/* Gradiente fondo */}
-                <div className="absolute inset-0 bg-gradient-to-br from-naranja-50 via-white to-orange-50" />
+              <CardSwap
+                width={360}
+                height={270}
+                cardDistance={44}
+                verticalDistance={54}
+                delay={3600}
+                pauseOnHover
+                skewAmount={5}
+                easing="elastic"
+              >
+                {heroRoutes.map((route) => {
+                  const Icon = route.icon;
 
-                {/* Placeholder foto */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                  <div className="w-28 h-28 rounded-full bg-naranja-100 border-4 border-naranja-300
-                                  flex items-center justify-center">
-                    <span className="text-naranja-600 font-black text-4xl">AR</span>
-                  </div>
-                  <div className="text-center px-6">
-                    <p className="text-gray-900 font-black text-[20px]">Armando Ruiz</p>
-                    <p className="text-naranja-600 text-[14px] font-bold mt-1">Diputado Federal</p>
-                    <p className="text-naranja-400 text-[12px] font-semibold mt-0.5">Ciudad de México</p>
-                    <p className="text-gray-400 text-[11px] mt-3">(Foto oficial pendiente)</p>
-                  </div>
-                </div>
-
-                {/* Badge partido */}
-                <motion.div
-                  className="absolute top-5 right-5 bg-white rounded-2xl shadow-md px-4 py-2.5
-                              flex items-center gap-2 border border-naranja-100"
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <div className="w-8 h-8 rounded-full bg-naranja-500 flex items-center justify-center">
-                    <span className="text-white text-[10px] font-black">MN</span>
-                  </div>
-                  <div>
-                    <p className="text-gray-900 text-[12px] font-black leading-tight">Movimiento</p>
-                    <p className="text-naranja-600 text-[12px] font-black leading-tight">Naranja</p>
-                  </div>
-                </motion.div>
-
-                {/* Badge accesibilidad */}
-                <motion.div
-                  className="absolute bottom-5 left-5 bg-white rounded-2xl shadow-md px-4 py-2.5
-                              flex items-center gap-2 border border-naranja-100"
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                >
-                  <div className="w-8 h-8 rounded-full bg-naranja-100 flex items-center justify-center flex-shrink-0">
-                    <Accessibility className="w-[18px] h-[18px] text-naranja-600" strokeWidth={2} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-gray-900 text-[12px] font-bold">Inclusión</p>
-                    <p className="text-naranja-500 text-[11px] font-semibold">para todos</p>
-                  </div>
-                </motion.div>
-              </div>
+                  return (
+                    <Card key={route.title} customClass={`bg-gradient-to-br ${route.gradient} text-white`}>
+                      <Link
+                        href={route.href}
+                        className="relative z-10 flex h-full flex-col justify-between p-7 text-white focus-visible:outline-2 focus-visible:outline-white"
+                      >
+                        <span className="inline-flex w-fit items-center rounded-full border border-white/30 bg-white/15 px-3 py-1 text-[11px] font-black uppercase tracking-widest">
+                          {route.badge}
+                        </span>
+                        <span>
+                          <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/18">
+                            <Icon className="h-6 w-6" aria-hidden="true" />
+                          </span>
+                          <span className="block text-[28px] font-black leading-tight">
+                            {route.title}
+                          </span>
+                          <span className="mt-3 block text-[15px] leading-relaxed text-white/82">
+                            {route.description}
+                          </span>
+                        </span>
+                        <span className="inline-flex items-center gap-2 text-[15px] font-bold">
+                          Abrir ruta
+                          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </span>
+                      </Link>
+                    </Card>
+                  );
+                })}
+              </CardSwap>
             </div>
           </motion.div>
         </div>

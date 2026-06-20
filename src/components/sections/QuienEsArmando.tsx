@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import { Award, Heart, Users, Landmark } from "lucide-react";
@@ -12,13 +11,11 @@ const logros = [
 ];
 
 export default function QuienEsArmando() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const imageParallax = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  const { scrollY } = useScroll();
+  const imageParallax = useTransform(scrollY, [900, 2400], [30, -30]);
 
   return (
     <section
-      ref={ref}
       id="armando-ruiz"
       className="py-28 bg-warm-100 relative overflow-hidden"
       aria-labelledby="armando-titulo"

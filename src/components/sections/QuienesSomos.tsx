@@ -2,30 +2,33 @@
 
 import { motion } from "framer-motion";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
-import { Target, Eye, Shield } from "lucide-react";
+import { ClipboardCheck, MessageSquareText, ShieldCheck } from "lucide-react";
 
-const valores = [
+const principios = [
   {
-    icon: Target,
-    titulo: "Nuestra Misión",
-    descripcion: "Garantizar que cada persona con discapacidad en la Ciudad de México tenga acceso efectivo a sus derechos, programas y servicios gubernamentales.",
+    icon: MessageSquareText,
+    titulo: "Escuchar antes de mandar a ventanilla",
+    descripcion:
+      "Primero entendemos qué necesita la persona, qué documentos tiene y qué parte del trámite le está atorando.",
     color: "text-naranja-600",
     bg: "bg-naranja-100",
     border: "border-naranja-200",
   },
   {
-    icon: Eye,
-    titulo: "Nuestra Visión",
-    descripcion: "Una Ciudad de México plenamente accesible, donde la discapacidad no sea un obstáculo para el desarrollo personal, laboral y social de nadie.",
-    color: "text-naranja-700",
-    bg: "bg-naranja-100",
-    border: "border-naranja-200",
+    icon: ClipboardCheck,
+    titulo: "Convertir el trámite en pasos claros",
+    descripcion:
+      "La información debe ser entendible: requisitos, ruta, lugar correcto y siguiente acción.",
+    color: "text-amber-700",
+    bg: "bg-amber-100",
+    border: "border-amber-200",
   },
   {
-    icon: Shield,
-    titulo: "Nuestro Compromiso",
-    descripcion: "Transparencia, honestidad y dedicación. Cada gestión y cada trámite que facilitamos es un paso hacia una ciudad más justa para todos.",
-    color: "text-emerald-600",
+    icon: ShieldCheck,
+    titulo: "Cuidar el seguimiento",
+    descripcion:
+      "La página debe ayudar a que una solicitud no se pierda después de llenar un formulario o pedir una cita.",
+    color: "text-emerald-700",
     bg: "bg-emerald-100",
     border: "border-emerald-200",
   },
@@ -35,67 +38,68 @@ export default function QuienesSomos() {
   return (
     <section
       id="quienes-somos"
-      className="py-28 bg-warm-50 relative overflow-hidden"
+      className="relative overflow-hidden bg-warm-50 py-24 sm:py-28"
       aria-labelledby="quienes-somos-titulo"
     >
-      <div className="absolute inset-0 bg-dot-pattern opacity-50 pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 bg-dot-pattern opacity-45 pointer-events-none" aria-hidden="true" />
+      <div className="absolute left-[-12%] top-10 h-[380px] w-[380px] rounded-full bg-naranja-200/35 blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-
-          {/* Texto */}
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <FadeIn>
-            <span className="section-badge-light">Quiénes Somos</span>
+            <span className="section-badge-light">Atención ciudadana</span>
             <h2
               id="quienes-somos-titulo"
-              className="text-[40px] sm:text-[52px] font-black text-gray-900
-                         leading-tight tracking-tight mt-5 mb-7"
+              className="mt-5 text-[40px] font-black leading-tight tracking-tight text-gray-900 sm:text-[52px]"
             >
-              Un equipo comprometido con la{" "}
-              <span className="text-highlight">inclusión</span>
+              Menos vueltas.{" "}
+              <span className="text-highlight">Más claridad para resolver.</span>
             </h2>
-            <div className="space-y-5 text-[17px] text-gray-800 leading-relaxed">
+            <div className="mt-7 space-y-5 text-[17px] leading-relaxed text-gray-800">
               <p>
-                Somos el equipo del{" "}
-                <strong className="text-gray-900 font-bold">Diputado Federal Armando Ruiz</strong>,
-                representante de la Ciudad de México ante la Cámara de Diputados Federal
-                por el Movimiento Naranja.
+                Esta página debe funcionar como una entrada clara al trabajo de atención
+                ciudadana del equipo del{" "}
+                <strong className="font-bold text-gray-900">Diputado Federal Armando Ruiz</strong>.
               </p>
               <p>
-                Nuestro trabajo se centra en legislar, gestionar y facilitar el acceso
-                a todos los programas y servicios para{" "}
-                <strong className="text-naranja-700 font-bold">
-                  personas con discapacidad y sus familias
-                </strong>.
+                La prioridad no es llenar la pantalla de discursos: es ayudar a que una
+                persona sepa qué trámite necesita, qué preparar y dónde darle seguimiento.
               </p>
-              <p>
-                Entendemos de primera mano los retos de la comunidad porque nuestro
-                diputado vive con discapacidad y conoce la realidad de quienes representa.
+            </div>
+
+            <div className="mt-8 rounded-[28px] border-2 border-naranja-200 bg-white p-6 shadow-card">
+              <p className="text-[12px] font-black uppercase tracking-[0.16em] text-naranja-600">
+                Idea central
+              </p>
+              <p className="mt-3 text-[21px] font-black leading-snug text-gray-900">
+                Que alguien llegue confundido y salga con un siguiente paso concreto.
               </p>
             </div>
           </FadeIn>
 
-          {/* Cards */}
-          <StaggerContainer className="flex flex-col gap-4" stagger={0.12}>
-            {valores.map((v) => {
-              const Icon = v.icon;
+          <StaggerContainer className="grid grid-cols-1 gap-4" stagger={0.12}>
+            {principios.map((principio) => {
+              const Icon = principio.icon;
+
               return (
-                <StaggerItem key={v.titulo} direction="left">
+                <StaggerItem key={principio.titulo} direction="left">
                   <motion.div
-                    className={`flex items-start gap-5 p-6 rounded-card
-                               border-2 ${v.border} bg-white
-                               hover:shadow-card transition-all duration-300 group`}
+                    className={`group flex items-start gap-5 rounded-card border-2 ${principio.border} bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-card`}
                     whileHover={{ x: 6 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
-                    <div className={`w-12 h-12 rounded-xl ${v.bg} flex items-center
-                                    justify-center flex-shrink-0 group-hover:scale-110
-                                    transition-transform duration-200`}>
-                      <Icon className={`w-6 h-6 ${v.color}`} strokeWidth={2} />
+                    <div
+                      className={`flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl ${principio.bg} transition-transform duration-200 group-hover:scale-105`}
+                    >
+                      <Icon className={`h-6 w-6 ${principio.color}`} strokeWidth={2} aria-hidden="true" />
                     </div>
                     <div>
-                      <h3 className="text-[18px] font-bold text-gray-900 mb-1.5">{v.titulo}</h3>
-                      <p className="text-[15px] text-gray-700 leading-relaxed">{v.descripcion}</p>
+                      <h3 className="text-[19px] font-black leading-tight text-gray-900">
+                        {principio.titulo}
+                      </h3>
+                      <p className="mt-2 text-[15px] leading-relaxed text-gray-700">
+                        {principio.descripcion}
+                      </p>
                     </div>
                   </motion.div>
                 </StaggerItem>

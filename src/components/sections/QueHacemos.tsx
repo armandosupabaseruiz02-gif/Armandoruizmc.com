@@ -2,36 +2,36 @@
 
 import { motion } from "framer-motion";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
-import { FileText, Users, Megaphone, ClipboardCheck } from "lucide-react";
+import { ArrowRight, ClipboardCheck, FileText, Megaphone, Users } from "lucide-react";
 
-const acciones = [
+const pasos = [
   {
     num: "01",
-    icon: FileText,
-    titulo: "Legislamos por la inclusión",
+    icon: Users,
+    titulo: "Escuchamos el caso",
     descripcion:
-      "Presentamos iniciativas de ley y reformas para mejorar los derechos, el acceso y los servicios de las personas con discapacidad en la Ciudad de México.",
+      "La persona no siempre sabe qué pedir. Primero se identifica si busca salud, programa social, empleo, trámite o seguimiento.",
   },
   {
     num: "02",
-    icon: ClipboardCheck,
-    titulo: "Facilitamos trámites",
+    icon: FileText,
+    titulo: "Ubicamos la ruta correcta",
     descripcion:
-      "Orientamos y acompañamos a ciudadanos para acceder a la Tarjeta Accesible, programas sociales, apoyos de salud y más, sin complicaciones.",
+      "Se separa lo que puede resolverse dentro de la página de lo que necesita una dependencia, cita o contacto externo.",
   },
   {
     num: "03",
-    icon: Users,
-    titulo: "Conectamos con oportunidades",
+    icon: ClipboardCheck,
+    titulo: "Preparamos requisitos",
     descripcion:
-      "Vinculamos a personas con discapacidad con empleos dignos, aliados estratégicos y redes de apoyo que mejoran su calidad de vida.",
+      "El usuario debe saber qué documentos necesita, qué datos llenar y qué error evitar antes de avanzar.",
   },
   {
     num: "04",
     icon: Megaphone,
-    titulo: "Damos voz a la comunidad",
+    titulo: "Damos seguimiento",
     descripcion:
-      "Llevamos las necesidades reales de las personas con discapacidad y sus familias a la Cámara de Diputados para que sean atendidas.",
+      "Las citas, solicitudes y registros deben tener estado claro para que no se queden como un correo sin respuesta.",
   },
 ];
 
@@ -39,83 +39,69 @@ export default function QueHacemos() {
   return (
     <section
       id="que-hacemos"
-      className="py-28 bg-white relative overflow-hidden"
+      className="relative overflow-hidden bg-white py-24 sm:py-28"
       aria-labelledby="que-hacemos-titulo"
     >
-      <div className="absolute inset-0 bg-dot-pattern opacity-50 pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 bg-dot-pattern opacity-45 pointer-events-none" aria-hidden="true" />
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-        <FadeIn className="text-center mb-20">
-          <span className="section-badge-light">Qué Hacemos</span>
-          <h2
-            id="que-hacemos-titulo"
-            className="text-[40px] sm:text-[52px] font-black text-gray-900
-                       leading-tight tracking-tight mt-5 mb-5"
-          >
-            Acciones concretas,{" "}
-            <span className="text-highlight">resultados reales</span>
-          </h2>
-          <p className="text-[18px] text-gray-800 max-w-2xl mx-auto leading-relaxed">
-            Nuestro trabajo va más allá del discurso. Lo que hacemos todos los días por la comunidad.
-          </p>
-        </FadeIn>
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.72fr_1.28fr]">
+          <FadeIn className="lg:sticky lg:top-28 lg:self-start">
+            <span className="section-badge-light">Cómo te ayudamos</span>
+            <h2
+              id="que-hacemos-titulo"
+              className="mt-5 text-[40px] font-black leading-tight tracking-tight text-gray-900 sm:text-[52px]"
+            >
+              De la duda al{" "}
+              <span className="text-highlight">siguiente paso.</span>
+            </h2>
+            <p className="mt-5 text-[18px] leading-relaxed text-gray-800">
+              Esta sección ya no debe sentirse como propaganda. Debe explicar cómo se mueve
+              una persona dentro del portal y qué puede esperar.
+            </p>
+          </FadeIn>
 
-        <StaggerContainer
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-          stagger={0.1}
-        >
-          {acciones.map((a) => {
-            const Icon = a.icon;
-            return (
-              <StaggerItem key={a.num}>
-                <motion.div
-                  className="relative flex gap-6 p-8 rounded-card border-2 border-gray-100
-                               bg-white overflow-hidden cursor-default
-                               hover:border-naranja-200 hover:shadow-card
-                               transition-all duration-300 group"
-                  whileHover={{ y: -4 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  {/* Número decorativo */}
-                  <div className="flex-shrink-0 select-none">
-                    <span
-                      className="text-[64px] font-black text-gray-50 leading-none
-                                   group-hover:text-naranja-500/10 transition-colors duration-500"
-                      aria-hidden="true"
-                    >
-                      {a.num}
-                    </span>
-                  </div>
+          <StaggerContainer className="relative grid grid-cols-1 gap-5" stagger={0.1}>
+            <div className="absolute bottom-8 left-7 top-8 hidden w-px bg-gradient-to-b from-naranja-300 via-naranja-200 to-transparent md:block" aria-hidden="true" />
 
-                  <div className="flex flex-col">
-                    {/* Ícono inline con heading */}
-                    <div className="flex items-center gap-2.5 mb-3">
-                      <Icon
-                        className="w-5 h-5 text-naranja-500 flex-shrink-0"
-                        strokeWidth={1.75}
-                        aria-hidden="true"
-                      />
-                      <h3 className="text-[20px] font-bold text-gray-900 leading-tight">
-                        {a.titulo}
-                      </h3>
+            {pasos.map((paso) => {
+              const Icon = paso.icon;
+
+              return (
+                <StaggerItem key={paso.num}>
+                  <motion.div
+                    className="group relative overflow-hidden rounded-[30px] border-2 border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 hover:border-naranja-200 hover:shadow-card md:ml-14"
+                    whileHover={{ y: -4 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    <div className="absolute left-0 top-0 h-full w-1 bg-naranja-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+                    <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+                      <div className="flex items-center gap-4 sm:block">
+                        <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-naranja-50 text-[18px] font-black text-naranja-600 ring-8 ring-white">
+                          {paso.num}
+                        </span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="mb-3 flex items-center gap-3">
+                          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-950 text-white">
+                            <Icon className="h-5 w-5" aria-hidden="true" />
+                          </span>
+                          <h3 className="text-[22px] font-black leading-tight text-gray-900">
+                            {paso.titulo}
+                          </h3>
+                        </div>
+                        <p className="text-[16px] leading-relaxed text-gray-700">
+                          {paso.descripcion}
+                        </p>
+                      </div>
+                      <ArrowRight className="hidden h-5 w-5 flex-shrink-0 text-naranja-500 transition-transform duration-200 group-hover:translate-x-1 sm:block" aria-hidden="true" />
                     </div>
-                    <p className="text-[16px] text-gray-800 leading-relaxed">
-                      {a.descripcion}
-                    </p>
-                  </div>
-
-                  {/* Línea naranja en hover */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-[2px]
-                                bg-naranja-500 opacity-0 group-hover:opacity-60
-                                transition-opacity duration-500"
-                    aria-hidden="true"
-                  />
-                </motion.div>
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
+                  </motion.div>
+                </StaggerItem>
+              );
+            })}
+          </StaggerContainer>
+        </div>
       </div>
     </section>
   );

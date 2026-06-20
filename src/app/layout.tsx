@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { Atkinson_Hyperlegible } from "next/font/google";
+import { Atkinson_Hyperlegible, Geist } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
+import Navbar from "@/components/layout/Navbar";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const atkinson = Atkinson_Hyperlegible({
   subsets: ["latin"],
@@ -32,12 +36,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={atkinson.variable}>
+    <html lang="es" className={cn("font-sans", geist.variable)}>
       <body>
         <a href="#contenido-principal" className="skip-link">
           Ir al contenido principal
         </a>
         <SmoothScrollProvider>
+          <Navbar />
           {children}
         </SmoothScrollProvider>
       </body>
