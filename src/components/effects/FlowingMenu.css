@@ -1,0 +1,198 @@
+.flowing-menu-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 2px solid var(--flowing-border-color);
+  border-radius: 24px;
+  background-color: var(--flowing-bg-color);
+  box-shadow: 0 18px 54px rgba(120, 53, 15, 0.14);
+}
+
+.flowing-menu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.flowing-menu__item {
+  flex: 1;
+  min-height: clamp(76px, 9svh, 96px);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--flowing-border-color);
+}
+
+.flowing-menu__item:first-child {
+  border-top: none;
+}
+
+.flowing-menu__item-link {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  height: 100%;
+  min-height: clamp(76px, 9svh, 96px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(0.82rem, 1.6vw, 1.05rem) clamp(1.1rem, 2.4vw, 1.7rem);
+  color: var(--flowing-text-color);
+  text-decoration: none;
+}
+
+.flowing-menu__item-link:hover,
+.flowing-menu__item-link:focus {
+  color: var(--flowing-text-color);
+}
+
+.flowing-menu__copy {
+  min-width: 0;
+  text-align: left;
+  transform: translateY(1px);
+}
+
+.flowing-menu__eyebrow {
+  display: block;
+  margin-bottom: 0.18rem;
+  color: rgba(124, 45, 18, 0.68);
+  font-size: clamp(0.58rem, 0.9vw, 0.66rem);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.flowing-menu__title {
+  display: block;
+  color: var(--flowing-text-color);
+  font-size: clamp(1.08rem, 2.05vw, 1.58rem);
+  font-weight: 950;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+.flowing-menu__description {
+  display: block;
+  margin-top: 0.24rem;
+  color: rgba(29, 18, 9, 0.72);
+  font-size: clamp(0.78rem, 1vw, 0.88rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.flowing-menu__arrow {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(234, 88, 12, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #c2410c;
+  font-size: 1.25rem;
+  font-weight: 900;
+  transition: transform 200ms ease, border-color 200ms ease, background 200ms ease;
+}
+
+.flowing-menu__item-link:hover .flowing-menu__arrow,
+.flowing-menu__item-link:focus-visible .flowing-menu__arrow {
+  transform: translateX(4px);
+  border-color: rgba(234, 88, 12, 0.46);
+  background: #fff7ed;
+}
+
+.flowing-marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translate3d(0, 101%, 0);
+}
+
+.flowing-marquee__inner-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.flowing-marquee__inner {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  height: 100%;
+  align-items: center;
+  will-change: transform;
+}
+
+.flowing-marquee__part {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.flowing-marquee__part span {
+  padding: 0 clamp(0.75rem, 1.7vw, 1.25rem);
+  color: var(--flowing-marquee-text-color);
+  font-size: clamp(1.1rem, 2.8vw, 2rem);
+  font-weight: 950;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.flowing-marquee__img {
+  width: clamp(140px, 22vw, 240px);
+  height: clamp(54px, 8vh, 84px);
+  margin: 1rem clamp(0.75rem, 2vw, 1.5rem);
+  border: 2px solid rgba(255, 255, 255, 0.64);
+  border-radius: 999px;
+  background-color: #fff7ed;
+  background-position: 50% 50%;
+  background-size: cover;
+  box-shadow: 0 12px 34px rgba(124, 45, 18, 0.18);
+}
+
+@media (max-width: 639px) {
+  .flowing-menu-wrap {
+    border-radius: 20px;
+  }
+
+  .flowing-menu__item,
+  .flowing-menu__item-link {
+    min-height: 76px;
+  }
+
+  .flowing-menu__item-link {
+    padding-inline: 1rem;
+    padding-block: 0.7rem;
+  }
+
+  .flowing-menu__title {
+    font-size: clamp(1.05rem, 5.2vw, 1.35rem);
+  }
+
+  .flowing-menu__arrow {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flowing-marquee {
+    display: none;
+  }
+
+  .flowing-menu__arrow {
+    transition: none;
+  }
+}

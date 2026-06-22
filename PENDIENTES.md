@@ -147,3 +147,6 @@
 - [x] Header/navbar reconstruido en local sin el bloque grande `AR / Armando Ruiz / Diputado Federal`.
 - [x] Landing preparada en local para nueva fase visual: se retiro la seccion `Rutas de apoyo` y se conservan accesos directos.
 - [x] React Bits CardSwap instalado via shadcn, convertido a TSX/Tailwind en `src/components/CardSwap.tsx`, integrado en hero y validado con lint/build local.
+- [x] Secciones Instagram y Donar liberadas del alto fijo de `landing-sheet` para que el contenido no se corte y pueda crecer segun lo necesite.
+- [x] Accesos directos adaptados con React Bits FlowingMenu, imagenes locales por tramite y ajuste responsivo para mostrar las seis opciones.
+- [x] FlowingMenu de accesos directos refinado: texto sin encimarse e imagenes simplificadas a iconos claros por servicio.

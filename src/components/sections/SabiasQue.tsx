@@ -8,63 +8,63 @@ import { ChevronLeft, ChevronRight, Lightbulb } from "lucide-react";
 const datos = [
   {
     emoji: "🇲🇽",
-    dato: "En México, 6 millones 179 mil 890 personas viven con alguna discapacidad, lo que representa el 4.9% de la población total.",
-    fuente: "Instituto Nacional de Estadística y Geografía. (2020). Censo de Población y Vivienda 2020: Principales resultados. INEGI. https://www.inegi.org.mx",
+    dato: "En México, 6.1 millones de personas viven con alguna discapacidad.",
+    fuente: "INEGI, Censo 2020.",
   },
   {
     emoji: "👁️",
-    dato: "La dificultad para ver es la discapacidad más frecuente en México, afectando al 1.9% de la población, seguida por la dificultad para caminar o moverse (1.7%).",
-    fuente: "Instituto Nacional de Estadística y Geografía. (2020). Censo de Población y Vivienda 2020: Tabulados de la muestra censal. INEGI. https://www.inegi.org.mx",
+    dato: "La dificultad para ver y caminar está entre las más frecuentes.",
+    fuente: "INEGI, muestra censal 2020.",
   },
   {
     emoji: "💼",
-    dato: "En México, solo el 39.1% de las personas con discapacidad en edad de trabajar participa en el mercado laboral, frente al 64.7% de la población sin discapacidad.",
-    fuente: "Instituto Nacional de Estadística y Geografía. (2021). Encuesta Nacional de Ingresos y Gastos de los Hogares (ENIGH) 2020. INEGI. https://www.inegi.org.mx",
+    dato: "La inclusión laboral sigue siendo una de las brechas más grandes.",
+    fuente: "INEGI, ENIGH 2020.",
   },
   {
     emoji: "🎓",
-    dato: "El 45.3% de las personas con discapacidad en México de 15 años o más no concluyó la educación primaria, en comparación con el 20.1% de la población general.",
-    fuente: "Consejo Nacional para el Desarrollo y la Inclusión de las Personas con Discapacidad. (2021). Diagnóstico sobre la situación de las personas con discapacidad en México. CONADIS. https://www.gob.mx/conadis",
+    dato: "La educación accesible cambia trayectorias de vida.",
+    fuente: "CONADIS, diagnóstico 2021.",
   },
   {
     emoji: "🏠",
-    dato: "El 51.7% de las personas con discapacidad en México se encuentra en situación de pobreza, y el 12.1% en pobreza extrema.",
-    fuente: "Consejo Nacional de Evaluación de la Política de Desarrollo Social. (2022). Informe de pobreza y evaluación 2022. CONEVAL. https://www.coneval.org.mx",
+    dato: "La pobreza afecta con más fuerza a personas con discapacidad.",
+    fuente: "CONEVAL, informe 2022.",
   },
   {
     emoji: "👩‍⚕️",
-    dato: "Solo el 37.8% de las personas con discapacidad en México cuenta con acceso a servicios de salud en instituciones del sector público.",
-    fuente: "Instituto Nacional de Estadística y Geografía. (2020). Censo de Población y Vivienda 2020: Muestra censal, discapacidad. INEGI. https://www.inegi.org.mx",
+    dato: "El acceso a salud pública debe ser claro, cercano y oportuno.",
+    fuente: "INEGI, Censo 2020.",
   },
   {
     emoji: "🏙️",
-    dato: "La Ciudad de México concentra la mayor proporción de personas con discapacidad en zona urbana del país, con 289 mil personas registradas.",
-    fuente: "Instituto Nacional de Estadística y Geografía. (2020). Censo de Población y Vivienda 2020: Resultados por entidad federativa, Ciudad de México. INEGI. https://www.inegi.org.mx",
+    dato: "La CDMX necesita servicios urbanos realmente accesibles.",
+    fuente: "INEGI, CDMX 2020.",
   },
   {
     emoji: "❤️",
-    dato: "En México, el 87% del cuidado de personas con discapacidad recae en mujeres —madres, esposas o hijas— que en su mayoría no reciben remuneración económica por esta labor.",
-    fuente: "Instituto Nacional de las Mujeres. (2022). Situación de las personas cuidadoras en México. Inmujeres. https://www.gob.mx/inmujeres",
+    dato: "El cuidado de personas con discapacidad recae mayormente en mujeres.",
+    fuente: "Inmujeres, 2022.",
   },
   {
     emoji: "♿",
-    dato: "Solo el 25% de las estaciones del Metro de la Ciudad de México cuenta con infraestructura de accesibilidad completa para personas con discapacidad motriz.",
-    fuente: "Sistema de Transporte Colectivo Metro. (2022). Informe anual de accesibilidad e inclusión. STC Metro CDMX. https://www.metro.cdmx.gob.mx",
+    dato: "La movilidad accesible todavía es una deuda diaria.",
+    fuente: "Metro CDMX, 2022.",
   },
   {
     emoji: "📋",
-    dato: "El 68% de las personas con discapacidad en México no conoce los programas gubernamentales a los que tiene derecho por ley.",
-    fuente: "Consejo Nacional para el Desarrollo y la Inclusión de las Personas con Discapacidad. (2022). Encuesta Nacional sobre Discriminación (ENADIS 2022). CONADIS-CONAPRED. https://www.gob.mx/conadis",
+    dato: "Muchas personas no conocen los apoyos a los que pueden acceder.",
+    fuente: "ENADIS, 2022.",
   },
   {
     emoji: "👴",
-    dato: "La discapacidad aumenta con la edad: el 35.7% de las personas mayores de 60 años en México presenta al menos una discapacidad o limitación funcional.",
-    fuente: "Instituto Nacional de las Personas Adultas Mayores. (2022). Situación de las personas adultas mayores en México. INAPAM. https://www.gob.mx/inapam",
+    dato: "La edad aumenta la necesidad de apoyos y accesibilidad.",
+    fuente: "INAPAM, 2022.",
   },
   {
     emoji: "💪",
-    dato: "Los programas de inclusión laboral para personas con discapacidad en México han generado más de 47 mil empleos formales entre 2019 y 2023.",
-    fuente: "Secretaría del Trabajo y Previsión Social. (2023). Informe anual de empleo inclusivo 2023. STPS. https://www.gob.mx/stps",
+    dato: "La inclusión laboral abre autonomía e ingresos propios.",
+    fuente: "STPS, 2023.",
   },
 ];
 
@@ -75,7 +75,7 @@ export default function SabiasQue() {
   const next = () => setCurrent((c) => (c === datos.length - 1 ? 0 : c + 1));
 
   return (
-    <section id="sabias-que" className="py-28 bg-naranja-500 relative overflow-hidden" aria-labelledby="sabias-que-titulo">
+    <section id="sabias-que" className="landing-sheet bg-naranja-500" aria-labelledby="sabias-que-titulo">
       {/* Fondo decorativo */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-grid-pattern opacity-10" />
@@ -100,13 +100,13 @@ export default function SabiasQue() {
           <h2 id="sabias-que-titulo" className="text-[36px] sm:text-[48px] font-black text-white leading-tight tracking-tight mb-4">
             Datos que todos debemos conocer
           </h2>
-          <p className="text-white/80 text-[17px] mb-14 max-w-xl mx-auto">
-            La información transforma realidades. Conoce los datos sobre discapacidad en México.
+          <p className="text-white/80 text-[17px] mb-10 max-w-xl mx-auto">
+            Datos breves para entender los retos de accesibilidad.
           </p>
         </FadeIn>
 
         {/* Card de dato */}
-        <div className="relative flex items-center justify-center mb-10">
+        <div className="relative flex items-center justify-center mb-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -114,14 +114,14 @@ export default function SabiasQue() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.97 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="w-full bg-white rounded-card p-8 sm:p-10 shadow-xl border-2 border-naranja-100 text-left"
+              className="w-full bg-white rounded-card p-7 sm:p-8 shadow-xl border-2 border-naranja-100 text-left"
             >
               {/* Emoji + dato */}
               <div className="flex items-start gap-5 mb-6">
                 <span className="text-5xl flex-shrink-0 mt-1" aria-hidden="true">
                   {datos[current].emoji}
                 </span>
-                <p className="text-[19px] sm:text-[22px] font-black text-gray-900 leading-snug">
+                <p className="text-[19px] sm:text-[21px] font-black text-gray-900 leading-snug">
                   {datos[current].dato}
                 </p>
               </div>
@@ -134,7 +134,7 @@ export default function SabiasQue() {
                 <span className="text-[11px] font-black text-naranja-500 tracking-widest uppercase
                                  bg-naranja-50 border border-naranja-200 rounded-full px-2.5 py-1
                                  flex-shrink-0 mt-0.5">
-                  APA
+                  Fuente
                 </span>
                 <p className="text-[12px] text-gray-600 leading-relaxed font-mono italic">
                   {datos[current].fuente}

@@ -38,7 +38,7 @@ const causas: Causa[] = [
     edad: 16,
     iniciales: "LH",
     historia:
-      "Luis quiere ser ingeniero. Va a la escuela todos los días y no piensa rendirse: solo necesita poder moverse con autonomía.",
+      "Luis quiere moverse con autonomía para seguir estudiando.",
     necesidad: "Silla de ruedas para seguir estudiando",
     costo: 4500,
     estado: "buscando",
@@ -49,7 +49,7 @@ const causas: Causa[] = [
     edad: 9,
     iniciales: "MS",
     historia:
-      "Mariana es de las mejores de su salón. Con su uniforme nuevo entrará al ciclo escolar lista para seguir destacando.",
+      "Mariana necesita su uniforme para iniciar el ciclo escolar.",
     necesidad: "Uniforme escolar completo",
     costo: 2000,
     estado: "buscando",
@@ -60,7 +60,7 @@ const causas: Causa[] = [
     edad: 64,
     iniciales: "JR",
     historia:
-      "Don José trabaja en su taller desde hace 40 años. Unos lentes le permitirán seguir haciendo lo que ama con precisión.",
+      "Don José necesita lentes para seguir trabajando con precisión.",
     necesidad: "Lentes graduados",
     costo: 1800,
     estado: "buscando",
@@ -71,7 +71,7 @@ const causas: Causa[] = [
     edad: 12,
     iniciales: "VC",
     historia:
-      "Valeria sueña con bailar. Con su aparato ortopédico recuperará fuerza para dar sus próximos pasos con confianza.",
+      "Valeria necesita apoyo ortopédico para caminar mejor.",
     necesidad: "Aparato ortopédico",
     costo: 3200,
     estado: "completada",
@@ -85,66 +85,69 @@ const pasos = [
   {
     icon: MousePointerClick,
     titulo: "Elige una causa",
-    texto: "Mira las necesidades reales y escoge a quién quieres ayudar.",
+    texto: "Escoge a quién ayudar.",
   },
   {
     icon: MessagesSquare,
     titulo: "Dejas tus datos",
-    texto: "Llenas el formulario dentro del portal. Nuestro equipo revisa tu solicitud.",
+    texto: "El equipo revisa tu solicitud.",
   },
   {
     icon: HeartHandshake,
     titulo: "Compruebas tu ayuda",
-    texto: "Te conectamos directo con la persona y ves a dónde llegó tu apoyo.",
+    texto: "Ves a dónde llegó tu apoyo.",
   },
 ];
 
 export default function Donar() {
   return (
-    <section id="donar" className="py-28 bg-warm-100 relative overflow-hidden" aria-labelledby="donar-titulo">
+    <section
+      id="donar"
+      className="relative overflow-hidden bg-warm-100 py-20 sm:py-24 lg:py-28"
+      aria-labelledby="donar-titulo"
+    >
       <div className="absolute inset-0 bg-dot-pattern opacity-60 pointer-events-none" aria-hidden="true" />
 
-      <div className="relative max-w-6xl mx-auto px-5 sm:px-8">
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         {/* ───── ENCABEZADO + MENSAJE DE TRANSPARENCIA ───── */}
         <FadeIn>
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-8">
             <span className="section-badge-dark">Donar</span>
 
             <h2
               id="donar-titulo"
-              className="text-[40px] sm:text-[56px] font-black text-gray-900 leading-tight tracking-tight mt-5 mb-6"
+              className="text-[36px] sm:text-[48px] font-black text-gray-900 leading-tight tracking-tight mt-4 mb-5"
             >
-              Tu ayuda llega <span className="text-highlight">directo</span> a quien la necesita
+              Ayuda directa, <span className="text-highlight">sin intermediarios</span>
             </h2>
 
             {/* Mensaje de transparencia — núcleo de la confianza */}
             <div
-              className="rounded-card border-2 border-naranja-200 bg-white shadow-card p-7 sm:p-8 text-left flex gap-5 items-start"
+              className="rounded-card border-2 border-naranja-200 bg-white shadow-card p-5 text-left flex gap-4 items-start"
               role="note"
             >
               <div
-                className="w-14 h-14 rounded-full bg-naranja-100 border-2 border-naranja-300 flex items-center justify-center flex-shrink-0"
+                className="w-12 h-12 rounded-full bg-naranja-100 border-2 border-naranja-300 flex items-center justify-center flex-shrink-0"
                 aria-hidden="true"
               >
-                <ShieldCheck className="w-7 h-7 text-naranja-600" strokeWidth={2.2} />
+                <ShieldCheck className="w-6 h-6 text-naranja-600" strokeWidth={2.2} />
               </div>
-              <p className="text-[18px] sm:text-[20px] text-gray-800 leading-relaxed font-semibold">
+              <p className="text-[16px] sm:text-[17px] text-gray-800 leading-relaxed font-semibold">
                 Aquí <span className="text-naranja-700 font-black">no manejamos tu dinero</span>. Te
-                conectamos directamente con personas reales que necesitan tu apoyo, y tú compruebas a
-                dónde llegó tu ayuda.
+                conectamos con personas reales y tú compruebas a dónde llegó tu ayuda.
               </p>
             </div>
           </div>
         </FadeIn>
 
         {/* ───── TABLÓN DE CAUSAS ───── */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20" stagger={0.12}>
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8" stagger={0.12}>
           {causas.map((causa) => {
             const completada = causa.estado === "completada";
             return (
               <StaggerItem key={causa.id}>
                 <article
-                  className="service-card cursor-default !p-7 h-full"
+                  className="service-card cursor-default !p-5 h-full"
                   aria-label={`Causa: ${causa.necesidad} para ${causa.nombre}, ${causa.edad} años. Costo aproximado ${pesos(
                     causa.costo
                   )}. Estado: ${completada ? "apoyo completado" : "buscando apoyo"}.`}
@@ -152,15 +155,15 @@ export default function Donar() {
                   <div className="flex items-start gap-5">
                     {/* Avatar / foto del beneficiario (placeholder con iniciales) */}
                     <div
-                      className="w-20 h-20 rounded-full bg-naranja-100 border-4 border-naranja-300 flex items-center justify-center flex-shrink-0"
+                      className="w-14 h-14 rounded-full bg-naranja-100 border-4 border-naranja-300 flex items-center justify-center flex-shrink-0"
                       aria-hidden="true"
                     >
                       {/* TODO: cuando exista fotoUrl con consentimiento, renderizar <Image> en lugar de iniciales */}
-                      <span className="text-naranja-600 font-black text-2xl">{causa.iniciales}</span>
+                      <span className="text-naranja-600 font-black text-xl">{causa.iniciales}</span>
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-[22px] font-black text-gray-900 leading-tight">
+                      <h3 className="text-[18px] font-black text-gray-900 leading-tight">
                         {causa.nombre}
                         <span className="text-gray-700 font-bold">, {causa.edad} años</span>
                       </h3>
@@ -168,7 +171,7 @@ export default function Donar() {
                       {/* Estado de la causa — no depende solo del color (texto + icono) */}
                       <span
                         className={
-                          "inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full text-[13px] font-bold border " +
+                          "inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full text-[12px] font-bold border " +
                           (completada
                             ? "bg-green-100 text-green-800 border-green-300"
                             : "bg-naranja-100 text-naranja-700 border-naranja-300")
@@ -189,25 +192,22 @@ export default function Donar() {
                     </div>
                   </div>
 
-                  {/* Historia — tono digno y empoderador */}
-                  <p className="text-[16px] text-gray-800 leading-relaxed mt-5">{causa.historia}</p>
-
                   {/* Necesidad + costo destacado */}
-                  <div className="mt-5 rounded-2xl bg-warm-50 border-2 border-naranja-100 p-4">
+                  <div className="mt-4 rounded-2xl bg-warm-50 border-2 border-naranja-100 p-3">
                     <p className="text-[13px] font-bold uppercase tracking-wide text-gray-700">
                       Necesita
                     </p>
-                    <p className="text-[18px] font-black text-gray-900 leading-snug mt-0.5">
+                    <p className="text-[16px] font-black text-gray-900 leading-snug mt-0.5">
                       {causa.necesidad}
                     </p>
-                    <p className="text-[24px] font-black text-naranja-600 mt-1">{pesos(causa.costo)}</p>
+                    <p className="text-[21px] font-black text-naranja-600 mt-1">{pesos(causa.costo)}</p>
                   </div>
 
                   {/* CTA grande (≥56px) — mailto prellenado con la causa, o estado cerrado */}
-                  <div className="mt-6">
+                  <div className="mt-4">
                     {completada ? (
                       <div
-                        className="inline-flex items-center justify-center gap-2 w-full min-h-[56px] px-6 rounded-2xl border-2 border-green-300 bg-green-50 text-green-800 font-bold text-[17px]"
+                        className="inline-flex items-center justify-center gap-2 w-full min-h-[52px] px-5 rounded-2xl border-2 border-green-300 bg-green-50 text-green-800 font-bold text-[15px]"
                         aria-label={`La causa de ${causa.nombre} ya fue completada. ¡Gracias!`}
                       >
                         <HeartHandshake className="w-5 h-5" aria-hidden="true" />
@@ -229,7 +229,7 @@ export default function Donar() {
                           necesidad: causa.necesidad,
                           costo: causa.costo,
                         }}
-                        className="btn-primary shadow-btn-glow w-full"
+                        className="btn-primary shadow-btn-glow w-full !min-h-[52px] !px-4 !text-[15px]"
                       >
                         <HeartHandshake className="w-5 h-5" aria-hidden="true" />
                         Quiero ayudar
@@ -245,23 +245,23 @@ export default function Donar() {
 
         {/* ───── CÓMO FUNCIONA (3 PASOS) ───── */}
         <FadeIn>
-          <div className="text-center mb-10">
+          <div className="text-center mb-5">
             <span className="section-badge-light">Cómo funciona</span>
-            <h3 className="text-[28px] sm:text-[36px] font-black text-gray-900 leading-tight mt-4">
+            <h3 className="text-[26px] sm:text-[32px] font-black text-gray-900 leading-tight mt-3">
               Ayudar es <span className="text-highlight">muy sencillo</span>
             </h3>
           </div>
         </FadeIn>
 
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6" stagger={0.12}>
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-4" stagger={0.12}>
           {pasos.map((paso, i) => {
             const Icon = paso.icon;
             return (
               <StaggerItem key={paso.titulo}>
-                <div className="rounded-card border-2 border-naranja-100 bg-white shadow-card p-7 h-full text-center">
-                  <div className="relative w-16 h-16 mx-auto mb-5">
-                    <div className="w-16 h-16 rounded-full bg-naranja-100 border-2 border-naranja-300 flex items-center justify-center">
-                      <Icon className="w-8 h-8 text-naranja-600" strokeWidth={2} aria-hidden="true" />
+                <div className="rounded-card border-2 border-naranja-100 bg-white shadow-card p-5 h-full text-center">
+                  <div className="relative w-12 h-12 mx-auto mb-4">
+                    <div className="w-12 h-12 rounded-full bg-naranja-100 border-2 border-naranja-300 flex items-center justify-center">
+                      <Icon className="w-6 h-6 text-naranja-600" strokeWidth={2} aria-hidden="true" />
                     </div>
                     <span
                       className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-naranja-500 text-white text-[14px] font-black flex items-center justify-center border-2 border-white"
@@ -270,8 +270,8 @@ export default function Donar() {
                       {i + 1}
                     </span>
                   </div>
-                  <h4 className="text-[20px] font-black text-gray-900 mb-2">{paso.titulo}</h4>
-                  <p className="text-[16px] text-gray-700 leading-relaxed">{paso.texto}</p>
+                  <h4 className="text-[18px] font-black text-gray-900 mb-1">{paso.titulo}</h4>
+                  <p className="text-[14px] text-gray-700 leading-relaxed">{paso.texto}</p>
                 </div>
               </StaggerItem>
             );

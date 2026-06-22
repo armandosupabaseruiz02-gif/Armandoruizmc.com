@@ -10,28 +10,28 @@ const pasos = [
     icon: Users,
     titulo: "Escuchamos el caso",
     descripcion:
-      "La persona no siempre sabe qué pedir. Primero se identifica si busca salud, programa social, empleo, trámite o seguimiento.",
+      "Identificamos si busca salud, apoyo, empleo, trámite o seguimiento.",
   },
   {
     num: "02",
     icon: FileText,
     titulo: "Ubicamos la ruta correcta",
     descripcion:
-      "Se separa lo que puede resolverse dentro de la página de lo que necesita una dependencia, cita o contacto externo.",
+      "Separamos lo que resuelve el portal de lo que requiere una dependencia.",
   },
   {
     num: "03",
     icon: ClipboardCheck,
     titulo: "Preparamos requisitos",
     descripcion:
-      "El usuario debe saber qué documentos necesita, qué datos llenar y qué error evitar antes de avanzar.",
+      "Aclaramos documentos, datos y errores comunes antes de avanzar.",
   },
   {
     num: "04",
     icon: Megaphone,
     titulo: "Damos seguimiento",
     descripcion:
-      "Las citas, solicitudes y registros deben tener estado claro para que no se queden como un correo sin respuesta.",
+      "Mostramos estado y siguiente acción para que nada se pierda.",
   },
 ];
 
@@ -39,13 +39,13 @@ export default function QueHacemos() {
   return (
     <section
       id="que-hacemos"
-      className="relative overflow-hidden bg-white py-24 sm:py-28"
+      className="landing-sheet bg-white"
       aria-labelledby="que-hacemos-titulo"
     >
       <div className="absolute inset-0 bg-dot-pattern opacity-45 pointer-events-none" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.72fr_1.28fr]">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr]">
           <FadeIn className="lg:sticky lg:top-28 lg:self-start">
             <span className="section-badge-light">Cómo te ayudamos</span>
             <h2
@@ -56,12 +56,11 @@ export default function QueHacemos() {
               <span className="text-highlight">siguiente paso.</span>
             </h2>
             <p className="mt-5 text-[18px] leading-relaxed text-gray-800">
-              Esta sección ya no debe sentirse como propaganda. Debe explicar cómo se mueve
-              una persona dentro del portal y qué puede esperar.
+              Explicamos cómo se mueve una persona dentro del portal y qué puede esperar.
             </p>
           </FadeIn>
 
-          <StaggerContainer className="relative grid grid-cols-1 gap-5" stagger={0.1}>
+          <StaggerContainer className="relative grid grid-cols-1 gap-4" stagger={0.1}>
             <div className="absolute bottom-8 left-7 top-8 hidden w-px bg-gradient-to-b from-naranja-300 via-naranja-200 to-transparent md:block" aria-hidden="true" />
 
             {pasos.map((paso) => {
@@ -70,12 +69,12 @@ export default function QueHacemos() {
               return (
                 <StaggerItem key={paso.num}>
                   <motion.div
-                    className="group relative overflow-hidden rounded-[30px] border-2 border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 hover:border-naranja-200 hover:shadow-card md:ml-14"
+                    className="group relative overflow-hidden rounded-[30px] border-2 border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:border-naranja-200 hover:shadow-card md:ml-14"
                     whileHover={{ y: -4 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
                     <div className="absolute left-0 top-0 h-full w-1 bg-naranja-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
-                    <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
                       <div className="flex items-center gap-4 sm:block">
                         <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-naranja-50 text-[18px] font-black text-naranja-600 ring-8 ring-white">
                           {paso.num}

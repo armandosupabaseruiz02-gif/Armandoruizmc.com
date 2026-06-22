@@ -114,13 +114,13 @@ export default function InstagramReels() {
   return (
     <section
       id="instagram"
-      className="py-28 bg-white relative overflow-hidden"
+      className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
       aria-labelledby="instagram-titulo"
     >
       <div className="absolute inset-0 bg-dot-pattern opacity-50 pointer-events-none" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-        <FadeIn className="text-center mb-16">
+        <FadeIn className="text-center mb-10">
           <span className="section-badge-light">Instagram</span>
           <h2
             id="instagram-titulo"
@@ -131,7 +131,7 @@ export default function InstagramReels() {
             <span className="text-highlight">Instagram</span>
           </h2>
           <p className="text-[18px] text-gray-800 max-w-xl mx-auto leading-relaxed">
-            Mira nuestros últimos videos y mantente informado de todo lo que hacemos por las personas con discapacidad.
+            Mira videos recientes y avances del trabajo ciudadano.
           </p>
           <p className="text-naranja-600 text-[15px] font-bold mt-2">@armandoruizdiputado</p>
         </FadeIn>
@@ -163,7 +163,7 @@ export default function InstagramReels() {
       </FadeIn>
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-        <FadeIn className="text-center mt-10">
+        <FadeIn className="text-center mt-6">
           <a
             href="https://www.instagram.com/armandoruizdiputado"
             target="_blank"

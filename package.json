@@ -9,6 +9,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@react-three/fiber": "^9.6.1",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.2",
     "class-variance-authority": "^0.7.1",
@@ -21,7 +23,8 @@
     "next": "^16.2.9",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "tailwind-merge": "^2.6.1"
+    "tailwind-merge": "^2.6.1",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@types/node": "^20",

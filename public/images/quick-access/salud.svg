@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="280" viewBox="0 0 640 280" role="img" aria-label="Orientacion de salud">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff7ed"/>
+      <stop offset="1" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="280" rx="64" fill="url(#bg)"/>
+  <circle cx="320" cy="140" r="92" fill="#ffedd5" stroke="#ea580c" stroke-width="14"/>
+  <path d="M320 82v116M262 140h116" stroke="#ea580c" stroke-width="34" stroke-linecap="round"/>
+</svg>

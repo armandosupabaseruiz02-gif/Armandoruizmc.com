@@ -58,6 +58,26 @@
 }
 
 @layer components {
+  .landing-sheet {
+    @apply relative flex flex-col justify-center overflow-hidden;
+    min-height: 100svh;
+    padding-block: clamp(4rem, 5vw, 5.5rem);
+  }
+
+  .landing-sheet-header {
+    justify-content: flex-start;
+    padding-top: clamp(5rem, 8vh, 6.25rem);
+  }
+
+  @media (min-width: 1024px) {
+    .landing-sheet {
+      height: 100svh;
+    }
+
+    .landing-sheet-header {
+      padding-top: clamp(6rem, 10vh, 7.5rem);
+    }
+  }
 
   /* ——— BOTONES ——— */
   .btn-primary {

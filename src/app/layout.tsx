@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
-import { Atkinson_Hyperlegible, Geist } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
 import Navbar from "@/components/layout/Navbar";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const atkinson = Atkinson_Hyperlegible({
+const geist = Geist({
   subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-atkinson",
+  variable: "--font-sans",
   display: "swap",
 });
 

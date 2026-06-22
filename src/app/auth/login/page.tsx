@@ -2,11 +2,13 @@
 
 import { useState, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { getSafeRedirect } from "@/lib/auth/redirect";
 import { getSafeEmail } from "@/lib/auth/email";
-import { HeartPulse, Eye, EyeOff, ArrowLeft, LogIn, UserPlus } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, LockKeyhole, LogIn, Mail, UserPlus } from "lucide-react";
+import Silk from "@/components/effects/Silk";
 
 function getRegisterHref(redirectTo: string, email: string) {
   const params = new URLSearchParams({ redirectTo });
@@ -69,6 +71,76 @@ async function withTimeout<T>(promise: Promise<T>, milliseconds: number): Promis
   }
 }
 
+function BrandLogo() {
+  return (
+    <div className="flex flex-col items-center text-center">
+      <div className="inline-flex items-center justify-center gap-1.5 pb-1">
+        <Image
+          src="/icon.png"
+          alt="Sombrero de Armando Ruiz"
+          width={72}
+          height={72}
+          priority
+          className="h-12 w-12 shrink-0 -rotate-12 object-contain drop-shadow-[0_8px_18px_rgba(234,88,12,0.25)] sm:h-14 sm:w-14"
+        />
+        <span className="text-[24px] font-[900] leading-none tracking-[-0.055em] text-gray-950 sm:text-[28px]">
+          Armando Ruiz
+        </span>
+        <span className="text-[26px] font-black leading-none text-naranja-600 sm:text-[30px]">.</span>
+      </div>
+      <span className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-naranja-600 sm:text-[12px] sm:tracking-[0.22em]">
+        Portal ciudadano
+      </span>
+    </div>
+  );
+}
+
+function GoogleMark() {
+  return (
+    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-[13px] font-black text-naranja-600">
+      G
+    </span>
+  );
+}
+
+function BackButton({ className }: { className: string }) {
+  return (
+    <Link href="/" aria-label="Volver al inicio" className={className}>
+      <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+      Atrás
+    </Link>
+  );
+}
+
+function LoginAnimationPanel() {
+  return (
+    <aside className="relative hidden h-full min-h-0 overflow-hidden bg-naranja-500 text-white lg:block">
+      <div className="pointer-events-none absolute inset-x-0 -top-24 -bottom-24">
+        <Silk speed={4.8} scale={1.18} color="#FF8A1D" noiseIntensity={1.05} rotation={0.2} />
+      </div>
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_18%,rgba(255,255,255,0.38),transparent_30%),linear-gradient(180deg,rgba(154,52,18,0.04),rgba(67,20,7,0.16))]"
+        aria-hidden="true"
+      />
+
+      <BackButton
+        className="pointer-events-auto absolute left-9 top-9 z-30 inline-flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 text-[14px] font-bold text-white/90 transition-colors hover:bg-white/15 hover:text-white"
+      />
+
+      <div className="relative z-10 flex h-full flex-col justify-end p-10 xl:p-14">
+        <div className="max-w-2xl pb-[clamp(3rem,8vh,6rem)]">
+          <h2 className="max-w-xl text-[48px] font-[900] leading-[0.94] tracking-[-0.07em] text-white drop-shadow-[0_14px_35px_rgba(67,20,7,0.42)] xl:text-[66px]">
+            Entra a tu cuenta ciudadana.
+          </h2>
+          <p className="mt-6 max-w-md text-[18px] font-semibold leading-8 text-white/88 drop-shadow-[0_10px_24px_rgba(67,20,7,0.32)]">
+            Consulta tus citas, guarda tus datos y retoma tus trámites sin empezar de cero.
+          </p>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = getSafeRedirect(searchParams.get("redirectTo"));
@@ -122,122 +194,153 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-warm-50 flex flex-col items-center justify-center px-4 py-16">
-      <div className="w-full max-w-md">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-gray-500 hover:text-naranja-600
-                     text-[14px] font-medium transition-colors mb-10 group"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          Volver al inicio
-        </Link>
+    <main
+      className="h-[100svh] max-h-[100svh] overflow-hidden bg-[#fff7ed] px-0 py-0 antialiased sm:px-5 sm:py-5 lg:p-8"
+      style={{
+        fontFamily:
+          "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      }}
+    >
+      <section className="mx-auto grid h-full max-h-full w-full max-w-7xl overflow-hidden bg-white shadow-[0_28px_90px_rgba(124,45,18,0.10)] sm:rounded-[28px] sm:border sm:border-naranja-200/80 lg:grid-cols-[1.08fr_0.92fr]">
+        <LoginAnimationPanel />
 
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-naranja-500 flex items-center justify-center">
-            <HeartPulse className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <p className="text-[12px] font-bold text-naranja-600 uppercase tracking-widest">Portal Ciudadano</p>
-            <p className="text-[13px] text-gray-500">Armando Ruiz · Diputado Federal</p>
-          </div>
-        </div>
+        <div className="relative flex h-full min-h-0 min-w-0 items-center justify-center overflow-hidden bg-white px-5 py-3 sm:px-8 sm:py-4 lg:min-h-0">
+          <BackButton
+            className="pointer-events-auto absolute left-4 top-3 z-30 inline-flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 text-[14px] font-bold text-gray-500 transition-colors hover:bg-naranja-50 hover:text-naranja-700 sm:left-5 sm:top-5 lg:hidden"
+          />
 
-        <h1 className="text-[32px] font-black text-gray-900 mb-2">Iniciar sesión</h1>
-        <p className="text-[15px] text-gray-500 mb-8">
-          ¿No tienes cuenta?{" "}
-          <Link href={registerHref}
-                className="text-naranja-600 font-semibold hover:underline">
-            Regístrate aquí
-          </Link>
-        </p>
+          <div className="w-[min(430px,calc(100vw-2.5rem))] min-w-0 max-w-[430px] sm:w-full">
+            <BrandLogo />
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {configError && (
-            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[14px] font-medium">
-              Falta conectar Supabase en Vercel. La pagina publica puede abrir,
-              pero login, citas y admin necesitan las variables de Supabase.
+            <div className="mt-5 text-center sm:mt-6">
+              <h1 className="text-[27px] font-[900] leading-tight tracking-[-0.06em] text-gray-950 sm:text-[36px]">
+                Bienvenido de nuevo
+              </h1>
+              <p className="mx-auto mt-2 max-w-sm text-[13px] leading-5 text-gray-500 sm:mt-3 sm:text-[15px] sm:leading-6">
+                Inicia sesión para continuar con tus trámites, citas y seguimiento ciudadano.
+              </p>
             </div>
-          )}
 
-          <div>
-            <label htmlFor="email" className="block text-[14px] font-semibold text-gray-700 mb-2">
-              Correo electrónico
-            </label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-naranja-400
-                         outline-none text-[16px] text-gray-900 transition-colors bg-white"
-              placeholder="tu@correo.com"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-[14px] font-semibold text-gray-700 mb-2">
-              Contraseña
-            </label>
-            <div className="relative">
-              <input
-                id="password"
-                type={showPwd ? "text" : "password"}
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 focus:border-naranja-400
-                           outline-none text-[16px] text-gray-900 transition-colors bg-white"
-                placeholder="••••••••"
-              />
+            <div className="mt-5 grid gap-3 sm:mt-6">
               <button
                 type="button"
-                onClick={() => setShowPwd((v) => !v)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-naranja-600"
-                aria-label={showPwd ? "Ocultar contraseña" : "Mostrar contraseña"}
+                disabled
+                className="flex min-h-[46px] w-full min-w-0 cursor-not-allowed items-center justify-center gap-2 rounded-xl border border-naranja-100 bg-naranja-50 px-3 text-[13px] font-black text-naranja-700 opacity-75 sm:min-h-[54px] sm:gap-3 sm:px-4 sm:text-[15px]"
+                aria-disabled="true"
               >
-                {showPwd ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                <GoogleMark />
+                <span className="min-w-0 truncate">Iniciar sesión con Google</span>
+                <span className="hidden shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black uppercase tracking-wider text-naranja-600 sm:inline-flex">
+                  Pendiente
+                </span>
               </button>
             </div>
-          </div>
 
-          {error && (
-            <div className="space-y-3 rounded-xl bg-red-50 border border-red-200 p-4 text-[14px]">
-              <p className="text-red-700 font-medium">{error}</p>
-              {showRegisterHelp && (
-                <Link
-                  href={registerHref}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-naranja-500 px-4 py-2.5 text-white font-black hover:bg-naranja-600 transition-colors"
-                >
-                  <UserPlus className="w-4 h-4" aria-hidden="true" />
-                  Registrarme con este correo
-                </Link>
-              )}
+            <div className="my-4 flex items-center gap-4 text-[13px] font-semibold text-gray-400 sm:my-5">
+              <span className="h-px flex-1 bg-gray-200" aria-hidden="true" />
+              o
+              <span className="h-px flex-1 bg-gray-200" aria-hidden="true" />
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-primary w-full disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            <LogIn className="w-5 h-5" />
-            {loading ? "Iniciando sesión…" : "Iniciar sesión"}
-          </button>
+            <form onSubmit={handleSubmit} className="space-y-3">
+              {configError && (
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-[14px] font-medium text-amber-800">
+                  Falta conectar Supabase en Vercel. La página pública puede abrir,
+                  pero login, citas y admin necesitan las variables de Supabase.
+                </div>
+              )}
 
-          <Link
-            href="/auth/recuperar"
-            className="block text-center text-[14px] font-semibold text-naranja-600 hover:underline"
-          >
-            Olvidé mi contraseña
-          </Link>
-        </form>
-      </div>
-    </div>
+              <div>
+                <label htmlFor="email" className="mb-1.5 block text-[14px] font-bold text-gray-700">
+                  Correo electrónico *
+                </label>
+                <div className="relative">
+                  <Mail
+                    className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  <input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full rounded-xl border border-gray-200 bg-[#fbfaf9] px-12 py-3 text-[16px] text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-naranja-400 focus:bg-white sm:py-3.5"
+                    placeholder="Introduce tu correo electrónico"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="password" className="mb-1.5 block text-[14px] font-bold text-gray-700">
+                  Contraseña *
+                </label>
+                <div className="relative">
+                  <LockKeyhole
+                    className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  <input
+                    id="password"
+                    type={showPwd ? "text" : "password"}
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full rounded-xl border border-gray-200 bg-[#fbfaf9] px-12 py-3 text-[16px] text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-naranja-400 focus:bg-white sm:py-3.5"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPwd((v) => !v)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-naranja-600"
+                    aria-label={showPwd ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  >
+                    {showPwd ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
+              </div>
+
+              {error && (
+                <div className="space-y-3 rounded-xl border border-red-200 bg-red-50 p-4 text-[14px]">
+                  <p className="font-medium text-red-700">{error}</p>
+                  {showRegisterHelp && (
+                    <Link
+                      href={registerHref}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-naranja-500 px-4 py-2.5 font-black text-white transition-colors hover:bg-naranja-600"
+                    >
+                      <UserPlus className="h-4 w-4" aria-hidden="true" />
+                      Registrarme con este correo
+                    </Link>
+                  )}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex min-h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-naranja-500 px-6 text-[16px] font-black text-white shadow-[0_18px_36px_rgba(249,115,22,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-naranja-600 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 sm:min-h-[56px]"
+              >
+                <LogIn className="h-5 w-5" aria-hidden="true" />
+                {loading ? "Iniciando sesión..." : "Iniciar sesión"}
+              </button>
+
+              <div className="grid gap-2 pt-1 text-center text-[13px] font-semibold text-gray-500 sm:grid-cols-2 sm:text-[14px]">
+                <Link href={registerHref} className="transition-colors hover:text-naranja-700 hover:underline">
+                  ¿No tienes cuenta? Regístrate
+                </Link>
+                <Link href="/auth/recuperar" className="transition-colors hover:text-naranja-700 hover:underline">
+                  ¿Olvidaste tu contraseña?
+                </Link>
+              </div>
+            </form>
+
+            <p className="sr-only">Desarrollado para Armando Ruiz</p>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
 
