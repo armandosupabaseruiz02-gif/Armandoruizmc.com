@@ -41,7 +41,7 @@ const heroRoutes = [
   },
   {
     title: "Bolsa de trabajo",
-    description: "Conecta vacantes incluyentes con personas que buscan empleo.",
+    description: "Conecta vacantes accesibles con personas que buscan empleo.",
     badge: "Trabajo",
     href: "/bolsa-trabajo",
     icon: Briefcase,

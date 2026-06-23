@@ -7,7 +7,7 @@ import { Briefcase, ArrowLeft, MapPin, Clock, Building, ArrowRight } from "lucid
 
 export const metadata: Metadata = {
   title: "Bolsa de Trabajo",
-  description: "Empleos accesibles para personas con discapacidad. Empresas comprometidas con la inclusión laboral.",
+  description: "Empleos accesibles para personas con discapacidad. Empresas comprometidas con la accesibilidad laboral.",
 };
 
 const vacantes = [
@@ -105,7 +105,7 @@ export default function BolsaTrabajoPage() {
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
               Vacantes de empleos dignos para personas con discapacidad.
-              Empresas comprometidas con la inclusión laboral real.
+              Empresas comprometidas con la accesibilidad laboral real.
             </p>
           </FadeIn>
         </div>
@@ -195,7 +195,7 @@ export default function BolsaTrabajoPage() {
             </p>
             <InternalRequestButton
               requestType="vacancy_registration"
-              subject="Registro de vacante inclusiva"
+              subject="Registro de vacante accesible"
               triggerLabel="Registrar vacante"
               title="Registrar una vacante"
               description="Carga los datos de tu empresa dentro del portal para que el equipo revise la vacante."

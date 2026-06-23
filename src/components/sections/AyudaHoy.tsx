@@ -33,7 +33,7 @@ const tareas: FlowingMenuItem[] = [
   },
   {
     text: "Bolsa de trabajo",
-    description: "Consulta vacantes incluyentes",
+    description: "Consulta vacantes accesibles",
     eyebrow: "Empleo",
     link: "/bolsa-trabajo",
     image: "/images/quick-access/trabajo.svg",

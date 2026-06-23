@@ -7,7 +7,7 @@ import { Handshake, ArrowLeft, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Aliados",
-  description: "Red de aliados del Diputado Armando Ruiz: organizaciones, fundaciones y empresas comprometidas con la inclusión.",
+  description: "Red de aliados del Diputado Armando Ruiz: organizaciones, fundaciones y empresas comprometidas con la accesibilidad.",
 };
 
 export default function AliadosPage() {
@@ -42,7 +42,7 @@ export default function AliadosPage() {
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
               Construimos una red de organizaciones, fundaciones y empresas comprometidas
-              con la inclusión y los derechos de las personas con discapacidad en la Ciudad de México.
+              con la accesibilidad y los derechos de las personas con discapacidad en la Ciudad de México.
             </p>
           </FadeIn>
         </div>
@@ -63,7 +63,7 @@ export default function AliadosPage() {
             </h2>
             <p className="text-[18px] text-gray-900 max-w-xl mx-auto leading-relaxed mb-10">
               Estamos construyendo nuestra red de aliados. Si tu organización, fundación
-              o empresa quiere unirse al movimiento por la inclusión, contáctanos.
+              o empresa quiere unirse al movimiento por la accesibilidad, contáctanos.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -99,7 +99,7 @@ export default function AliadosPage() {
                 {[
                   { tipo: "Organizaciones de la Sociedad Civil", desc: "OSC y fundaciones que trabajen en favor de personas con discapacidad.", icon: "🤝" },
                   { tipo: "Empresas Accesibles", desc: "Empresas que contraten personas con discapacidad y promuevan la diversidad.", icon: "🏢" },
-                  { tipo: "Instituciones Académicas", desc: "Universidades y centros de investigación interesados en políticas de inclusión.", icon: "🎓" },
+                  { tipo: "Instituciones Académicas", desc: "Universidades y centros de investigación interesados en políticas de accesibilidad.", icon: "🎓" },
                 ].map((a) => (
                   <div key={a.tipo} className="p-6 rounded-2xl bg-white/4 border border-white/8 text-center">
                     <div className="text-4xl mb-4">{a.icon}</div>

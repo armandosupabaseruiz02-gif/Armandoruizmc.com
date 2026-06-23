@@ -18,7 +18,7 @@ const datos = [
   },
   {
     emoji: "💼",
-    dato: "La inclusión laboral sigue siendo una de las brechas más grandes.",
+    dato: "La accesibilidad laboral sigue siendo una de las brechas más grandes.",
     fuente: "INEGI, ENIGH 2020.",
   },
   {
@@ -63,7 +63,7 @@ const datos = [
   },
   {
     emoji: "💪",
-    dato: "La inclusión laboral abre autonomía e ingresos propios.",
+    dato: "La accesibilidad laboral abre autonomía e ingresos propios.",
     fuente: "STPS, 2023.",
   },
 ];

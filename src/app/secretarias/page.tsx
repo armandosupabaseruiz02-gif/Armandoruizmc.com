@@ -6,14 +6,14 @@ import { Building2, ArrowLeft, Phone, Globe, ChevronRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Secretarías CDMX",
-  description: "Directorio de secretarías de gobierno CDMX especializadas en discapacidad, salud e inclusión.",
+  description: "Directorio de secretarías de gobierno CDMX especializadas en discapacidad, salud y accesibilidad.",
 };
 
 const secretarias = [
   {
     nombre: "SIBISO – Secretaría de Inclusión y Bienestar Social",
-    descripcion: "Dependencia central para programas sociales, apoyos económicos y servicios de inclusión para personas con discapacidad en la Ciudad de México.",
-    servicios: ["Pensión para personas con discapacidad", "Apoyo a cuidadores", "Programas de inclusión social"],
+    descripcion: "Dependencia central para programas sociales, apoyos económicos y servicios de accesibilidad para personas con discapacidad en la Ciudad de México.",
+    servicios: ["Pensión para personas con discapacidad", "Apoyo a cuidadores", "Programas de accesibilidad social"],
     tel: "55 5345-8000",
     url: "https://sibiso.cdmx.gob.mx",
     color: "border-naranja-200",
@@ -30,7 +30,7 @@ const secretarias = [
   },
   {
     nombre: "IFDP – Instituto para la Integración al Desarrollo de las Personas con Discapacidad",
-    descripcion: "Institución especializada en la promoción de derechos, accesibilidad e inclusión laboral y social de personas con discapacidad en la Ciudad de México.",
+    descripcion: "Institución especializada en la promoción de derechos y accesibilidad laboral y social de personas con discapacidad en la Ciudad de México.",
     servicios: ["Tarjeta de Discapacidad CDMX", "Asesoría legal", "Vinculación laboral", "Accesibilidad urbana"],
     tel: "55 5652-7940",
     url: "https://ifdp.cdmx.gob.mx",

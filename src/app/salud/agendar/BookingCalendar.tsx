@@ -418,7 +418,7 @@ export default function BookingCalendar({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {([
                   { value: "salud",        icon: HeartPulse,    label: TOPIC_LABELS.salud,        desc: "Medicamentos, terapias y gestiones médicas" },
-                  { value: "discapacidad", icon: Accessibility, label: TOPIC_LABELS.discapacidad, desc: "Trámites, tarjeta y apoyos de inclusión" },
+                  { value: "discapacidad", icon: Accessibility, label: TOPIC_LABELS.discapacidad, desc: "Trámites, tarjeta y apoyos de accesibilidad" },
                 ] as const).map((opt) => {
                   const Icon = opt.icon;
                   const active = topic === opt.value;

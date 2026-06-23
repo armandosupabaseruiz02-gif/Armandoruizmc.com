@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   description:
     "Página oficial del Diputado Armando Ruiz. Apoyos, programas y servicios para personas con discapacidad en la Ciudad de México.",
-  keywords: ["Armando Ruiz", "Diputado Federal", "Movimiento Ciudadano", "discapacidad", "Tarjeta Incluyente"],
+  keywords: ["Armando Ruiz", "Diputado Federal", "Movimiento Ciudadano", "discapacidad", "Tarjeta Accesible"],
   alternates: { canonical: "/" },
   openGraph: {
     title: "Armando Ruiz | Diputado Federal",

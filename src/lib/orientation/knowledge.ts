@@ -105,9 +105,9 @@ const answers = {
     ],
   },
   trabajo: {
-    title: "Trabajo e inclusion laboral",
+    title: "Trabajo y accesibilidad laboral",
     body: [
-      "La pagina tiene bolsa de trabajo con vacantes inclusivas y tambien menciona el programa Incluyeme / empleo con apoyo.",
+      "La pagina tiene bolsa de trabajo con vacantes accesibles y tambien menciona el programa Incluyeme / empleo con apoyo.",
       "Para empezar prepara: CURP, identificacion, telefono, correo si tienes, experiencia laboral o habilidades, y documento de discapacidad si lo tienes.",
       "Si no tienes CV, puedes pedir orientacion en cita. El equipo puede ayudarte a ordenar tu informacion antes de postularte.",
     ],
