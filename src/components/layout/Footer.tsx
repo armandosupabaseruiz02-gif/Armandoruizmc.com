@@ -161,7 +161,7 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/25 text-[13px]">
-            © {new Date().getFullYear()} Armando Ruiz · Diputado Federal · Movimiento Naranja
+            © {new Date().getFullYear()} Armando Ruiz · Diputado Federal · Movimiento Ciudadano
           </p>
           <div className="flex gap-6">
             {[

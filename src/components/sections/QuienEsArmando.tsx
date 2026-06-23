@@ -33,7 +33,7 @@ export default function QuienEsArmando() {
               <div className="relative w-full aspect-[3/4] overflow-hidden rounded-[32px] border-2 border-naranja-200 bg-naranja-500 shadow-xl">
                 <Image
                   src="/images/armando-ruiz-movimiento-naranja.jpg"
-                  alt="Armando Ruiz en silla de ruedas frente al fondo naranja de Movimiento Naranja"
+                  alt="Armando Ruiz en silla de ruedas frente al fondo naranja de Movimiento Ciudadano"
                   fill
                   sizes="(min-width: 1024px) 360px, min(360px, calc(100vw - 40px))"
                   className="object-cover object-center"
@@ -50,7 +50,7 @@ export default function QuienEsArmando() {
               </h2>
               <div className="space-y-4 text-[17px] text-gray-800 leading-relaxed">
                 <p>
-                  Armando Ruiz es <strong className="text-gray-900 font-bold">Diputado Federal por la Ciudad de México</strong> del Movimiento Naranja.
+                  Armando Ruiz es <strong className="text-gray-900 font-bold">Diputado Federal por el Estado de México</strong> del Movimiento Ciudadano.
                 </p>
                 <p>
                   Como persona con discapacidad, trabaja para convertir derechos en <strong className="text-naranja-700 font-bold">realidades accesibles</strong>.

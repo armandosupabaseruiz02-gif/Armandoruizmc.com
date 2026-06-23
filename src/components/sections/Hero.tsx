@@ -120,8 +120,8 @@ export default function Hero() {
                                bg-naranja-100 border border-naranja-300
                                text-naranja-700 text-[12px] sm:text-[13px] font-bold tracking-widest uppercase">
                 <span className="w-2 h-2 rounded-full bg-naranja-500 animate-pulse" />
-                <span className="hidden sm:inline">Movimiento Naranja · Diputado Federal</span>
-                <span className="sm:hidden">Movimiento Naranja</span>
+                <span className="hidden sm:inline">Movimiento Ciudadano · Diputado Federal</span>
+                <span className="sm:hidden">Movimiento Ciudadano</span>
               </span>
             </motion.div>
 

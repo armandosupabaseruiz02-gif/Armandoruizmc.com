@@ -16,12 +16,12 @@ const atkinson = Atkinson_Hyperlegible({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.armandoruizmc.com"),
   title: {
-    default: "Armando Ruiz | Diputado Federal · Movimiento Naranja",
+    default: "Armando Ruiz | Diputado Federal · Movimiento Ciudadano",
     template: "%s | Armando Ruiz Diputado",
   },
   description:
     "Página oficial del Diputado Armando Ruiz. Apoyos, programas y servicios para personas con discapacidad en la Ciudad de México.",
-  keywords: ["Armando Ruiz", "Diputado Federal", "Movimiento Naranja", "discapacidad", "Tarjeta Incluyente"],
+  keywords: ["Armando Ruiz", "Diputado Federal", "Movimiento Ciudadano", "discapacidad", "Tarjeta Incluyente"],
   alternates: { canonical: "/" },
   openGraph: {
     title: "Armando Ruiz | Diputado Federal",

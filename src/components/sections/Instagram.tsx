@@ -11,7 +11,7 @@ const FALLBACK_POSTS: InstagramPost[] = Array.from({ length: 6 }, (_, index) => 
   media_type: "IMAGE",
   media_url: "/images/armando-ruiz-movimiento-naranja.jpg",
   permalink: "https://www.instagram.com/armandoruizmc",
-  caption: "Armando Ruiz en Movimiento Naranja",
+  caption: "Armando Ruiz en Movimiento Ciudadano",
   timestamp: new Date().toISOString(),
 }));
 
