@@ -28,14 +28,14 @@ export default function QuienEsArmando() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
           <motion.div className="flex justify-center order-2 lg:order-1" style={{ y: imageParallax }}>
-            <div className="relative w-full max-w-[360px]">
+            <div className="relative w-full max-w-[450px]">
               <div className="absolute inset-6 bg-naranja-300 rounded-[32px] blur-2xl opacity-25" />
               <div className="relative w-full aspect-[3/4] overflow-hidden rounded-[32px] border-2 border-naranja-200 bg-naranja-500 shadow-xl">
                 <Image
                   src="/images/armando-ruiz-movimiento-naranja.jpg"
                   alt="Armando Ruiz en silla de ruedas frente al fondo naranja de Movimiento Ciudadano"
                   fill
-                  sizes="(min-width: 1024px) 360px, min(360px, calc(100vw - 40px))"
+                  sizes="(min-width: 1024px) 450px, min(450px, calc(100vw - 40px))"
                   className="object-cover object-center"
                 />
               </div>
