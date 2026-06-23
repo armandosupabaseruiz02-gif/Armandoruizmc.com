@@ -50,7 +50,7 @@ export default function QuienEsArmando() {
               </h2>
               <div className="space-y-4 text-[17px] text-gray-800 leading-relaxed">
                 <p>
-                  Armando Ruiz es <strong className="text-gray-900 font-bold">Diputado Federal por el Estado de México</strong> del Movimiento Ciudadano.
+                  Armando Ruiz es <strong className="text-gray-900 font-bold">Diputado Federal por el Estado de México</strong> de Movimiento Ciudadano.
                 </p>
                 <p>
                   Como persona con discapacidad, trabaja para convertir derechos en <strong className="text-naranja-700 font-bold">realidades accesibles</strong>.
