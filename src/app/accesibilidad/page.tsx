@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 /* Logros de accesibilidad ya implementados en el sitio */
 const logros = [
-  { icon: Type, texto: "Tipografía Geist Sans, clara, fuerte y legible en pantallas grandes y móviles." },
+  { icon: Type, texto: "Tipografía Atkinson Hyperlegible, clara y pensada para lectura accesible en pantallas grandes y móviles." },
   { icon: Eye, texto: "Alto contraste de texto y modo de movimiento reducido (respeta «prefers-reduced-motion»)." },
   { icon: Keyboard, texto: "Navegación completa por teclado, enlace «Ir al contenido» y foco siempre visible." },
   { icon: MousePointer2, texto: "Botones y áreas de toque grandes (mínimo 44–56 px), pensados para todas las manos." },

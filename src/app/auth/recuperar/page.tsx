@@ -4,9 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, KeyRound, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { getSafeEmail } from "@/lib/auth/email";
 
 export default function RecuperarPage() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return getSafeEmail(new URLSearchParams(window.location.search).get("email"));
+  });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
@@ -18,7 +22,7 @@ export default function RecuperarPage() {
 
     const supabase = createClient();
     const redirectTo = `${window.location.origin}/auth/callback?next=/auth/restablecer`;
-    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), { redirectTo });
 
     if (resetError) {
       setError("No pudimos enviar el enlace. Intenta de nuevo en unos minutos.");

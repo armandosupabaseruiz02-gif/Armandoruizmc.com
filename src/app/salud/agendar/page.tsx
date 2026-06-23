@@ -5,6 +5,7 @@ import BookingCalendar from "./BookingCalendar";
 import PageWrapper from "@/components/layout/PageWrapper";
 import Link from "next/link";
 import { ArrowLeft, HeartPulse } from "lucide-react";
+import { addDaysToDateString, getMexicoTodayDateString } from "@/lib/date/mexico";
 
 export const metadata: Metadata = {
   title: "Agendar Cita de Salud",
@@ -25,23 +26,21 @@ export default async function AgendarPage() {
     .eq("id", user.id)
     .single();
 
-  // Fetch already-booked slots for the next 60 days
-  const today = new Date();
-  const until = new Date();
-  until.setDate(today.getDate() + 60);
+  const today = getMexicoTodayDateString();
+  const until = addDaysToDateString(today, 60);
 
   const { data: bookedSlots } = await supabase
     .from("appointments")
     .select("appointment_date, slot_time")
     .in("status", ["pending", "confirmed"])
-    .gte("appointment_date", today.toISOString().split("T")[0])
-    .lte("appointment_date", until.toISOString().split("T")[0]);
+    .gte("appointment_date", today)
+    .lte("appointment_date", until);
 
   const { data: blockedDays } = await supabase
     .from("blocked_days")
     .select("blocked_date")
-    .gte("blocked_date", today.toISOString().split("T")[0])
-    .lte("blocked_date", until.toISOString().split("T")[0]);
+    .gte("blocked_date", today)
+    .lte("blocked_date", until);
 
   return (
     <PageWrapper>

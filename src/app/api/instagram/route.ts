@@ -25,7 +25,7 @@ export async function GET() {
     const res = await fetch(
       `https://graph.instagram.com/me/media` +
         `?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp` +
-        `&limit=8` +
+        `&limit=12` +
         `&access_token=${token}`,
       { next: { revalidate: 3600 } }
     );

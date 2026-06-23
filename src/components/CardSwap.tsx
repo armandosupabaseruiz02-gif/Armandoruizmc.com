@@ -213,7 +213,6 @@ export default function CardSwap({
       });
     };
 
-    swap();
     intervalRef.current = window.setInterval(swap, delay);
 
     if (!pauseOnHover) {

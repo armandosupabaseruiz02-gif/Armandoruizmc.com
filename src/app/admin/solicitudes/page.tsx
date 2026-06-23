@@ -63,7 +63,7 @@ export default async function AdminSolicitudesPage() {
 
   const { data: requests, error } = await supabase
     .from("contact_requests")
-    .select("*")
+    .select("id, request_type, full_name, phone, email, organization, subject, message, status, created_at, metadata")
     .order("created_at", { ascending: false })
     .limit(100);
 

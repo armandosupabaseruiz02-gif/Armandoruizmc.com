@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { getMexicoTodayDateString, getWeekdayFromDateString } from "@/lib/date/mexico";
 import {
   ChevronLeft, ChevronRight, CheckCircle2, Clock, Calendar,
   Building2, Video, HeartPulse, Accessibility,
@@ -29,6 +30,7 @@ const MONTH_NAMES = [
   "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",
 ];
 const DAY_NAMES = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+const CURP_PATTERN = /^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d$/;
 
 function toDateStr(y: number, m: number, d: number) {
   return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
@@ -52,11 +54,11 @@ export default function BookingCalendar({
 }: Props) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = getMexicoTodayDateString();
+  const [todayYear, todayMonth] = today.split("-").map(Number);
 
-  const [viewYear, setViewYear] = useState(today.getFullYear());
-  const [viewMonth, setViewMonth] = useState(today.getMonth());
+  const [viewYear, setViewYear] = useState(todayYear);
+  const [viewMonth, setViewMonth] = useState(todayMonth - 1);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [step, setStep] = useState<Step>("calendar");
@@ -86,7 +88,7 @@ export default function BookingCalendar({
   }, [step]);
 
   // Calendar helpers
-  const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+  const firstDay = getWeekdayFromDateString(toDateStr(viewYear, viewMonth, 1));
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
 
   function prevMonth() {
@@ -100,10 +102,9 @@ export default function BookingCalendar({
 
   function isDaySelectable(d: number) {
     const dateStr = toDateStr(viewYear, viewMonth, d);
-    const date = new Date(viewYear, viewMonth, d);
-    const dow = date.getDay();
+    const dow = getWeekdayFromDateString(dateStr);
     if (dow === 0 || dow === 6) return false; // weekend
-    if (date < today) return false;           // past
+    if (dateStr < today) return false;        // past in Mexico City
     if (blockedDays.includes(dateStr)) return false;
     return true;
   }
@@ -117,6 +118,21 @@ export default function BookingCalendar({
     setLoading(true);
     setError("");
 
+    const normalizedCurp = curp.trim().toUpperCase();
+    const phoneDigits = phone.replace(/\D/g, "");
+
+    if (phoneDigits.length < 10) {
+      setError("Escribe un teléfono válido de al menos 10 dígitos.");
+      setLoading(false);
+      return;
+    }
+
+    if (normalizedCurp && !CURP_PATTERN.test(normalizedCurp)) {
+      setError("Revisa la CURP: debe tener 18 caracteres con el formato oficial.");
+      setLoading(false);
+      return;
+    }
+
     const supabase = createClient();
     const appointmentRecord = {
       citizen_id: userId,
@@ -125,9 +141,9 @@ export default function BookingCalendar({
       slot_time: selectedTime + ":00",
       full_name: fullName.trim(),
       phone: phone.trim(),
-      curp: curp.trim() || null,
-      // El tema viaja como prefijo del motivo (sin migración de BD):
-      motive: `[${TOPIC_LABELS[topic]}] ${motive.trim()}`,
+      curp: normalizedCurp || null,
+      topic,
+      motive: motive.trim(),
       modality,
       status: "pending",
     };
@@ -143,6 +159,21 @@ export default function BookingCalendar({
       const retry = await supabase
         .from("appointments")
         .insert(recordWithoutEmail)
+        .select("id")
+        .single();
+
+      createdAppointment = retry.data;
+      insertError = retry.error;
+    }
+
+    if (insertError && insertError.message.toLowerCase().includes("topic")) {
+      const { citizen_email: _citizenEmail, topic: _topic, ...recordWithoutNewColumns } = appointmentRecord;
+      const retry = await supabase
+        .from("appointments")
+        .insert({
+          ...recordWithoutNewColumns,
+          motive: `[${TOPIC_LABELS[topic]}] ${motive.trim()}`,
+        })
         .select("id")
         .single();
 
@@ -274,9 +305,9 @@ export default function BookingCalendar({
             const selectable = isDaySelectable(d);
             const isSelected = selectedDate === dateStr;
             const isBlocked = blockedDays.includes(dateStr);
-            const date = new Date(viewYear, viewMonth, d);
-            const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-            const isPast = date < today;
+            const dow = getWeekdayFromDateString(dateStr);
+            const isWeekend = dow === 0 || dow === 6;
+            const isPast = dateStr < today;
 
             return (
               <button

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import PageWrapper from "@/components/layout/PageWrapper";
 import AdminPanel from "./AdminPanel";
+import { getMexicoTodayDateString } from "@/lib/date/mexico";
 
 export const metadata: Metadata = {
   title: "Admin · Citas",
@@ -22,25 +23,37 @@ export default async function AdminCitasPage() {
 
   if (profile?.role !== "admin") redirect("/mi-cuenta");
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = getMexicoTodayDateString();
+  const appointmentColumns = `
+    id,
+    appointment_date,
+    slot_time,
+    full_name,
+    phone,
+    motive,
+    status,
+    modality,
+    meeting_link,
+    cancelled_reason
+  `;
 
   const { data: appointments } = await supabase
     .from("appointments")
-    .select("*, profiles!appointments_citizen_id_fkey(full_name, phone)")
+    .select(appointmentColumns)
     .gte("appointment_date", today)
     .order("appointment_date", { ascending: true })
     .order("slot_time", { ascending: true });
 
   const { data: pastAppointments } = await supabase
     .from("appointments")
-    .select("*, profiles!appointments_citizen_id_fkey(full_name, phone)")
+    .select(appointmentColumns)
     .lt("appointment_date", today)
     .order("appointment_date", { ascending: false })
     .limit(50);
 
   const { data: blockedDays } = await supabase
     .from("blocked_days")
-    .select("*")
+    .select("id, blocked_date, reason")
     .order("blocked_date", { ascending: true });
 
   return (

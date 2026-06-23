@@ -1,18 +1,18 @@
 # PENDIENTES - Portal Diputado Armando Ruiz
 
-> Tablero operativo. Ultima reorganizacion: **2026-06-19**.
+> Tablero operativo. Ultima reorganizacion: **2026-06-23**.
 > Fuente de verdad tecnica: codigo + `supabase/migrations/`.
 
 ## Estado actual
 
-- Codigo local: lint, build de produccion y audit de dependencias de produccion correctos (26 rutas, 2026-06-19).
+- Codigo local: lint, build de produccion, audit de dependencias, smoke test de rutas y capturas movil/escritorio correctos (27 rutas, 2026-06-23).
 - GitHub oficial: `armandosupabaseruiz02-gif/Armandoruizmc.com`.
 - Supabase local: variables configuradas en `.env.local`.
 - Vercel: proyecto `armandoruizmc-com`; dominio conectado y redirigiendo a `https://www.armandoruizmc.com`.
 - Dominio canonico del codigo: `https://www.armandoruizmc.com`.
 - Supabase Auth en produccion: registro, confirmacion por correo y login ya llegan a Supabase; Custom SMTP con Resend configurado; correos de citas conectados con Resend; falta prueba completa de usuario/admin.
 - Instagram API: sin token configurado.
-- Rediseño visual en local: header limpio reconstruido, hero con React Bits CardSwap, seccion `Rutas de apoyo` retirada de la landing, y limpieza de `Atencion ciudadana` / `Como te ayudamos`. Pendiente aprobacion visual antes de hacer push.
+- Rediseño visual en local: header limpio reconstruido, hero con React Bits CardSwap, seccion `Rutas de apoyo` retirada de la landing, limpieza de `Atencion ciudadana` / `Como te ayudamos` e Instagram con coverflow/fallback. Validado con capturas locales movil y escritorio.
 
 ## 1. Bloqueadores de lanzamiento
 
@@ -28,6 +28,7 @@
 - [x] Versionar migracion de seguridad y flujo de citas: `supabase/migrations/20260614_secure_appointments_workflow.sql`.
 - [x] **MANUAL - Supabase:** ejecutar migraciones base en SQL Editor y verificar esquema real.
 - [ ] **MANUAL - Supabase:** crear o identificar la cuenta administradora y asignarle `role = 'admin'` usando `supabase/README.md`.
+- [ ] **MANUAL - Supabase:** aplicar `supabase/migrations/20260623_production_hardening.sql` en SQL Editor antes de la prueba final.
 - [ ] Probar con dos cuentas: un ciudadano no puede ver citas ajenas, modificar roles ni entrar a `/admin/citas`.
 
 ### Legal y datos sensibles
@@ -40,7 +41,7 @@
 ### Publicacion
 
 - [x] Subir a GitHub los cambios locales verificados.
-- [ ] Aprobar visualmente en `http://localhost:3000` el rediseño local de landing/header antes de hacer push.
+- [x] Verificar visualmente en `http://localhost:3000` el rediseño local de landing/header antes del push.
 - [x] **MANUAL - Cuenta del diputado:** comprar o confirmar la propiedad de `armandoruizmc.com`.
 - [x] Conectar el repositorio oficial a Vercel en la cuenta del diputado.
 - [x] Confirmar en Vercel `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Production.
@@ -56,6 +57,7 @@
   - Redirect URL local para pruebas: `http://localhost:3000/auth/callback`.
   - Plantillas de confirmacion y recuperacion de contrasena.
 - [ ] Prueba final en produccion: registro -> confirmar correo -> login -> solicitar cita -> aceptar/rechazar en admin -> cancelar desde Mi Cuenta.
+- [ ] Ejecutar checklist operativo de `PRODUCCION.md` despues del deploy.
 
 ## 2. Funciones terminadas en codigo, pendientes de activacion
 
@@ -150,3 +152,10 @@
 - [x] Secciones Instagram y Donar liberadas del alto fijo de `landing-sheet` para que el contenido no se corte y pueda crecer segun lo necesite.
 - [x] Accesos directos adaptados con React Bits FlowingMenu, imagenes locales por tramite y ajuste responsivo para mostrar las seis opciones.
 - [x] FlowingMenu de accesos directos refinado: texto sin encimarse e imagenes simplificadas a iconos claros por servicio.
+- [x] Login ajustado para que los errores no se recorten, con scroll interno y acciones claras para restablecer contrasena o registrarse.
+- [x] Fechas de agenda/admin corregidas para usar dia de Ciudad de Mexico y evitar desfases por UTC.
+- [x] Solicitudes internas movidas a `/api/contact-requests` con validacion server-side, honeypot y rate limit basico.
+- [x] Consultas de citas/solicitudes reducidas para evitar `select("*")` en superficies cliente/admin.
+- [x] Migracion `20260623_production_hardening.sql` agregada: grants explicitos, helpers privados, politica RLS de cancelacion ciudadana y columna `appointments.topic`.
+- [x] Tipografia principal cambiada a Atkinson Hyperlegible y hero refinado para mostrar acciones en primera pantalla movil.
+- [x] Checklist de produccion agregado en `PRODUCCION.md`.

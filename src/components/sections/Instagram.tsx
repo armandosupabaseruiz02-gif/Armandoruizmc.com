@@ -1,73 +1,232 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import FadeIn from "@/components/ui/FadeIn";
-import { Instagram, Play, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, Instagram, Play } from "lucide-react";
 import type { InstagramPost } from "@/app/api/instagram/route";
 
-const PLACEHOLDER_COUNT = 8; // suficientes para que el carrete llene pantallas anchas
+const FALLBACK_POSTS: InstagramPost[] = Array.from({ length: 6 }, (_, index) => ({
+  id: `fallback-${index}`,
+  media_type: "IMAGE",
+  media_url: "/images/armando-ruiz-movimiento-naranja.jpg",
+  permalink: "https://www.instagram.com/armandoruizdiputado",
+  caption: "Armando Ruiz en Movimiento Naranja",
+  timestamp: new Date().toISOString(),
+}));
 
-/* ——— Card de un reel real ——— */
-function ReelCard({ post, tabbable }: { post: InstagramPost; tabbable: boolean }) {
+function getWrappedOffset(index: number, activeIndex: number, total: number) {
+  let offset = index - activeIndex;
+  const half = total / 2;
+
+  if (offset > half) offset -= total;
+  if (offset < -half) offset += total;
+
+  return offset;
+}
+
+function useWideCarousel() {
+  const [isWide, setIsWide] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsWide(media.matches);
+
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  return isWide;
+}
+
+function ReelCard({
+  index,
+  isFallback,
+  offset,
+  post,
+  spread,
+  total,
+}: {
+  index: number;
+  isFallback: boolean;
+  offset: number;
+  post: InstagramPost;
+  spread: number;
+  total: number;
+}) {
+  const distance = Math.abs(offset);
   const isVideo = post.media_type === "VIDEO";
-  const thumb   = isVideo ? post.thumbnail_url : post.media_url;
+  const thumb = isVideo ? post.thumbnail_url : post.media_url;
+  const isActive = offset === 0;
+
   return (
-    <a
+    <motion.a
       href={post.permalink}
       target="_blank"
       rel="noopener noreferrer"
-      tabIndex={tabbable ? undefined : -1}
-      className="relative block w-[200px] sm:w-[240px] aspect-[9/16] rounded-2xl overflow-hidden
-                 border-2 border-naranja-100 cursor-pointer group shadow-card flex-shrink-0
-                 transition-transform duration-300 hover:scale-[1.04] hover:-translate-y-1"
-      aria-label={post.caption
-        ? `Ver publicación: ${post.caption.slice(0, 60)}…`
-        : "Ver publicación en Instagram"}
+      className="absolute left-1/2 top-1/2 block w-[min(72vw,260px)] overflow-hidden rounded-[28px] border border-white/70 bg-white shadow-[0_30px_90px_rgba(124,45,18,0.18)] outline-none sm:w-[290px] lg:w-[320px]"
+      aria-label={post.caption ? `Ver publicación: ${post.caption.slice(0, 80)}` : "Ver publicación en Instagram"}
+      tabIndex={isActive ? undefined : -1}
+      animate={{
+        x: `calc(-50% + ${offset * spread}px)`,
+        y: "-50%",
+        rotate: offset * -5,
+        scale: isActive ? 1 : 0.82 - Math.min(distance, 2) * 0.08,
+        opacity: distance > 2 ? 0 : isActive ? 1 : 0.58,
+        zIndex: total - distance,
+      }}
+      transition={{ type: "spring", stiffness: 210, damping: 26 }}
+      whileHover={isActive ? { y: "-53%", scale: 1.03 } : undefined}
+      whileFocus={isActive ? { y: "-53%", scale: 1.03 } : undefined}
     >
-      {thumb && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={thumb}
-          alt={post.caption?.slice(0, 80) ?? "Publicación de Instagram"}
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="lazy"
-        />
-      )}
-      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300" />
-      {isVideo && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-md
-                          group-hover:scale-110 transition-transform duration-200">
-            <Play className="w-6 h-6 text-naranja-600 ml-1" fill="currentColor" aria-hidden="true" />
+      <div className="relative aspect-[4/5]">
+        {thumb && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={thumb}
+            alt={post.caption?.slice(0, 90) ?? "Publicación de Instagram de Armando Ruiz"}
+            className="h-full w-full object-cover"
+            loading={index === 0 ? "eager" : "lazy"}
+          />
+        )}
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/58 via-black/8 to-transparent" />
+
+        {isVideo && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/92 text-naranja-600 shadow-xl">
+              <Play className="ml-1 h-6 w-6" fill="currentColor" aria-hidden="true" />
+            </span>
           </div>
+        )}
+
+        <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-white/88 px-3 py-2 text-[12px] font-black uppercase tracking-[0.14em] text-naranja-600 shadow-sm backdrop-blur">
+          <Instagram className="h-4 w-4" aria-hidden="true" />
+          Instagram
         </div>
-      )}
-      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-        <div className="w-7 h-7 rounded-lg bg-white/90 flex items-center justify-center">
-          <ExternalLink className="w-3.5 h-3.5 text-naranja-600" aria-hidden="true" />
+
+        <div className="absolute bottom-4 left-4 right-4">
+          <p className="line-clamp-2 text-[15px] font-bold leading-5 text-white drop-shadow-md">
+            {isFallback
+              ? "Conecta Instagram para mostrar las publicaciones recientes del diputado."
+              : post.caption || "Trabajo ciudadano de Armando Ruiz"}
+          </p>
+          <span className="mt-3 inline-flex items-center gap-2 text-[13px] font-black text-white">
+            Ver publicación
+            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+          </span>
         </div>
       </div>
-      <div className="absolute top-3 left-3" aria-hidden="true">
-        <div className="w-7 h-7 rounded-lg bg-naranja-500 flex items-center justify-center">
-          <Instagram className="w-4 h-4 text-white" />
-        </div>
-      </div>
-    </a>
+    </motion.a>
   );
 }
 
-/* ——— Card placeholder (mientras no hay token de Instagram) ——— */
-function PlaceholderCard() {
+function InstagramCoverflow({ isFallback, posts }: { isFallback: boolean; posts: InstagramPost[] }) {
+  const shouldReduceMotion = useReducedMotion();
+  const isWide = useWideCarousel();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const spread = isWide ? 235 : 135;
+
+  const visiblePosts = useMemo(() => {
+    return posts.map((post, index) => ({
+      index,
+      offset: getWrappedOffset(index, activeIndex, posts.length),
+      post,
+    }));
+  }, [activeIndex, posts]);
+
+  useEffect(() => {
+    if (shouldReduceMotion || isPaused || posts.length < 2) return;
+
+    const interval = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % posts.length);
+    }, 3200);
+
+    return () => window.clearInterval(interval);
+  }, [isPaused, posts.length, shouldReduceMotion]);
+
+  function goToPrevious() {
+    setActiveIndex((current) => (current - 1 + posts.length) % posts.length);
+  }
+
+  function goToNext() {
+    setActiveIndex((current) => (current + 1) % posts.length);
+  }
+
   return (
-    <div className="relative w-[200px] sm:w-[240px] aspect-[9/16] rounded-2xl overflow-hidden
-                    border-2 border-naranja-100 shadow-card flex-shrink-0">
-      <div className="absolute inset-0 bg-gradient-to-br from-naranja-50 to-naranja-100" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <Instagram className="w-10 h-10 text-naranja-300" aria-hidden="true" />
-      </div>
-      <div className="absolute top-3 right-3" aria-hidden="true">
-        <div className="w-7 h-7 rounded-lg bg-naranja-500 flex items-center justify-center">
-          <Instagram className="w-4 h-4 text-white" />
+    <div
+      className="relative mx-auto mt-12 max-w-7xl px-5 sm:px-8"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={() => setIsPaused(false)}
+    >
+      <div
+        className="pointer-events-none absolute inset-x-0 top-1/2 h-52 -translate-y-1/2 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.18),transparent_66%)]"
+        aria-hidden="true"
+      />
+
+      <div
+        className="relative h-[460px] overflow-hidden rounded-[32px] border border-naranja-100 bg-gradient-to-br from-white via-naranja-50/80 to-white shadow-[0_30px_100px_rgba(124,45,18,0.10)] sm:h-[520px]"
+        role="region"
+        aria-label="Carrusel animado de publicaciones de Instagram de Armando Ruiz"
+      >
+        <div className="absolute inset-0 bg-dot-pattern opacity-40" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-20 bg-gradient-to-r from-white to-transparent sm:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-20 bg-gradient-to-l from-white to-transparent sm:w-32" />
+
+        <AnimatePresence initial={false}>
+          {visiblePosts.map(({ index, offset, post }) => {
+            if (Math.abs(offset) > 3) return null;
+
+            return (
+              <ReelCard
+                key={post.id}
+                index={index}
+                isFallback={isFallback}
+                offset={offset}
+                post={post}
+                spread={spread}
+                total={posts.length}
+              />
+            );
+          })}
+        </AnimatePresence>
+
+        <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/80 bg-white/88 px-3 py-2 shadow-lg backdrop-blur">
+          <button
+            type="button"
+            onClick={goToPrevious}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-naranja-50 text-naranja-700 transition-colors hover:bg-naranja-500 hover:text-white"
+            aria-label="Ver publicación anterior"
+          >
+            <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+          </button>
+
+          <div className="flex items-center gap-1.5">
+            {posts.slice(0, 8).map((post, index) => (
+              <button
+                key={post.id}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                className={`h-2 rounded-full transition-all ${
+                  index === activeIndex ? "w-7 bg-naranja-500" : "w-2 bg-naranja-200 hover:bg-naranja-300"
+                }`}
+                aria-label={`Ir a publicación ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={goToNext}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-naranja-500 text-white transition-colors hover:bg-naranja-600"
+            aria-label="Ver publicación siguiente"
+          >
+            <ArrowRight className="h-5 w-5" aria-hidden="true" />
+          </button>
         </div>
       </div>
     </div>
@@ -75,41 +234,23 @@ function PlaceholderCard() {
 }
 
 export default function InstagramReels() {
-  const [posts, setPosts]     = useState<InstagramPost[]>([]);
+  const [posts, setPosts] = useState<InstagramPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [ready, setReady]     = useState(false);
 
   useEffect(() => {
     fetch("/api/instagram")
-      .then((r) => r.json())
+      .then((response) => response.json())
       .then((data) => {
         if (data.data?.length) {
           setPosts(data.data);
-          setReady(true);
         }
       })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
-  // Si hay pocos posts, se duplican para que el carrete llene el ancho sin huecos
-  const display = ready && posts.length > 0 && posts.length < 6 ? [...posts, ...posts] : posts;
-
-  /* Render de una "mitad" del carrete (el bucle usa dos mitades idénticas) */
-  const renderHalf = (clone: boolean) => (
-    <div
-      className={`flex gap-4 pr-4 ${clone ? "marquee-clone" : ""}`}
-      aria-hidden={clone || undefined}
-    >
-      {!ready
-        ? Array.from({ length: PLACEHOLDER_COUNT }).map((_, i) => (
-            <PlaceholderCard key={i} />
-          ))
-        : display.map((post, i) => (
-            <ReelCard key={`${post.id}-${i}`} post={post} tabbable={!clone} />
-          ))}
-    </div>
-  );
+  const hasInstagramPosts = posts.length > 0;
+  const carouselPosts = hasInstagramPosts ? posts : FALLBACK_POSTS;
 
   return (
     <section
@@ -119,51 +260,35 @@ export default function InstagramReels() {
     >
       <div className="absolute inset-0 bg-dot-pattern opacity-50 pointer-events-none" aria-hidden="true" />
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-        <FadeIn className="text-center mb-10">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <FadeIn className="text-center">
           <span className="section-badge-light">Instagram</span>
           <h2
             id="instagram-titulo"
-            className="text-[40px] sm:text-[52px] font-black text-gray-900
-                       leading-tight tracking-tight mt-5 mb-5"
+            className="mt-5 text-[40px] font-black leading-tight tracking-tight text-gray-950 sm:text-[52px]"
           >
-            Síguenos en{" "}
+            El trabajo también se ve en{" "}
             <span className="text-highlight">Instagram</span>
           </h2>
-          <p className="text-[18px] text-gray-800 max-w-xl mx-auto leading-relaxed">
-            Mira videos recientes y avances del trabajo ciudadano.
+          <p className="mx-auto mt-5 max-w-2xl text-[18px] leading-relaxed text-gray-700">
+            Un carrete con fotos y videos recientes del diputado Armando Ruiz.
           </p>
-          <p className="text-naranja-600 text-[15px] font-bold mt-2">@armandoruizdiputado</p>
+          <p className="mt-3 text-[15px] font-black text-naranja-600">@armandoruizdiputado</p>
         </FadeIn>
       </div>
 
-      {/* ——— CARRETE INFINITO ———
-          A ancho completo, avanza solo; se pausa con el mouse o el teclado.
-          Con prefers-reduced-motion queda como carrusel de scroll manual. */}
       <FadeIn>
         {loading ? (
-          /* Skeletons mientras carga */
-          <div className="flex gap-4 px-5 sm:px-8 overflow-hidden" aria-hidden="true">
-            {Array.from({ length: PLACEHOLDER_COUNT }).map((_, i) => (
-              <div key={i} className="w-[200px] sm:w-[240px] aspect-[9/16] rounded-2xl bg-naranja-50 animate-pulse flex-shrink-0" />
-            ))}
+          <div className="mx-auto mt-12 max-w-7xl px-5 sm:px-8" aria-hidden="true">
+            <div className="h-[460px] animate-pulse rounded-[32px] bg-naranja-50 sm:h-[520px]" />
           </div>
         ) : (
-          <div
-            className="marquee-mask pb-4"
-            role="region"
-            aria-label="Carrusel de publicaciones de Instagram de Armando Ruiz (se pausa al pasar el cursor)"
-          >
-            <div className="marquee-track">
-              {renderHalf(false)}
-              {renderHalf(true)}
-            </div>
-          </div>
+          <InstagramCoverflow isFallback={!hasInstagramPosts} posts={carouselPosts} />
         )}
       </FadeIn>
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-        <FadeIn className="text-center mt-6">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <FadeIn className="mt-8 text-center">
           <a
             href="https://www.instagram.com/armandoruizdiputado"
             target="_blank"
@@ -171,7 +296,7 @@ export default function InstagramReels() {
             className="btn-outline inline-flex"
             aria-label="Ver perfil completo en Instagram (abre en nueva pestaña)"
           >
-            <Instagram className="w-5 h-5" aria-hidden="true" />
+            <Instagram className="h-5 w-5" aria-hidden="true" />
             Ver perfil en Instagram
           </a>
         </FadeIn>

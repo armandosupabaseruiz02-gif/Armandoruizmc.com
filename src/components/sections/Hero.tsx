@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import CardSwap, { Card } from "@/components/CardSwap";
 import Ballpit from "@/components/effects/Ballpit";
-import SplitText from "@/components/effects/SplitText";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 const heroRoutes = [
@@ -60,7 +59,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-warm-50"
+      className="relative min-h-[92svh] flex flex-col justify-center overflow-hidden bg-warm-50"
       aria-labelledby="hero-titulo"
     >
       {/* Fondo decorativo vivo */}
@@ -99,33 +98,18 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-warm-50/72 via-warm-50/30 to-warm-50/88" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_50%,rgba(255,248,237,0.62),rgba(255,248,237,0.25)_36%,rgba(255,248,237,0)_68%)]" />
 
-        {/* Orb naranja grande */}
-        <motion.div
-          className="absolute top-[-15%] right-[-10%] w-[700px] h-[700px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(249,115,22,0.18) 0%, transparent 70%)" }}
-          animate={{ x: [0, -30, 0], y: [0, 20, 0] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-        />
-        {/* Orb amarillo cálido */}
-        <motion.div
-          className="absolute bottom-[-10%] left-[10%] w-[500px] h-[500px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(251,191,36,0.14) 0%, transparent 70%)" }}
-          animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-        />
-
         {/* Línea superior decorativa */}
         <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-naranja-400 via-naranja-500 to-naranja-400" />
       </div>
 
       <motion.div
-        className="relative mx-auto w-full max-w-7xl px-5 pt-28 pb-20 sm:px-8"
+        className="relative mx-auto w-full max-w-[100vw] px-5 pt-24 pb-10 sm:max-w-7xl sm:px-8 sm:pt-28 sm:pb-14"
         style={{ y, opacity }}
       >
-        <div className="grid min-w-0 grid-cols-1 gap-16 items-center lg:grid-cols-[1fr_420px]">
+        <div className="grid min-w-0 grid-cols-1 gap-10 items-center lg:grid-cols-[1fr_420px] lg:gap-16">
 
           {/* Izquierda */}
-          <div className="flex min-w-0 w-[min(20.75rem,calc(100vw-2.5rem))] flex-col gap-7 sm:w-full sm:max-w-none">
+          <div className="hero-copy flex min-w-0 flex-col gap-5 sm:gap-7">
             {/* Badge partido */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -141,55 +125,50 @@ export default function Hero() {
               </span>
             </motion.div>
 
-            {/* Título con SplitText */}
-            <SplitText
-              tag="h1"
+            <h1
               id="hero-titulo"
-              text="Por un México más Accesible e Incluyente"
-              className="notranslate text-[48px] sm:text-[64px] lg:text-[72px] font-black
-                         text-naranja-600 leading-[1.0] tracking-tight break-words"
-              delay={70}
-              duration={0.55}
-              ease="power3.out"
-              splitType="words"
-              from={{ opacity: 1, y: 24 }}
-              to={{ opacity: 1, y: 0 }}
-              threshold={0.05}
-              rootMargin="0px"
-              textAlign="left"
+              className="notranslate max-w-full text-[37px] font-black leading-[1.05]
+                         text-naranja-600 tracking-normal sm:text-[64px] lg:text-[72px]"
               translate="no"
-              style={{ overflow: "visible" }}
-              animateOnScroll={false}
-            />
+            >
+              <span className="block">Por un México más</span>
+              <span className="block">
+                Accesible e{" "}
+                <span className="block sm:inline">Incluyente</span>
+              </span>
+            </h1>
 
             {/* Descripción */}
             <motion.p
-              className="max-w-full text-[18px] leading-relaxed text-gray-700 sm:max-w-xl sm:text-[20px]"
-              initial={{ opacity: 0, y: 16 }}
+              className="hero-copy-text text-[16px] leading-relaxed text-gray-700 sm:text-[20px]"
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
+              transition={{ duration: 0.2 }}
             >
               Soy{" "}
               <strong className="text-gray-900 font-bold">Armando Ruiz</strong>,{" "}
-              <strong className="text-naranja-700 font-bold">Diputado Federal por la Ciudad de México</strong>.
-              Aquí encontrarás rutas claras para apoyos, trámites y seguimiento ciudadano.
+              <strong className="text-naranja-700 font-bold">
+                Diputado Federal por la Ciudad de México
+              </strong>
+              . Aquí encontrarás rutas claras para apoyos, trámites y seguimiento ciudadano.
             </motion.p>
 
             {/* CTAs */}
             <motion.div
-              className="flex w-full max-w-full min-w-0 flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row"
-              initial={{ opacity: 0, y: 16 }}
+              className="hero-actions flex min-w-0 flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row"
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.85, duration: 0.5 }}
+              transition={{ duration: 0.2 }}
             >
-              <Link href="/tarjeta-accesible" className="btn-primary group min-w-0 max-w-full w-full !px-3 text-center shadow-btn-glow sm:w-auto sm:!px-8">
+              <Link href="/tarjeta-accesible" className="btn-primary group box-border min-w-0 !px-4 text-center shadow-btn-glow sm:w-auto sm:!px-8" aria-label="Tramitar Tarjeta Accesible">
                 <CreditCard className="w-5 h-5" />
-                Tramitar Tarjeta Accesible
+                <span className="sm:hidden">Tarjeta Accesible</span>
+                <span className="hidden sm:inline">Tramitar Tarjeta Accesible</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <button
                 onClick={() => lenisScrollTo("#quienes-somos")}
-                className="btn-secondary min-w-0 max-w-full w-full !px-4 sm:w-auto sm:!px-8"
+                className="btn-secondary box-border min-w-0 !px-4 sm:w-auto sm:!px-8"
               >
                 Ver cómo te ayudamos
               </button>
@@ -205,9 +184,6 @@ export default function Hero() {
             transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
           >
             <div className="relative h-[500px] w-full max-w-[430px] lg:-translate-x-10 xl:-translate-x-12" aria-label="Rutas destacadas">
-              <div className="absolute inset-8 rounded-[40px] bg-naranja-300/30 blur-3xl" aria-hidden="true" />
-              <div className="absolute bottom-10 right-5 h-44 w-44 rounded-full bg-amber-200/60 blur-2xl" aria-hidden="true" />
-
               <CardSwap
                 width={360}
                 height={270}
@@ -257,7 +233,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 sm:bottom-5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6 }}

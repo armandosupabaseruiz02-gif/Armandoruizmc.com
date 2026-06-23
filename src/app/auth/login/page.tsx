@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { getSafeRedirect } from "@/lib/auth/redirect";
 import { getSafeEmail } from "@/lib/auth/email";
-import { ArrowLeft, Eye, EyeOff, LockKeyhole, LogIn, Mail, UserPlus } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, KeyRound, LockKeyhole, LogIn, Mail, UserPlus } from "lucide-react";
 import Silk from "@/components/effects/Silk";
 
 function getRegisterHref(redirectTo: string, email: string) {
@@ -19,6 +19,11 @@ function getRegisterHref(redirectTo: string, email: string) {
   }
 
   return `/auth/registro?${params.toString()}`;
+}
+
+function getRecoveryHref(email: string) {
+  const safeEmail = getSafeEmail(email);
+  return safeEmail ? `/auth/recuperar?email=${encodeURIComponent(safeEmail)}` : "/auth/recuperar";
 }
 
 function getLoginErrorInfo(message: string | undefined) {
@@ -44,6 +49,13 @@ function getLoginErrorInfo(message: string | undefined) {
     };
   }
 
+  if (normalized.includes("invalid login credentials") || normalized.includes("invalid credentials")) {
+    return {
+      message: "No pudimos iniciar sesión con ese correo y contraseña. Si la cuenta ya existe, restablece la contraseña; si todavía no la has creado, regístrate.",
+      showRegisterHelp: true,
+    };
+  }
+
   if (normalized.includes("rate limit") || normalized.includes("too many")) {
     return {
       message: "Hubo demasiados intentos. Espera un momento y vuelve a intentar.",
@@ -52,7 +64,7 @@ function getLoginErrorInfo(message: string | undefined) {
   }
 
   return {
-    message: "No encontramos una cuenta registrada con ese correo. Si ya tienes cuenta, revisa la contraseña; si no, regístrate.",
+    message: "No pudimos iniciar sesión. Revisa el correo y la contraseña, o restablece tu contraseña si ya tenías cuenta.",
     showRegisterHelp: true,
   };
 }
@@ -154,6 +166,7 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [showRegisterHelp, setShowRegisterHelp] = useState(false);
   const registerHref = getRegisterHref(redirectTo, email);
+  const recoveryHref = getRecoveryHref(email);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -165,9 +178,10 @@ function LoginForm() {
 
     try {
       const supabase = createClient();
+      const normalizedEmail = email.trim().toLowerCase();
       const result = await withTimeout(
         supabase.auth.signInWithPassword({
-          email,
+          email: normalizedEmail,
           password,
         }),
         15000
@@ -195,16 +209,16 @@ function LoginForm() {
 
   return (
     <main
-      className="h-[100svh] max-h-[100svh] overflow-hidden bg-[#fff7ed] px-0 py-0 antialiased sm:px-5 sm:py-5 lg:p-8"
+      className="min-h-[100svh] overflow-y-auto bg-[#fff7ed] px-0 py-0 antialiased sm:px-5 sm:py-5 lg:p-8"
       style={{
         fontFamily:
           "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
       }}
     >
-      <section className="mx-auto grid h-full max-h-full w-full max-w-7xl overflow-hidden bg-white shadow-[0_28px_90px_rgba(124,45,18,0.10)] sm:rounded-[28px] sm:border sm:border-naranja-200/80 lg:grid-cols-[1.08fr_0.92fr]">
+      <section className="mx-auto grid min-h-[100svh] w-full max-w-7xl overflow-hidden bg-white shadow-[0_28px_90px_rgba(124,45,18,0.10)] sm:min-h-[calc(100svh-2.5rem)] sm:rounded-[28px] sm:border sm:border-naranja-200/80 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-[1.08fr_0.92fr]">
         <LoginAnimationPanel />
 
-        <div className="relative flex h-full min-h-0 min-w-0 items-center justify-center overflow-hidden bg-white px-5 py-3 sm:px-8 sm:py-4 lg:min-h-0">
+        <div className="relative flex min-h-0 min-w-0 items-center justify-center overflow-y-auto bg-white px-5 py-8 sm:px-8 sm:py-10 lg:min-h-0">
           <BackButton
             className="pointer-events-auto absolute left-4 top-3 z-30 inline-flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 text-[14px] font-bold text-gray-500 transition-colors hover:bg-naranja-50 hover:text-naranja-700 sm:left-5 sm:top-5 lg:hidden"
           />
@@ -305,7 +319,15 @@ function LoginForm() {
               {error && (
                 <div className="space-y-3 rounded-xl border border-red-200 bg-red-50 p-4 text-[14px]">
                   <p className="font-medium text-red-700">{error}</p>
-                  {showRegisterHelp && (
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <Link
+                      href={recoveryHref}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-white px-4 py-2.5 font-black text-red-700 transition-colors hover:bg-red-100"
+                    >
+                      <KeyRound className="h-4 w-4" aria-hidden="true" />
+                      Restablecer contraseña
+                    </Link>
+                    {showRegisterHelp && (
                     <Link
                       href={registerHref}
                       className="inline-flex items-center justify-center gap-2 rounded-xl bg-naranja-500 px-4 py-2.5 font-black text-white transition-colors hover:bg-naranja-600"
@@ -313,7 +335,8 @@ function LoginForm() {
                       <UserPlus className="h-4 w-4" aria-hidden="true" />
                       Registrarme con este correo
                     </Link>
-                  )}
+                    )}
+                  </div>
                 </div>
               )}
 

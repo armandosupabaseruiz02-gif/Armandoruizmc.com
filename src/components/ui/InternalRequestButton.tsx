@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { X } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 
 type RequestType =
   | "job_application"
@@ -128,19 +127,35 @@ export default function InternalRequestButton({
     }
 
     try {
-      const supabase = createClient();
-      const { error: insertError } = await supabase.from("contact_requests").insert({
-        request_type: requestType,
-        full_name: fullName.trim(),
-        phone: phone.trim() || null,
-        email: email.trim() || null,
-        organization: organization.trim() || null,
-        subject,
-        message: message.trim(),
-        metadata,
+      const response = await fetch("/api/contact-requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          requestType,
+          fullName,
+          phone,
+          email,
+          organization,
+          website,
+          openedAt,
+          consent,
+          subject,
+          message,
+          metadata,
+        }),
       });
 
-      if (insertError) throw insertError;
+      if (!response.ok) {
+        const data = await response.json().catch(() => null) as { error?: string } | null;
+        throw new Error(data?.error || "No se pudo guardar la solicitud.");
+      }
+
+      const data = await response.json().catch(() => null) as { skipped?: boolean } | null;
+
+      if (data?.skipped) {
+        setState("success");
+        return;
+      }
 
       setState("success");
       setFullName("");
@@ -152,9 +167,7 @@ export default function InternalRequestButton({
       setWebsite("");
     } catch {
       setState("error");
-      setError(
-        "No se pudo guardar la solicitud. Revisa que Supabase tenga aplicada la migracion contact_requests."
-      );
+      setError("No se pudo guardar la solicitud. Intenta de nuevo en unos minutos.");
     }
   }
 

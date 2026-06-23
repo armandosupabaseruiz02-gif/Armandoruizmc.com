@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Atkinson_Hyperlegible } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
 import Navbar from "@/components/layout/Navbar";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({
+const atkinson = Atkinson_Hyperlegible({
   subsets: ["latin"],
+  weight: ["400", "700"],
   variable: "--font-sans",
   display: "swap",
 });
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={cn("font-sans", geist.variable)}>
+    <html lang="es" className={cn("font-sans", atkinson.variable)}>
       <body>
         <a href="#contenido-principal" className="skip-link">
           Ir al contenido principal

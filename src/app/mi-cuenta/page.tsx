@@ -23,7 +23,7 @@ export default async function MiCuentaPage() {
 
   const { data: appointments } = await supabase
     .from("appointments")
-    .select("*")
+    .select("id, appointment_date, slot_time, full_name, phone, motive, status, modality, meeting_link, cancelled_reason, created_at")
     .eq("citizen_id", user.id)
     .order("appointment_date", { ascending: true })
     .order("slot_time", { ascending: true });

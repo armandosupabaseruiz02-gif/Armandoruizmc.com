@@ -11,6 +11,9 @@ Las migraciones de esta carpeta son la fuente versionada del esquema y sus permi
    - `migrations/20260614_secure_appointments_workflow.sql`
    - `migrations/20260617_contact_requests.sql`
    - `migrations/20260618_appointment_email_notifications.sql`
+   - `migrations/20260618_harden_function_permissions.sql`
+   - `migrations/20260618_revoke_unused_get_my_role.sql`
+   - `migrations/20260623_production_hardening.sql`
 5. Probar registro, cita pendiente, aceptacion, rechazo, cancelacion, correos de citas y solicitudes internas.
 
 ## Auth y dominio

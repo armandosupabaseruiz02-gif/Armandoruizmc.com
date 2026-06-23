@@ -59,9 +59,18 @@ export default function UserDashboard({
     setError("");
 
     const supabase = createClient();
-    const { error: updateError } = await supabase.rpc("cancel_my_appointment", {
-      p_appointment_id: id,
-    });
+    let { error: updateError } = await supabase
+      .from("appointments")
+      .update({ status: "cancelled_by_citizen" })
+      .eq("id", id)
+      .in("status", ["pending", "confirmed"]);
+
+    if (updateError) {
+      const fallback = await supabase.rpc("cancel_my_appointment", {
+        p_appointment_id: id,
+      });
+      updateError = fallback.error;
+    }
 
     if (updateError) {
       setError("No se pudo cancelar. Intenta de nuevo.");

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import { getMexicoTodayDateString } from "@/lib/date/mexico";
 import {
   Calendar, Clock, User, Phone, CheckCircle2,
   XCircle, Ban, Trash2,
@@ -207,6 +208,7 @@ export default function AdminPanel({
     ...appointments.filter((a) => !["pending", "confirmed"].includes(a.status)),
     ...pastAppointments,
   ];
+  const today = getMexicoTodayDateString();
 
   const tabs = [
     { key: "pending",  label: "Por revisar",       count: appointments.filter((a) => a.status === "pending").length },
@@ -222,7 +224,7 @@ export default function AdminPanel({
         {[
           { label: "Pendientes", value: appointments.filter((a) => a.status === "pending").length, color: "text-amber-600" },
           { label: "Próximas",  value: appointments.filter((a) => a.status === "confirmed").length,  color: "text-emerald-600" },
-          { label: "Hoy",       value: appointments.filter((a) => a.appointment_date === new Date().toISOString().split("T")[0] && a.status === "confirmed").length, color: "text-naranja-600" },
+          { label: "Hoy",       value: appointments.filter((a) => a.appointment_date === today && a.status === "confirmed").length, color: "text-naranja-600" },
           { label: "Días bloqueados", value: initialBlockedDays.length, color: "text-red-600" },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-5 text-center shadow-sm">
@@ -351,7 +353,7 @@ export default function AdminPanel({
                   type="date"
                   value={newBlockDate}
                   onChange={(e) => setNewBlockDate(e.target.value)}
-                  min={new Date().toISOString().split("T")[0]}
+                  min={today}
                   className="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-naranja-400
                              outline-none text-[15px] text-gray-900"
                 />
