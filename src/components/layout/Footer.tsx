@@ -63,7 +63,7 @@ export default function Footer() {
             <div className="flex gap-2">
               {/* TODO: agregar Facebook/Twitter cuando existan los perfiles reales */}
               {[
-                { icon: Instagram, label: "Instagram de Armando Ruiz", href: "https://www.instagram.com/armandoruizdiputado" },
+                { icon: Instagram, label: "Instagram de Armando Ruiz", href: "https://www.instagram.com/armandoruizmc" },
               ].map((s) => (
                 <a
                   key={s.label}

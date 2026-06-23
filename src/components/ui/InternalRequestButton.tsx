@@ -187,14 +187,18 @@ export default function InternalRequestButton({
       {open && (
         <div
           ref={dialogRef}
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-gray-950/70 px-4 py-8"
+          className="fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto bg-gray-950/70 px-4 py-8"
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
           aria-describedby={descriptionId}
+          onClick={closeModal}
         >
-          <div className="w-full max-w-xl rounded-[28px] bg-white shadow-2xl border border-gray-100 overflow-hidden">
-            <div className="bg-gray-900 px-6 py-5 text-white flex items-start justify-between gap-4">
+          <div
+            className="flex max-h-[calc(100dvh-4rem)] w-full max-w-xl flex-col overflow-hidden rounded-[28px] border border-gray-100 bg-white shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="shrink-0 bg-gray-900 px-6 py-5 text-white flex items-start justify-between gap-4">
               <div>
                 <p className="text-[12px] font-black uppercase tracking-[0.16em] text-naranja-300 mb-1">
                   Dentro del portal
@@ -216,7 +220,7 @@ export default function InternalRequestButton({
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="overflow-y-auto p-6 space-y-4">
               {state === "success" ? (
                 <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
                   <p className="text-[18px] font-black text-emerald-900 mb-2">

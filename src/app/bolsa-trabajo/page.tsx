@@ -7,7 +7,7 @@ import { Briefcase, ArrowLeft, MapPin, Clock, Building, ArrowRight } from "lucid
 
 export const metadata: Metadata = {
   title: "Bolsa de Trabajo",
-  description: "Empleos inclusivos para personas con discapacidad en la Ciudad de México. Empresas comprometidas con la inclusión laboral.",
+  description: "Empleos accesibles para personas con discapacidad. Empresas comprometidas con la inclusión laboral.",
 };
 
 const vacantes = [
@@ -101,10 +101,10 @@ export default function BolsaTrabajoPage() {
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
               Empleo{" "}
-              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Inclusivo</span>
+              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Accesible</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
-              Vacantes de empleos dignos para personas con discapacidad en la Ciudad de México.
+              Vacantes de empleos dignos para personas con discapacidad.
               Empresas comprometidas con la inclusión laboral real.
             </p>
           </FadeIn>

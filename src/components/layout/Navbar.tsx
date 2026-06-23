@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { Heart, Home, Menu, User, X } from "lucide-react";
+import PillNav, { type PillNavItem } from "@/components/ui/PillNav";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 const navLinks = [
@@ -42,6 +43,15 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false);
   const lastScroll = useRef(0);
   const { scrollY, scrollYProgress } = useScroll();
+  const pillNavItems = useMemo<PillNavItem[]>(
+    () =>
+      navLinks.map((link) => ({
+        ...link,
+        href: getAnchorHref(link.href, isHome),
+        scrollHref: link.href,
+      })),
+    [isHome],
+  );
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 24);
@@ -65,35 +75,38 @@ export default function Navbar() {
               : "bg-white/84 backdrop-blur-md"
           }`}
         >
-          <nav
-            className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-3 px-5 sm:px-8"
-            aria-label="Navegación principal"
+          <div
+            className="relative mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-3 px-5 sm:px-8"
           >
             <Link
               href="/"
               onClick={() => setOpen(false)}
-              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-naranja-200 bg-naranja-50 px-4 text-[14px] font-bold text-naranja-700 transition-all duration-200 hover:border-naranja-300 hover:bg-naranja-100 focus-visible:outline-2 focus-visible:outline-naranja-500"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-naranja-200 bg-naranja-50 px-4 text-[14px] font-bold text-naranja-700 transition-all duration-200 hover:border-naranja-300 hover:bg-naranja-100 focus-visible:outline-2 focus-visible:outline-naranja-500 xl:hidden"
               aria-label="Ir al inicio"
             >
               <Home className="h-4 w-4" aria-hidden="true" />
               Inicio
             </Link>
 
-            <ul className="hidden items-center gap-1 xl:flex">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={getAnchorHref(link.href, isHome)}
-                    onClick={(event) => handleAnchorClick(event, link.href, isHome)}
-                    className="rounded-full px-3 py-2 text-[14px] font-semibold text-gray-700 transition-all duration-200 hover:bg-naranja-50 hover:text-naranja-700 focus-visible:outline-2 focus-visible:outline-naranja-500"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className="hidden xl:block xl:absolute xl:left-1/2 xl:top-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2">
+              <PillNav
+                logo="/icon.png"
+                logoAlt="Inicio"
+                items={pillNavItems}
+                activeHref={pathname}
+                baseColor="#f97316"
+                pillColor="#fff7ed"
+                pillTextColor="#9a3412"
+                hoveredPillTextColor="#ffffff"
+                ease="power3.out"
+                initialLoadAnimation
+                onItemClick={(event, item) => {
+                  handleAnchorClick(event, item.scrollHref ?? item.href, isHome);
+                }}
+              />
+            </div>
 
-            <div className="flex items-center gap-2">
+            <div className="ml-auto flex items-center gap-2">
               <Link
                 href="/mi-cuenta"
                 onClick={() => setOpen(false)}
@@ -112,7 +125,7 @@ export default function Navbar() {
               </a>
               <button
                 type="button"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-800 transition-colors duration-200 hover:bg-naranja-50 xl:hidden"
+                className="navbar-menu-button h-11 w-11 items-center justify-center rounded-full border border-naranja-400 bg-naranja-500 text-white shadow-sm transition-colors duration-200 hover:bg-naranja-600"
                 onClick={() => setOpen((current) => !current)}
                 aria-expanded={open}
                 aria-controls="mobile-menu"
@@ -121,7 +134,7 @@ export default function Navbar() {
                 {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
               </button>
             </div>
-          </nav>
+          </div>
 
           <motion.div
             className="absolute bottom-0 left-0 h-[3px] origin-left bg-gradient-to-r from-naranja-600 via-naranja-400 to-naranja-500"

@@ -57,9 +57,9 @@ const animationConfig = {
   },
   smooth: {
     ease: "power1.inOut",
-    durDrop: 0.8,
-    durMove: 0.8,
-    durReturn: 0.8,
+    durDrop: 0.6,
+    durMove: 0.6,
+    durReturn: 0.6,
     promoteOverlap: 0.45,
     returnDelay: 0.2,
   },

@@ -94,11 +94,11 @@ export default function ProgramasSocialesPage() {
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
               Programas del{" "}
-              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Gobierno CDMX</span>
+              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Gobierno</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
               Catálogo de programas sociales disponibles para personas con discapacidad
-              y sus familias en la Ciudad de México. Conoce a cuáles tienes derecho.
+              y sus familias. Conoce a cuáles tienes derecho.
             </p>
           </FadeIn>
         </div>

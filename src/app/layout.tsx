@@ -3,6 +3,7 @@ import { Atkinson_Hyperlegible } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
 import Navbar from "@/components/layout/Navbar";
+import FloatingAssistant from "@/components/assistant/FloatingAssistant";
 import { cn } from "@/lib/utils";
 
 const atkinson = Atkinson_Hyperlegible({
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           {children}
         </SmoothScrollProvider>
+        <FloatingAssistant />
       </body>
     </html>
   );

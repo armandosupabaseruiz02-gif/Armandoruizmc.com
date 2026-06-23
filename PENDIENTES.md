@@ -106,6 +106,7 @@
 
 ## 4. Mejoras posteriores al lanzamiento
 
+- [ ] **Asistente flotante Fase 2 (IA):** decidir con el equipo si se conecta Claude. Si si: instalar `@anthropic-ai/sdk`, crear `src/app/api/assistant/route.ts` (server, streaming) y `src/lib/assistant/systemPrompt.ts` (guardrails "amplio con limites" + contexto de `knowledge.ts`), agregar `ANTHROPIC_API_KEY` en Vercel (solo servidor) y cambiar el cuerpo de `getAssistantReply` en `src/lib/assistant/provider.ts` por un `fetch('/api/assistant')` con respaldo al bot de reglas. La UI no cambia.
 - [ ] Recordatorios de citas por WhatsApp o correo.
 - [ ] "Mi Expediente" con documentos privados y seguimiento.
 - [ ] Backend de donaciones: casos, donantes, moderacion y Storage.
@@ -128,6 +129,7 @@
 - [x] ESLint actualizado para Next.js 16.
 - [x] Proteccion agregada para que paginas publicas no caigan en error 500 si faltan variables de Supabase en Vercel.
 - [x] Bot de orientacion gratuita agregado en Programas Sociales para sustituir el envio directo por correo.
+- [x] Asistente flotante global (estilo Messenger) en todas las paginas: burbuja con ojitos que siguen el mouse y el sombrero del favicon "puesto" como emblema, con rebote/brinco al picarla (respeta `prefers-reduced-motion`). Panel de chat naranja accesible (dialog, Esc, foco, `aria-live`), solo texto (sin adjuntar ni voz), reutiliza `knowledge.ts` via `AnswerCard` compartido. Sin IA por ahora, con enchufe listo en `src/lib/assistant/provider.ts` para Fase 2. Archivos: `src/components/assistant/{FloatingAssistant,EyesBubble,AnswerCard}.tsx`, montado en `src/app/layout.tsx`. Lint y build OK.
 - [x] Formularios internos agregados para postulaciones, vacantes, aliados, donaciones y accesibilidad.
 - [x] Bandeja admin creada en `/admin/solicitudes`.
 - [x] **MANUAL - Supabase:** aplicar `supabase/migrations/20260617_contact_requests.sql` para activar solicitudes internas.
@@ -159,3 +161,9 @@
 - [x] Migracion `20260623_production_hardening.sql` agregada: grants explicitos, helpers privados, politica RLS de cancelacion ciudadana y columna `appointments.topic`.
 - [x] Tipografia principal cambiada a Atkinson Hyperlegible y hero refinado para mostrar acciones en primera pantalla movil.
 - [x] Checklist de produccion agregado en `PRODUCCION.md`.
+- [x] Header refinado: PillNav centrado en el header, sombrero/logo ~40% mas grande y mas separacion entre pestañas.
+- [x] CardSwap del hero ya no se pausa al pasar el cursor; cambia cada 1.5s con animacion `smooth` ajustada para que cada recorrido quepa dentro del intervalo.
+- [x] Sombrero de la burbuja del asistente 50% mas grande.
+- [x] Instagram del diputado actualizado al handle real `@armandoruizmc` (carrusel, texto, boton de perfil y footer).
+- [x] Copy corregido: titulo del hero solo "Por un México más Accesible", subtitulo "Diputado Federal por el Estado de México"; programas/empleo sin restringir a CDMX; "Empleo Inclusivo" -> "Empleo Accesible".
+- [x] Modal de solicitudes internas (`InternalRequestButton`) con alto maximo, scroll interno y cierre al tocar el fondo para que no se salga de pantalla en formularios largos.

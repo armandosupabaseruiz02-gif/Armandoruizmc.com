@@ -69,6 +69,25 @@
     padding-top: clamp(5rem, 8vh, 6.25rem);
   }
 
+  .navbar-menu-button {
+    display: flex;
+  }
+
+  @media (max-width: 639px) {
+    .navbar-menu-button {
+      position: fixed;
+      top: 0.75rem;
+      right: 1.25rem;
+      z-index: 70;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .navbar-menu-button {
+      display: none;
+    }
+  }
+
   .hero-copy,
   .hero-copy-text,
   .hero-actions,

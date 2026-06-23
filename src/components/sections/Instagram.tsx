@@ -10,7 +10,7 @@ const FALLBACK_POSTS: InstagramPost[] = Array.from({ length: 6 }, (_, index) => 
   id: `fallback-${index}`,
   media_type: "IMAGE",
   media_url: "/images/armando-ruiz-movimiento-naranja.jpg",
-  permalink: "https://www.instagram.com/armandoruizdiputado",
+  permalink: "https://www.instagram.com/armandoruizmc",
   caption: "Armando Ruiz en Movimiento Naranja",
   timestamp: new Date().toISOString(),
 }));
@@ -273,7 +273,7 @@ export default function InstagramReels() {
           <p className="mx-auto mt-5 max-w-2xl text-[18px] leading-relaxed text-gray-700">
             Un carrete con fotos y videos recientes del diputado Armando Ruiz.
           </p>
-          <p className="mt-3 text-[15px] font-black text-naranja-600">@armandoruizdiputado</p>
+          <p className="mt-3 text-[15px] font-black text-naranja-600">@armandoruizmc</p>
         </FadeIn>
       </div>
 
@@ -290,7 +290,7 @@ export default function InstagramReels() {
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <FadeIn className="mt-8 text-center">
           <a
-            href="https://www.instagram.com/armandoruizdiputado"
+            href="https://www.instagram.com/armandoruizmc"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-outline inline-flex"

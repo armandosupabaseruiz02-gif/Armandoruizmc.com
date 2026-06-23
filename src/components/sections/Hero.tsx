@@ -59,7 +59,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-[92svh] flex flex-col justify-center overflow-hidden bg-warm-50"
+      className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden bg-warm-50"
       aria-labelledby="hero-titulo"
     >
       {/* Fondo decorativo vivo */}
@@ -132,10 +132,7 @@ export default function Hero() {
               translate="no"
             >
               <span className="block">Por un México más</span>
-              <span className="block">
-                Accesible e{" "}
-                <span className="block sm:inline">Incluyente</span>
-              </span>
+              <span className="block">Accesible</span>
             </h1>
 
             {/* Descripción */}
@@ -148,7 +145,7 @@ export default function Hero() {
               Soy{" "}
               <strong className="text-gray-900 font-bold">Armando Ruiz</strong>,{" "}
               <strong className="text-naranja-700 font-bold">
-                Diputado Federal por la Ciudad de México
+                Diputado Federal por el Estado de México
               </strong>
               . Aquí encontrarás rutas claras para apoyos, trámites y seguimiento ciudadano.
             </motion.p>
@@ -189,10 +186,9 @@ export default function Hero() {
                 height={270}
                 cardDistance={38}
                 verticalDistance={54}
-                delay={3600}
-                pauseOnHover
+                delay={1500}
                 skewAmount={5}
-                easing="elastic"
+                easing="smooth"
               >
                 {heroRoutes.map((route) => {
                   const Icon = route.icon;
