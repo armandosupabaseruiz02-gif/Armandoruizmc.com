@@ -13,73 +13,12 @@ import { ShieldCheck, MousePointerClick, MessagesSquare, HeartHandshake, ArrowRi
 ─────────────────────────────────────────────────────────────── */
 
 /* ───────────────────────────────────────────────────────────────
-   ESTRUCTURA DE DATOS DE LAS CAUSAS
-   Pensada para cargarse después desde Supabase / panel admin.
-   // Requiere consentimiento firmado del beneficiario/tutor (nombre + foto)
+   CASOS REALES
+   Las causas se publicaran desde Supabase / panel admin cuando haya
+   un beneficiario verificado y CONSENTIMIENTO FIRMADO (nombre + foto).
+   Mientras tanto NO se muestran personas inventadas: solo el modelo
+   de ayuda y los formularios para ofrecer o pedir apoyo.
 ─────────────────────────────────────────────────────────────── */
-type EstadoCausa = "buscando" | "completada";
-
-interface Causa {
-  id: string;
-  nombre: string;            // nombre completo del beneficiario
-  edad: number;
-  iniciales: string;         // placeholder de foto (mientras no haya foto real)
-  fotoUrl?: string;          // foto real con consentimiento (futuro)
-  historia: string;          // tono DIGNO y empoderador (1-2 líneas)
-  necesidad: string;         // necesidad específica
-  costo: number;             // costo aproximado en MXN
-  estado: EstadoCausa;
-}
-
-const causas: Causa[] = [
-  {
-    id: "silla-luis",
-    nombre: "Luis Hernández",
-    edad: 16,
-    iniciales: "LH",
-    historia:
-      "Luis quiere moverse con autonomía para seguir estudiando.",
-    necesidad: "Silla de ruedas para seguir estudiando",
-    costo: 4500,
-    estado: "buscando",
-  },
-  {
-    id: "uniforme-mariana",
-    nombre: "Mariana Soto",
-    edad: 9,
-    iniciales: "MS",
-    historia:
-      "Mariana necesita su uniforme para iniciar el ciclo escolar.",
-    necesidad: "Uniforme escolar completo",
-    costo: 2000,
-    estado: "buscando",
-  },
-  {
-    id: "lentes-don-jose",
-    nombre: "José Ramírez",
-    edad: 64,
-    iniciales: "JR",
-    historia:
-      "Don José necesita lentes para seguir trabajando con precisión.",
-    necesidad: "Lentes graduados",
-    costo: 1800,
-    estado: "buscando",
-  },
-  {
-    id: "aparato-valeria",
-    nombre: "Valeria Cruz",
-    edad: 12,
-    iniciales: "VC",
-    historia:
-      "Valeria necesita apoyo ortopédico para caminar mejor.",
-    necesidad: "Aparato ortopédico",
-    costo: 3200,
-    estado: "completada",
-  },
-];
-
-const pesos = (n: number) =>
-  n.toLocaleString("es-MX", { style: "currency", currency: "MXN", minimumFractionDigits: 0 });
 
 const pasos = [
   {
@@ -140,108 +79,74 @@ export default function Donar() {
           </div>
         </FadeIn>
 
-        {/* ───── TABLÓN DE CAUSAS ───── */}
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8" stagger={0.12}>
-          {causas.map((causa) => {
-            const completada = causa.estado === "completada";
-            return (
-              <StaggerItem key={causa.id}>
-                <article
-                  className="service-card cursor-default !p-5 h-full"
-                  aria-label={`Causa: ${causa.necesidad} para ${causa.nombre}, ${causa.edad} años. Costo aproximado ${pesos(
-                    causa.costo
-                  )}. Estado: ${completada ? "apoyo completado" : "buscando apoyo"}.`}
-                >
-                  <div className="flex items-start gap-5">
-                    {/* Avatar / foto del beneficiario (placeholder con iniciales) */}
-                    <div
-                      className="w-14 h-14 rounded-full bg-naranja-100 border-4 border-naranja-300 flex items-center justify-center flex-shrink-0"
-                      aria-hidden="true"
-                    >
-                      {/* TODO: cuando exista fotoUrl con consentimiento, renderizar <Image> en lugar de iniciales */}
-                      <span className="text-naranja-600 font-black text-xl">{causa.iniciales}</span>
-                    </div>
+        {/* ───── ACCIÓN: OFRECER O PEDIR AYUDA ─────
+            No mostramos personas inventadas. Cuando haya un caso real
+            verificado y con consentimiento firmado, se publicará aquí. */}
+        <FadeIn>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            {/* Ofrecer ayuda */}
+            <div className="rounded-card border-2 border-naranja-200 bg-white shadow-card p-6 flex flex-col">
+              <div
+                className="w-12 h-12 rounded-full bg-naranja-100 border-2 border-naranja-300 flex items-center justify-center mb-4"
+                aria-hidden="true"
+              >
+                <HeartHandshake className="w-6 h-6 text-naranja-600" strokeWidth={2.2} />
+              </div>
+              <h3 className="text-[20px] font-black text-gray-900 leading-tight mb-2">
+                Quiero ofrecer ayuda
+              </h3>
+              <p className="text-[15px] text-gray-700 leading-relaxed mb-5 flex-1">
+                Déjanos tus datos y cómo puedes apoyar. El equipo te contacta y te
+                conecta directo con una persona o familia que lo necesita.
+              </p>
+              <InternalRequestButton
+                requestType="donation"
+                subject="Quiero ofrecer ayuda"
+                triggerLabel="Quiero ofrecer ayuda"
+                title="Ofrecer ayuda directa"
+                description="Deja tus datos dentro del portal para que el equipo coordine la ayuda directa."
+                messageLabel="¿Cómo puedes ayudar?"
+                messagePlaceholder="Ej. Puedo apoyar con dinero, con un producto (silla, lentes, despensa), con un servicio o con transporte."
+                className="btn-primary shadow-btn-glow w-full !min-h-[52px] !px-4 !text-[15px]"
+              >
+                <HeartHandshake className="w-5 h-5" aria-hidden="true" />
+                Quiero ofrecer ayuda
+                <ArrowRight className="w-5 h-5" aria-hidden="true" />
+              </InternalRequestButton>
+            </div>
 
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-[18px] font-black text-gray-900 leading-tight">
-                        {causa.nombre}
-                        <span className="text-gray-700 font-bold">, {causa.edad} años</span>
-                      </h3>
-
-                      {/* Estado de la causa — no depende solo del color (texto + icono) */}
-                      <span
-                        className={
-                          "inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full text-[12px] font-bold border " +
-                          (completada
-                            ? "bg-green-100 text-green-800 border-green-300"
-                            : "bg-naranja-100 text-naranja-700 border-naranja-300")
-                        }
-                      >
-                        {completada ? (
-                          <>
-                            <HeartHandshake className="w-4 h-4" aria-hidden="true" />
-                            Apoyo completado
-                          </>
-                        ) : (
-                          <>
-                            <span className="w-2 h-2 rounded-full bg-naranja-500" aria-hidden="true" />
-                            Buscando apoyo
-                          </>
-                        )}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Necesidad + costo destacado */}
-                  <div className="mt-4 rounded-2xl bg-warm-50 border-2 border-naranja-100 p-3">
-                    <p className="text-[13px] font-bold uppercase tracking-wide text-gray-700">
-                      Necesita
-                    </p>
-                    <p className="text-[16px] font-black text-gray-900 leading-snug mt-0.5">
-                      {causa.necesidad}
-                    </p>
-                    <p className="text-[21px] font-black text-naranja-600 mt-1">{pesos(causa.costo)}</p>
-                  </div>
-
-                  {/* CTA grande (≥56px) — mailto prellenado con la causa, o estado cerrado */}
-                  <div className="mt-4">
-                    {completada ? (
-                      <div
-                        className="inline-flex items-center justify-center gap-2 w-full min-h-[52px] px-5 rounded-2xl border-2 border-green-300 bg-green-50 text-green-800 font-bold text-[15px]"
-                        aria-label={`La causa de ${causa.nombre} ya fue completada. ¡Gracias!`}
-                      >
-                        <HeartHandshake className="w-5 h-5" aria-hidden="true" />
-                        ¡Gracias! Esta causa ya se cumplió
-                      </div>
-                    ) : (
-                      <InternalRequestButton
-                        requestType="donation"
-                        subject={`Quiero ayudar: ${causa.necesidad}`}
-                        triggerLabel="Quiero ayudar"
-                        title={`Ayudar a ${causa.nombre}`}
-                        description="Deja tus datos dentro del portal para que el equipo coordine la ayuda directa."
-                        messageLabel="¿Cómo quieres ayudar?"
-                        messagePlaceholder="Ej. Puedo apoyar con el monto completo, con una parte, con el producto o con transporte."
-                        metadata={{
-                          causa_id: causa.id,
-                          beneficiario: causa.nombre,
-                          edad: causa.edad,
-                          necesidad: causa.necesidad,
-                          costo: causa.costo,
-                        }}
-                        className="btn-primary shadow-btn-glow w-full !min-h-[52px] !px-4 !text-[15px]"
-                      >
-                        <HeartHandshake className="w-5 h-5" aria-hidden="true" />
-                        Quiero ayudar
-                        <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                      </InternalRequestButton>
-                    )}
-                  </div>
-                </article>
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
+            {/* Pedir ayuda */}
+            <div className="rounded-card border-2 border-naranja-100 bg-warm-50 shadow-card p-6 flex flex-col">
+              <div
+                className="w-12 h-12 rounded-full bg-white border-2 border-naranja-300 flex items-center justify-center mb-4"
+                aria-hidden="true"
+              >
+                <MessagesSquare className="w-6 h-6 text-naranja-600" strokeWidth={2.2} />
+              </div>
+              <h3 className="text-[20px] font-black text-gray-900 leading-tight mb-2">
+                Necesito ayuda
+              </h3>
+              <p className="text-[15px] text-gray-700 leading-relaxed mb-5 flex-1">
+                Cuéntanos qué necesitas tú o tu familia. Revisamos cada caso con
+                respeto y damos seguimiento personal.
+              </p>
+              <InternalRequestButton
+                requestType="general"
+                subject="Necesito ayuda"
+                triggerLabel="Pedir ayuda"
+                title="Pedir ayuda"
+                description="Deja tus datos dentro del portal y el equipo revisará tu caso para darte seguimiento."
+                messageLabel="¿Qué necesitas?"
+                messagePlaceholder="Ej. Necesito una silla de ruedas, apoyo para un trámite, lentes, una despensa…"
+                className="btn-secondary w-full !min-h-[52px] !px-4 !text-[15px] inline-flex items-center justify-center gap-2"
+              >
+                <MessagesSquare className="w-5 h-5" aria-hidden="true" />
+                Pedir ayuda
+                <ArrowRight className="w-5 h-5" aria-hidden="true" />
+              </InternalRequestButton>
+            </div>
+          </div>
+        </FadeIn>
 
         {/* ───── CÓMO FUNCIONA (3 PASOS) ───── */}
         <FadeIn>

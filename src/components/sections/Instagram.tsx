@@ -271,7 +271,7 @@ export default function InstagramReels() {
             <span className="text-highlight">Instagram</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-[18px] leading-relaxed text-gray-700">
-            Un carrete con fotos y videos recientes del diputado Armando Ruiz.
+            Aquí tienes las fotos y videos más recientes de Armando. Síguelo y entérate de todo.
           </p>
           <p className="mt-3 text-[15px] font-black text-naranja-600">@armandoruizmc</p>
         </FadeIn>

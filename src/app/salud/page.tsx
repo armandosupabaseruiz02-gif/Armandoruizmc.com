@@ -86,8 +86,8 @@ export default function SaludPage() {
               <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Salud</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
-              Conoce todos los apoyos médicos disponibles para personas con discapacidad en la
-              Ciudad de México. Medicamentos, terapias, aparatos y consultas especializadas.
+              Aquí juntamos los apoyos médicos para personas con discapacidad en la CDMX:
+              medicinas, terapias, aparatos y consultas. Te decimos qué hay y cómo conseguirlo.
             </p>
           </FadeIn>
         </div>

@@ -8,30 +8,30 @@ const pasos = [
   {
     num: "01",
     icon: Users,
-    titulo: "Escuchamos el caso",
+    titulo: "Nos cuentas tu caso",
     descripcion:
-      "Identificamos si busca salud, apoyo, empleo, trámite o seguimiento.",
+      "Tú nos dices qué necesitas: salud, un apoyo, empleo, un trámite o seguimiento.",
   },
   {
     num: "02",
     icon: FileText,
-    titulo: "Ubicamos la ruta correcta",
+    titulo: "Te decimos por dónde",
     descripcion:
-      "Separamos lo que resuelve el portal de lo que requiere una dependencia.",
+      "Te marcamos la ruta correcta: qué te toca a ti y qué a la dependencia.",
   },
   {
     num: "03",
     icon: ClipboardCheck,
-    titulo: "Preparamos requisitos",
+    titulo: "Te ayudamos con los papeles",
     descripcion:
-      "Aclaramos documentos, datos y errores comunes antes de avanzar.",
+      "Te decimos qué documentos llevar y los errores que conviene evitar.",
   },
   {
     num: "04",
     icon: Megaphone,
-    titulo: "Damos seguimiento",
+    titulo: "No te soltamos",
     descripcion:
-      "Mostramos estado y siguiente acción para que nada se pierda.",
+      "Le damos seguimiento y te decimos el siguiente paso, para que nada se pierda.",
   },
 ];
 
@@ -56,7 +56,7 @@ export default function QueHacemos() {
               <span className="text-highlight">siguiente paso.</span>
             </h2>
             <p className="mt-5 text-[18px] leading-relaxed text-gray-800">
-              Explicamos cómo se mueve una persona dentro del portal y qué puede esperar.
+              Así de fácil es moverte aquí. Estos son los pasos y qué puedes esperar de nosotros.
             </p>
           </FadeIn>
 

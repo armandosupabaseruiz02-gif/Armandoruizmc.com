@@ -101,7 +101,7 @@ export default function SabiasQue() {
             Datos que todos debemos conocer
           </h2>
           <p className="text-white/80 text-[17px] mb-10 max-w-xl mx-auto">
-            Datos breves para entender los retos de accesibilidad.
+            Datos cortitos para entender por qué la accesibilidad nos importa a todos.
           </p>
         </FadeIn>
 

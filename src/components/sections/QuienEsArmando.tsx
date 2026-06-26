@@ -6,9 +6,9 @@ import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import { Award, Heart, Users } from "lucide-react";
 
 const logros = [
-  { icon: Award, titulo: "Legislador comprometido", desc: "Impulsa derechos de personas con discapacidad." },
-  { icon: Heart, titulo: "Experiencia de vida",     desc: "Conoce de cerca los retos de la comunidad." },
-  { icon: Users, titulo: "Representación real",     desc: "Voz directa de personas con discapacidad en CDMX." },
+  { icon: Award, titulo: "Legislador comprometido", desc: "Empuja los derechos de las personas con discapacidad." },
+  { icon: Heart, titulo: "Lo vive de cerca",        desc: "Conoce los retos de la comunidad porque los vive día a día." },
+  { icon: Users, titulo: "Representación real",     desc: "Voz directa de las personas con discapacidad del Estado de México." },
 ];
 
 export default function QuienEsArmando() {
@@ -50,10 +50,12 @@ export default function QuienEsArmando() {
               </h2>
               <div className="space-y-4 text-[17px] text-gray-800 leading-relaxed">
                 <p>
-                  Armando Ruiz es <strong className="text-gray-900 font-bold">Diputado Federal por el Estado de México</strong> de Movimiento Ciudadano.
+                  Armando Ruiz es <strong className="text-gray-900 font-bold">Diputado Federal por el Estado de México</strong>, de Movimiento Ciudadano.
                 </p>
                 <p>
-                  Como persona con discapacidad, trabaja para convertir derechos en <strong className="text-naranja-700 font-bold">realidades accesibles</strong>.
+                  Usa silla de ruedas y conoce en carne propia lo que cuesta mover un trámite o
+                  buscar un apoyo. Por eso existe este portal: para que a ti{" "}
+                  <strong className="text-naranja-700 font-bold">te toque más fácil</strong>.
                 </p>
               </div>
             </FadeIn>

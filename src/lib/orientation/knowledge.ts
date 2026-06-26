@@ -11,6 +11,7 @@ export type OrientationAnswer = {
 
 export const QUICK_ORIENTATION_QUESTIONS = [
   "No se que tramite necesito",
+  "Como creo mi cuenta?",
   "Quiero la Tarjeta Accesible",
   "Necesito apoyo de salud",
   "Busco pension o apoyo economico",
@@ -19,11 +20,11 @@ export const QUICK_ORIENTATION_QUESTIONS = [
 ];
 
 const defaultAnswer: OrientationAnswer = {
-  title: "Te oriento paso a paso",
+  title: "Aqui te oriento, con confianza",
   body: [
-    "Dime con tus palabras que necesitas: salud, tarjeta de discapacidad, apoyo economico, trabajo, vivienda, escuela o saber a que dependencia ir.",
-    "Si no sabes el nombre del tramite, no pasa nada. Puedes escribir algo como: \"necesito una silla de ruedas\", \"quiero apoyo por discapacidad\", \"no tengo CURP\" o \"busco trabajo\".",
-    "Si tu caso ya es muy personal o requiere revisar documentos, lo correcto es agendar una cita con el equipo para que te den seguimiento humano.",
+    "Dime con tus palabras que necesitas: salud, tarjeta de discapacidad, apoyo economico, trabajo, vivienda, escuela, crear tu cuenta o saber a que dependencia ir.",
+    "Si no sabes el nombre del tramite, no pasa nada. Escribe algo como: \"necesito una silla de ruedas\", \"quiero pension\", \"como creo mi cuenta\" o \"busco trabajo\".",
+    "El equipo de Armando es tu megafono: aqui tu voz se potencia y si va a ser escuchada. Si tu caso es muy personal, agenda una cita y te damos seguimiento.",
   ],
   links: [
     { label: "Ver accesos directos", href: "/#ayuda-hoy" },
@@ -60,20 +61,32 @@ const answers = {
     title: "Cuando conviene agendar cita",
     body: [
       "La cita es para casos personales: revisar tu situacion, ordenar documentos, explicar que tramite te conviene y dar seguimiento con el equipo.",
-      "Para agendar necesitas crear cuenta o iniciar sesion. Despues eliges dia, horario, tema, modalidad presencial o en linea, y escribes el motivo de la cita.",
+      "Para agendar necesitas crear tu cuenta o iniciar sesion. Despues eliges dia, horario, tema, modalidad en persona o en linea, y escribes el motivo de la cita.",
       "Horarios del portal: lunes a viernes de 9:00 a 17:00. Las citas quedan como solicitud pendiente hasta que el equipo las revise.",
     ],
     links: [
       { label: "Agendar cita", href: "/salud/agendar" },
-      { label: "Entrar a Mi cuenta", href: "/mi-cuenta" },
+      { label: "Ir a mi perfil", href: "/mi-cuenta" },
+    ],
+  },
+  cuenta: {
+    title: "Crear tu cuenta y para que sirve",
+    body: [
+      "Crear tu cuenta es gratis y rapido. Con ella agendas citas en linea o en persona y le das seguimiento a tus tramites y solicitudes de salud y discapacidad.",
+      "Para crearla solo necesitas tu nombre, un correo y una contrasena. Luego confirmas tu correo y listo. Tus datos solo se usan para ayudarte.",
+      "Si ya tienes cuenta, solo inicia sesion. Desde tu perfil ves tus citas y su estado. El equipo de Armando es tu megafono: tu voz se potencia y si va a ser escuchada.",
+    ],
+    links: [
+      { label: "Crear mi cuenta", href: "/auth/registro" },
+      { label: "Ya tengo cuenta", href: "/auth/login" },
     ],
   },
   programas: {
     title: "Programas sociales disponibles",
     body: [
-      "La pagina muestra apoyos para personas con discapacidad y sus familias: pension por discapacidad, beca para estudiantes, empleo con apoyo, apoyo a cuidadores, adaptacion de vivienda y seguro de desempleo.",
-      "Casi todos piden documentos base: CURP, identificacion, comprobante de domicilio y algun comprobante o dictamen de discapacidad. Cada programa puede pedir documentos extra.",
-      "Si no sabes cual te toca, dime tu caso: edad, si estudias, si trabajas, si tienes discapacidad permanente, si eres cuidador o si necesitas adaptar vivienda.",
+      "Te mostramos apoyos reales para personas con discapacidad: la Pension del Bienestar (nacional), la Beca Benito Juarez (nacional), empleo con Abriendo Espacios (STPS), apoyos del DIF Estado de Mexico y de INDISCAPACIDAD CDMX.",
+      "Algo importante: estos apoyos los dan las autoridades, no nosotros. Aqui te explicamos que son, que papeles piden y te llevamos al sitio oficial de cada dependencia donde se hace el tramite.",
+      "Si no sabes cual te toca, cuentame tu caso: edad, si estudias, si trabajas, si tienes discapacidad permanente o si cuidas a alguien. Te oriento sin enredos.",
     ],
     links: [
       { label: "Ver programas sociales", href: "/programas-sociales" },
@@ -83,21 +96,21 @@ const answers = {
   pension: {
     title: "Pension para personas con discapacidad",
     body: [
-      "Es un apoyo economico para personas con discapacidad permanente. En la pagina aparece como apoyo mensual directo.",
-      "Requisitos base: vivir en CDMX, tener discapacidad permanente documentada, CURP, identificacion oficial y no recibir otra pension gubernamental similar.",
-      "Dependencia orientativa: Gobierno CDMX / SIBISO. Si no sabes si calificas, revisa primero tus documentos y agenda cita para que el equipo te ayude a ordenar el caso.",
+      "Es un apoyo economico federal para personas con discapacidad permanente. Lo entrega la Secretaria de Bienestar, directo en la tarjeta del Banco del Bienestar.",
+      "En 2026 es de unos 3,300 pesos bimestrales y tiene cobertura nacional. Nosotros no lo entregamos: te informamos y te llevamos al sitio oficial donde se hace el registro.",
+      "Documentos base: identificacion oficial, CURP, acta de nacimiento, comprobante de domicilio y constancia medica de discapacidad permanente de una institucion publica.",
     ],
     links: [
-      { label: "Ver programas sociales", href: "/programas-sociales" },
-      { label: "Agendar cita personal", href: "/salud/agendar" },
+      { label: "Ver programas y sitio oficial", href: "/programas-sociales" },
+      { label: "Agendar cita si necesitas ayuda", href: "/salud/agendar" },
     ],
   },
   beca: {
     title: "Beca para estudiantes con discapacidad",
     body: [
-      "Esta orientada a estudiantes con discapacidad que esten inscritos en escuela publica y necesiten apoyo para continuar o reincorporarse a sus estudios.",
-      "Documentos base: CURP, comprobante de estudios, identificacion cuando aplique y certificado o documento que acredite la discapacidad.",
-      "Si la persona es menor de edad, normalmente tambien conviene llevar identificacion del tutor y documentos escolares actualizados.",
+      "La Beca para el Bienestar Benito Juarez es nacional y da prioridad a estudiantes con discapacidad inscritos en escuela publica.",
+      "La entrega la Coordinacion Nacional de Becas (SEP), no nosotros. Te explicamos y te llevamos al sitio oficial para que hagas tu registro segun la convocatoria.",
+      "Documentos base: CURP, comprobante de estudios, identificacion cuando aplique y documento que acredite la discapacidad. Si es menor de edad, lleva tambien identificacion del tutor.",
     ],
     links: [
       { label: "Ver programas sociales", href: "/programas-sociales" },
@@ -107,9 +120,9 @@ const answers = {
   trabajo: {
     title: "Trabajo y accesibilidad laboral",
     body: [
-      "La pagina tiene bolsa de trabajo con vacantes accesibles y tambien menciona el programa Incluyeme / empleo con apoyo.",
-      "Para empezar prepara: CURP, identificacion, telefono, correo si tienes, experiencia laboral o habilidades, y documento de discapacidad si lo tienes.",
-      "Si no tienes CV, puedes pedir orientacion en cita. El equipo puede ayudarte a ordenar tu informacion antes de postularte.",
+      "En la bolsa de trabajo conectamos vacantes que comparten empresas. El equipo no contrata ni garantiza el empleo: publica las vacantes y te conecta.",
+      "Mientras se publican vacantes, puedes dejar tu perfil para que te avisemos, o buscar en Abriendo Espacios, la bolsa nacional de empleo para personas con discapacidad de la STPS.",
+      "Para empezar prepara: CURP, identificacion, telefono, correo si tienes, tu experiencia o habilidades, y documento de discapacidad si lo tienes. Si no tienes CV, te ayudamos en una cita.",
     ],
     links: [
       { label: "Ver bolsa de trabajo", href: "/bolsa-trabajo" },
@@ -155,13 +168,13 @@ const answers = {
   pagina: {
     title: "Como usar esta pagina",
     body: [
-      "En Inicio tienes accesos directos: agendar asesoria de salud, Tarjeta Accesible, programas sociales, bolsa de trabajo, donar y Mi cuenta.",
-      "Si quieres aprender de un tramite, entra a su pagina. Si quieres seguimiento personal, agenda cita. Si ya pediste cita, revisala en Mi cuenta.",
-      "Para crear o revisar citas necesitas iniciar sesion. Esto protege tus datos porque se manejan datos personales y temas de salud.",
+      "En Inicio tienes accesos directos: agendar asesoria de salud, Tarjeta Accesible, programas sociales, bolsa de trabajo, donar y tu perfil.",
+      "Si quieres aprender de un tramite, entra a su pagina. Si quieres seguimiento personal, agenda una cita. Si ya pediste cita, revisala en tu perfil.",
+      "Para agendar o revisar citas necesitas crear tu cuenta o iniciar sesion. Asi proteges tus datos, porque se manejan datos personales y temas de salud.",
     ],
     links: [
-      { label: "Ir al inicio", href: "/" },
-      { label: "Mi cuenta", href: "/mi-cuenta" },
+      { label: "Crear mi cuenta", href: "/auth/registro" },
+      { label: "Ir a mi perfil", href: "/mi-cuenta" },
     ],
   },
   dependencias: {
@@ -181,7 +194,8 @@ const answers = {
 const keywordMap: Array<{ key: keyof typeof answers; words: string[] }> = [
   { key: "tarjeta", words: ["tarjeta", "discapacidad cdmx", "transporte", "metro", "metrobus", "credencial"] },
   { key: "salud", words: ["salud", "medicina", "medicamento", "medicinas", "silla", "ruedas", "protesis", "muleta", "terapia", "rehabilitacion", "consulta", "hospital", "doctor"] },
-  { key: "cita", words: ["cita", "agendar", "asesoria", "personal", "presencial", "linea", "videollamada", "cuenta", "login"] },
+  { key: "cuenta", words: ["crear cuenta", "registrar", "registro", "registrarme", "cuenta", "login", "iniciar sesion", "perfil", "contrasena", "password", "logueo", "loguear"] },
+  { key: "cita", words: ["cita", "agendar", "asesoria", "personal", "presencial", "videollamada"] },
   { key: "pension", words: ["pension", "apoyo economico", "dinero", "mensual", "permanente"] },
   { key: "beca", words: ["beca", "escuela", "estudio", "estudiante", "colegio", "sep"] },
   { key: "trabajo", words: ["trabajo", "empleo", "vacante", "incluyeme", "cv", "curriculum", "postular"] },

@@ -242,7 +242,7 @@ export default function BookingCalendar({
           </div>
           <p className="text-[15px] text-gray-600 mb-8 sm:mb-10 max-w-sm leading-relaxed">
             El equipo revisará la solicitud antes de confirmarla. Puedes consultar su estado y
-            cancelarla desde Mi Cuenta. Si es en línea, el enlace aparecerá después de que sea aceptada.
+            cancelarla desde Mi perfil. Si es en línea, el enlace aparecerá después de que sea aceptada.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <button

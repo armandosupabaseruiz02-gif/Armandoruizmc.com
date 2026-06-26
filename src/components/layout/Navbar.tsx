@@ -4,8 +4,9 @@ import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { Heart, Home, Menu, User, X } from "lucide-react";
+import { Home, Menu, X } from "lucide-react";
 import PillNav, { type PillNavItem } from "@/components/ui/PillNav";
+import AccountButton from "@/components/layout/AccountButton";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 const navLinks = [
@@ -78,6 +79,12 @@ export default function Navbar() {
           <div
             className="relative mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-3 px-5 sm:px-8"
           >
+            {/* Marca sutil del partido (lado izquierdo, solo pantallas grandes) */}
+            <span className="hidden xl:flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-naranja-700/70 select-none">
+              <span className="h-1.5 w-1.5 rounded-full bg-naranja-500" aria-hidden="true" />
+              Movimiento Ciudadano · Diputado Federal
+            </span>
+
             <Link
               href="/"
               onClick={() => setOpen(false)}
@@ -107,22 +114,7 @@ export default function Navbar() {
             </div>
 
             <div className="ml-auto flex items-center gap-2">
-              <Link
-                href="/mi-cuenta"
-                onClick={() => setOpen(false)}
-                className="hidden min-h-11 items-center gap-2 rounded-full border border-gray-200 bg-white px-4 text-[14px] font-semibold text-gray-700 transition-all duration-200 hover:border-naranja-200 hover:bg-naranja-50 hover:text-naranja-700 sm:inline-flex"
-              >
-                <User className="h-4 w-4" aria-hidden="true" />
-                Mi cuenta
-              </Link>
-              <a
-                href={getAnchorHref("#donar", isHome)}
-                onClick={(event) => handleAnchorClick(event, "#donar", isHome)}
-                className="hidden min-h-11 items-center gap-2 rounded-full bg-naranja-500 px-5 text-[14px] font-bold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-naranja-600 hover:shadow-btn-glow sm:inline-flex"
-              >
-                <Heart className="h-4 w-4" fill="currentColor" aria-hidden="true" />
-                Donar
-              </a>
+              <AccountButton variant="desktop" onNavigate={() => setOpen(false)} />
               <button
                 type="button"
                 className="navbar-menu-button h-11 w-11 items-center justify-center rounded-full border border-naranja-400 bg-naranja-500 text-white shadow-sm transition-colors duration-200 hover:bg-naranja-600"
@@ -169,22 +161,7 @@ export default function Navbar() {
             </ul>
 
             <div className="flex flex-col gap-3">
-              <Link
-                href="/mi-cuenta"
-                onClick={() => setOpen(false)}
-                className="btn-secondary w-full justify-center"
-              >
-                <User className="h-5 w-5" aria-hidden="true" />
-                Mi cuenta
-              </Link>
-              <a
-                href={getAnchorHref("#donar", isHome)}
-                className="btn-primary w-full justify-center"
-                onClick={(event) => handleAnchorClick(event, "#donar", isHome, () => setOpen(false))}
-              >
-                <Heart className="h-5 w-5" fill="currentColor" aria-hidden="true" />
-                Donar ahora
-              </a>
+              <AccountButton variant="mobile" onNavigate={() => setOpen(false)} />
             </div>
           </motion.div>
         )}

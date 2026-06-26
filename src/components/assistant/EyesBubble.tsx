@@ -15,8 +15,10 @@ const MAX_PUPIL_OFFSET = 4; // px que la pupila se desplaza hacia el cursor
 
 /**
  * Burbuja lanzadora del asistente: un circulo naranja con dos ojos cuyas
- * pupilas siguen el mouse y un sombrero ranchero "puesto" encima. Al picarla
- * rebota y el sombrero brinca. Respeta prefers-reduced-motion.
+ * pupilas siguen el mouse y un sombrero ranchero "puesto" encima. El sombrero
+ * saluda cada 3s y cada 10s aparece un signo de interrogacion (para dar a
+ * entender que es para dudas). Cuando el panel esta abierto NO hay animacion.
+ * Respeta prefers-reduced-motion.
  */
 export default function EyesBubble({ onClick, label, isOpen }: EyesBubbleProps) {
   const reduceMotion = useReducedMotion();
@@ -26,24 +28,31 @@ export default function EyesBubble({ onClick, label, isOpen }: EyesBubbleProps) 
   const hatControls = useAnimationControls();
   const bubbleControls = useAnimationControls();
 
-  // Balanceo "idle" del sombrero (un solo control imperativo).
+  const animationsActive = !reduceMotion && !isOpen;
+
+  // Saludo del sombrero: una venia rapida que se repite cada 3 segundos.
   const startHatIdle = useCallback(() => {
-    if (reduceMotion) {
+    if (!animationsActive) {
       hatControls.set({ rotate: -8, y: 0 });
       return;
     }
     hatControls.start({
-      rotate: [-8, -4, -8],
-      transition: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+      rotate: [-8, 10, -6, 8, -8],
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatDelay: 2.2, // 0.8s saludo + 2.2s pausa = 3s por ciclo
+      },
     });
-  }, [reduceMotion, hatControls]);
+  }, [animationsActive, hatControls]);
 
   useEffect(() => {
     startHatIdle();
   }, [startHatIdle]);
 
-  // Seguimiento del mouse (desactivado si el usuario pide menos movimiento;
-  // las pupilas se quedan en su posicion inicial centrada).
+  // Seguimiento del mouse (desactivado si el usuario pide menos movimiento).
   useEffect(() => {
     if (reduceMotion) return;
 
@@ -71,21 +80,14 @@ export default function EyesBubble({ onClick, label, isOpen }: EyesBubbleProps) 
     };
   }, [reduceMotion]);
 
-  const handleClick = useCallback(async () => {
+  const handleClick = useCallback(() => {
     onClick();
     if (reduceMotion) return;
-    // La burbuja rebota y el sombrero brinca; luego retoma el balanceo idle.
     bubbleControls.start({
       scale: [1, 0.9, 1.06, 1],
       transition: { duration: 0.45, ease: "easeOut" },
     });
-    await hatControls.start({
-      rotate: [-8, 8, -8],
-      y: [0, -10, 0],
-      transition: { duration: 0.5, ease: "easeOut" },
-    });
-    startHatIdle();
-  }, [reduceMotion, onClick, bubbleControls, hatControls, startHatIdle]);
+  }, [reduceMotion, onClick, bubbleControls]);
 
   return (
     <motion.button
@@ -101,11 +103,42 @@ export default function EyesBubble({ onClick, label, isOpen }: EyesBubbleProps) 
                  shadow-btn-glow ring-4 ring-white/70 outline-none
                  focus-visible:ring-naranja-300 focus-visible:ring-offset-2"
     >
-      {/* Sombrero puesto encima de los ojos.
+      {/* Signo de interrogacion: aparece cada 10s, "como con una duda". */}
+      <motion.span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-2 -top-3 grid h-6 w-6 place-items-center
+                   rounded-full border-2 border-naranja-400 bg-white text-[14px] font-black
+                   text-naranja-600 shadow-md"
+        initial={{ opacity: 0, scale: 0.4 }}
+        animate={
+          animationsActive
+            ? {
+                opacity: [0, 0, 1, 1, 0],
+                scale: [0.4, 0.4, 1, 1, 0.5],
+                y: [4, 4, -2, -5, -9],
+                rotate: [-8, -8, 0, 6, 0],
+              }
+            : { opacity: 0, scale: 0.4, y: 0 }
+        }
+        transition={
+          animationsActive
+            ? {
+                duration: 10,
+                times: [0, 0.3, 0.4, 0.66, 0.8],
+                repeat: Infinity,
+                ease: "easeInOut",
+              }
+            : { duration: 0.2 }
+        }
+      >
+        ?
+      </motion.span>
+
+      {/* Sombrero puesto encima de los ojos (50% mas grande).
           Wrapper CSS para centrar; motion interno solo anima rotate/y. */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 -top-6 -translate-x-1/2"
+        className="pointer-events-none absolute left-1/2 -top-[76px] -translate-x-1/2"
       >
         <motion.span
           animate={hatControls}
@@ -115,9 +148,9 @@ export default function EyesBubble({ onClick, label, isOpen }: EyesBubbleProps) 
           <Image
             src="/images/sombrero.png"
             alt=""
-            width={75}
-            height={60}
-            className="h-[60px] w-[75px] drop-shadow-md"
+            width={174}
+            height={108}
+            className="h-[108px] w-[174px] object-contain drop-shadow-md"
             priority
           />
         </motion.span>

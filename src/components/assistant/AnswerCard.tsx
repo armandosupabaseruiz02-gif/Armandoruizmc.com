@@ -6,11 +6,11 @@ import type { OrientationAnswer } from "@/lib/orientation/knowledge";
  */
 export default function AnswerCard({ answer }: { answer: OrientationAnswer }) {
   return (
-    <div>
-      <p className="font-black text-gray-900 text-[15px] mb-2">{answer.title}</p>
+    <div className="min-w-0 [overflow-wrap:anywhere]">
+      <p className="font-black text-gray-900 text-[15px] mb-2 break-words">{answer.title}</p>
       <div className="space-y-2">
         {answer.body.map((paragraph) => (
-          <p key={paragraph} className="text-[14px] leading-relaxed text-gray-800">
+          <p key={paragraph} className="text-[14px] leading-relaxed text-gray-800 break-words">
             {paragraph}
           </p>
         ))}

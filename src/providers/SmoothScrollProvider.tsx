@@ -25,6 +25,16 @@ export function lenisScrollTo(target: string) {
   }
 }
 
+// Pausar/reanudar el smooth scroll (p. ej. mientras un modal esta abierto)
+// para que Lenis no pelee con un overlay fixed y cause parpadeo.
+export function lenisStop() {
+  _lenis?.stop();
+}
+
+export function lenisStart() {
+  _lenis?.start();
+}
+
 function scrollToTop() {
   if (_lenis) {
     _lenis.scrollTo(0, { immediate: true });

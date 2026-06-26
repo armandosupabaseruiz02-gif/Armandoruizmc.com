@@ -170,7 +170,11 @@ function RegistroForm() {
           </div>
         </div>
 
-        <h1 className="text-[32px] font-black text-gray-900 mb-2">Crear cuenta</h1>
+        <h1 className="text-[32px] font-black text-gray-900 mb-2">Crea tu cuenta, es gratis</h1>
+        <p className="text-[15px] text-gray-700 mb-3 leading-relaxed">
+          Con tu cuenta agendas citas (en línea o en persona) y le das seguimiento a tus trámites
+          y solicitudes de salud. Tu voz, con todo el respaldo del equipo de Armando.
+        </p>
         <p className="text-[15px] text-gray-500 mb-8">
           ¿Ya tienes cuenta?{" "}
           <Link href={`/auth/login?redirectTo=${encodeURIComponent(redirectTo)}${email ? `&email=${encodeURIComponent(email)}` : ""}`}

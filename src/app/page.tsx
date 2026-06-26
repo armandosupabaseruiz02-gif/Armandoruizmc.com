@@ -3,6 +3,7 @@ import Hero from "@/components/sections/Hero";
 import AyudaHoy from "@/components/sections/AyudaHoy";
 import QuienesSomos from "@/components/sections/QuienesSomos";
 import QueHacemos from "@/components/sections/QueHacemos";
+import CuentaCTA from "@/components/sections/CuentaCTA";
 import QuienEsArmando from "@/components/sections/QuienEsArmando";
 import SabiasQue from "@/components/sections/SabiasQue";
 import InstagramReels from "@/components/sections/Instagram";
@@ -17,6 +18,7 @@ export default function HomePage() {
         <AyudaHoy />
         <QuienesSomos />
         <QueHacemos />
+        <CuentaCTA />
         <QuienEsArmando />
         <SabiasQue />
         <InstagramReels />

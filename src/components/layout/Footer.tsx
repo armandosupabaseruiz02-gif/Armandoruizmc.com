@@ -58,7 +58,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-white/40 text-[14px] leading-relaxed mb-6">
-              Trabajando por una Ciudad de México más accesible para las personas con discapacidad.
+              Trabajando por un México más accesible para las personas con discapacidad.
             </p>
             <div className="flex gap-2">
               {/* TODO: agregar Facebook/Twitter cuando existan los perfiles reales */}

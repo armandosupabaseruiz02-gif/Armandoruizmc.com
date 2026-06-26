@@ -20,14 +20,14 @@ type ChatMessage = {
 };
 
 const welcomeAnswer: OrientationAnswer = {
-  title: "Hola, soy tu asistente de orientacion",
+  title: "Hola, soy tu asistente. Aqui no hay dudas tontas",
   body: [
-    "Te ayudo a saber por donde empezar: Tarjeta Accesible, salud, apoyos economicos, becas, trabajo, vivienda y uso de esta pagina.",
-    "Escribeme como puedas. Por ejemplo: \"necesito una silla de ruedas\" o \"quiero pension\".",
+    "Te ayudo a saber por donde empezar: crear tu cuenta, Tarjeta Accesible, salud, apoyos economicos, becas, trabajo, vivienda y como usar esta pagina.",
+    "Escribeme como puedas, sin pena. Por ejemplo: \"necesito una silla de ruedas\", \"quiero pension\" o \"como creo mi cuenta\".",
   ],
   links: [
+    { label: "Crear mi cuenta", href: "/auth/registro" },
     { label: "Agendar cita personal", href: "/salud/agendar" },
-    { label: "Ver accesos directos", href: "/#ayuda-hoy" },
   ],
 };
 
@@ -188,13 +188,14 @@ export default function FloatingAssistant() {
                   )}
                   <div
                     className={cn(
+                      "min-w-0 [overflow-wrap:anywhere]",
                       message.role === "user"
                         ? "max-w-[80%] rounded-2xl bg-naranja-500 px-3.5 py-2.5 text-white"
                         : "max-w-[88%] rounded-2xl border border-gray-100 bg-white px-3.5 py-2.5"
                     )}
                   >
                     {message.role === "user" ? (
-                      <p className="text-[14px] font-semibold leading-relaxed">
+                      <p className="text-[14px] font-semibold leading-relaxed break-words">
                         {message.text}
                       </p>
                     ) : (

@@ -1,53 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  ArrowRight,
-  Briefcase,
-  CalendarHeart,
-  ChevronDown,
-  CreditCard,
-  ScrollText,
-} from "lucide-react";
-import CardSwap, { Card } from "@/components/CardSwap";
+import { ChevronDown } from "lucide-react";
 import Ballpit from "@/components/effects/Ballpit";
-import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
-
-const heroRoutes = [
-  {
-    title: "Tarjeta Accesible",
-    description: "Revisa requisitos, beneficios y la ruta para iniciar el trámite.",
-    badge: "Trámite",
-    href: "/tarjeta-accesible",
-    icon: CreditCard,
-    gradient: "from-naranja-500 to-amber-500",
-  },
-  {
-    title: "Cita de salud",
-    description: "Agenda una orientación para explicar tu caso con más detalle.",
-    badge: "Cita",
-    href: "/salud/agendar",
-    icon: CalendarHeart,
-    gradient: "from-red-500 to-naranja-500",
-  },
-  {
-    title: "Programas sociales",
-    description: "Encuentra apoyos públicos y qué necesita preparar la persona.",
-    badge: "Apoyos",
-    href: "/programas-sociales",
-    icon: ScrollText,
-    gradient: "from-gray-950 to-naranja-800",
-  },
-  {
-    title: "Bolsa de trabajo",
-    description: "Conecta vacantes accesibles con personas que buscan empleo.",
-    badge: "Trabajo",
-    href: "/bolsa-trabajo",
-    icon: Briefcase,
-    gradient: "from-amber-600 to-orange-800",
-  },
-];
+import SombreroAguila from "@/components/effects/SombreroAguila";
 
 const heroBallpitColors = [0xffb347, 0xff9828, 0xff7a12, 0xf97316, 0xea580c];
 
@@ -65,9 +22,9 @@ export default function Hero() {
       {/* Fondo decorativo vivo */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-warm-50" />
-        <div className="absolute inset-0 opacity-[0.70] sm:opacity-[0.80] motion-reduce:hidden">
+        <div className="absolute inset-0 opacity-[0.32] sm:opacity-[0.42] motion-reduce:hidden">
           <Ballpit
-            count={101}
+            count={42}
             colors={heroBallpitColors}
             ambientColor={0xffffff}
             ambientIntensity={1.6}
@@ -110,20 +67,10 @@ export default function Hero() {
 
           {/* Izquierda */}
           <div className="hero-copy flex min-w-0 flex-col gap-5 sm:gap-7">
-            {/* Badge partido */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.5 }}
-            >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full
-                               bg-naranja-100 border border-naranja-300
-                               text-naranja-700 text-[12px] sm:text-[13px] font-bold tracking-widest uppercase">
-                <span className="w-2 h-2 rounded-full bg-naranja-500 animate-pulse" />
-                <span className="hidden sm:inline">Movimiento Ciudadano · Diputado Federal</span>
-                <span className="sm:hidden">Movimiento Ciudadano</span>
-              </span>
-            </motion.div>
+            {/* Sombrero emblema: al picarlo sale la aguilita con musiquita */}
+            <div className="-mb-2 -mt-1">
+              <SombreroAguila />
+            </div>
 
             <h1
               id="hero-titulo"
@@ -135,6 +82,11 @@ export default function Hero() {
               <span className="block">Accesible</span>
             </h1>
 
+            {/* Slogan oficial */}
+            <p className="hero-copy-text -mt-1 text-[19px] font-black leading-tight tracking-tight text-gray-900 sm:text-[26px]">
+              Discapacidad con <span className="text-highlight">dignidad</span>.
+            </p>
+
             {/* Descripción */}
             <motion.p
               className="hero-copy-text text-[16px] leading-relaxed text-gray-700 sm:text-[20px]"
@@ -142,86 +94,37 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
             >
-              Soy{" "}
+              ¡Qué gusto que llegaste! Soy{" "}
               <strong className="text-gray-900 font-bold">Armando Ruiz</strong>,{" "}
               <strong className="text-naranja-700 font-bold">
                 Diputado Federal por el Estado de México
               </strong>
-              . Aquí encontrarás rutas claras para apoyos, trámites y seguimiento ciudadano.
+              . Aquí nadie te va a marear con papeleo ni con mil vueltas: tú cuéntanos qué
+              necesitas y entre todos le buscamos &mdash; apoyos, trámites y seguimiento, de la
+              mano y paso a pasito.
             </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              className="hero-actions flex min-w-0 flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row"
-              initial={{ opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Link href="/tarjeta-accesible" className="btn-primary group box-border min-w-0 !px-4 text-center shadow-btn-glow sm:w-auto sm:!px-8" aria-label="Tramitar Tarjeta Accesible">
-                <CreditCard className="w-5 h-5" />
-                <span className="sm:hidden">Tarjeta Accesible</span>
-                <span className="hidden sm:inline">Tramitar Tarjeta Accesible</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <button
-                onClick={() => lenisScrollTo("#quienes-somos")}
-                className="btn-secondary box-border min-w-0 !px-4 sm:w-auto sm:!px-8"
-              >
-                Ver cómo te ayudamos
-              </button>
-            </motion.div>
 
           </div>
 
-          {/* CardSwap React Bits */}
+          {/* Foto del diputado */}
           <motion.div
-            className="hidden lg:flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.9 }}
+            className="flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
+            transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
           >
-            <div className="relative h-[500px] w-full max-w-[430px] lg:-translate-x-10 xl:-translate-x-12" aria-label="Rutas destacadas">
-              <CardSwap
-                width={360}
-                height={270}
-                cardDistance={38}
-                verticalDistance={54}
-                delay={1500}
-                skewAmount={5}
-                easing="smooth"
-              >
-                {heroRoutes.map((route) => {
-                  const Icon = route.icon;
-
-                  return (
-                    <Card key={route.title} customClass={`bg-gradient-to-br ${route.gradient} text-white`}>
-                      <Link
-                        href={route.href}
-                        className="relative z-10 flex h-full flex-col justify-between p-7 text-white focus-visible:outline-2 focus-visible:outline-white"
-                      >
-                        <span className="inline-flex w-fit items-center rounded-full border border-white/30 bg-white/15 px-3 py-1 text-[11px] font-black uppercase tracking-widest">
-                          {route.badge}
-                        </span>
-                        <span>
-                          <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/18">
-                            <Icon className="h-6 w-6" aria-hidden="true" />
-                          </span>
-                          <span className="block text-[28px] font-black leading-tight">
-                            {route.title}
-                          </span>
-                          <span className="mt-3 block text-[15px] leading-relaxed text-white/82">
-                            {route.description}
-                          </span>
-                        </span>
-                        <span className="inline-flex items-center gap-2 text-[15px] font-bold">
-                          Abrir ruta
-                          <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                        </span>
-                      </Link>
-                    </Card>
-                  );
-                })}
-              </CardSwap>
+            <div className="relative w-full max-w-[320px] sm:max-w-[400px]">
+              <div className="absolute inset-6 rounded-[32px] bg-naranja-300 opacity-25 blur-2xl" aria-hidden="true" />
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[32px] border-2 border-naranja-200 bg-naranja-500 shadow-xl">
+                <Image
+                  src="/images/armando-ruiz-movimiento-naranja.jpg"
+                  alt="El Diputado Armando Ruiz"
+                  fill
+                  sizes="(min-width: 1024px) 400px, min(320px, calc(100vw - 40px))"
+                  className="object-cover object-center"
+                  priority
+                />
+              </div>
             </div>
           </motion.div>
         </div>

@@ -1,77 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageWrapper from "@/components/layout/PageWrapper";
-import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
+import FadeIn from "@/components/ui/FadeIn";
 import InternalRequestButton from "@/components/ui/InternalRequestButton";
-import { Briefcase, ArrowLeft, MapPin, Clock, Building, ArrowRight } from "lucide-react";
+import { Briefcase, ArrowLeft, ExternalLink, Info, BellRing } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Bolsa de Trabajo",
-  description: "Empleos accesibles para personas con discapacidad. Empresas comprometidas con la accesibilidad laboral.",
+  description: "Bolsa de trabajo que conecta a personas con discapacidad con vacantes que comparten empresas. El Diputado no contrata: publica y conecta.",
 };
-
-const vacantes = [
-  {
-    puesto: "Atención al Cliente",
-    empresa: "Empresa afiliada (confidencial)",
-    ubicacion: "Benito Juárez, CDMX",
-    tipo: "Tiempo completo",
-    descripcion: "Atención telefónica y por chat. No requiere movilidad. Capacitación incluida.",
-    discapacidad: "Motriz / Visual parcial",
-    tag: "Disponible",
-    tagColor: "bg-emerald-500",
-  },
-  {
-    puesto: "Capturista de Datos",
-    empresa: "Gobierno CDMX",
-    ubicacion: "Cuauhtémoc, CDMX",
-    tipo: "Medio tiempo",
-    descripcion: "Registro y actualización de bases de datos. Instalaciones accesibles. Contrato por honorarios.",
-    discapacidad: "Motriz",
-    tag: "Disponible",
-    tagColor: "bg-emerald-500",
-  },
-  {
-    puesto: "Auxiliar de Archivo",
-    empresa: "Institución pública",
-    ubicacion: "Miguel Hidalgo, CDMX",
-    tipo: "Tiempo completo",
-    descripcion: "Clasificación y digitalización de documentos. Trabajo en oficina con acceso en silla de ruedas.",
-    discapacidad: "Motriz / Auditiva",
-    tag: "Disponible",
-    tagColor: "bg-emerald-500",
-  },
-  {
-    puesto: "Diseñador Gráfico Junior",
-    empresa: "Agencia creativa",
-    ubicacion: "Remoto / CDMX",
-    tipo: "Tiempo completo",
-    descripcion: "Diseño de materiales digitales e impresos. Trabajo 100% remoto disponible.",
-    discapacidad: "Motriz / Auditiva / Visual parcial",
-    tag: "Disponible",
-    tagColor: "bg-emerald-500",
-  },
-  {
-    puesto: "Representante de Ventas Telefónicas",
-    empresa: "Empresa de telecomunicaciones",
-    ubicacion: "Remoto",
-    tipo: "Tiempo completo",
-    descripcion: "Ventas y soporte por teléfono. Excelente remuneración con comisiones. Capacitación pagada.",
-    discapacidad: "Motriz / Visual parcial",
-    tag: "Próximamente",
-    tagColor: "bg-naranja-500",
-  },
-  {
-    puesto: "Programador Web",
-    empresa: "Startup tecnológica",
-    ubicacion: "Remoto",
-    tipo: "Freelance / Tiempo completo",
-    descripcion: "Desarrollo de páginas web. Conocimiento de HTML, CSS y JavaScript. Trabajo 100% remoto.",
-    discapacidad: "Motriz / Auditiva / Visual parcial",
-    tag: "Próximamente",
-    tagColor: "bg-naranja-500",
-  },
-];
 
 export default function BolsaTrabajoPage() {
   return (
@@ -100,12 +37,13 @@ export default function BolsaTrabajoPage() {
             </div>
 
             <h1 className="text-[44px] sm:text-[60px] font-black text-white leading-tight tracking-tight mb-5">
-              Empleo{" "}
-              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Accesible</span>
+              Bolsa de{" "}
+              <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Trabajo</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
-              Vacantes de empleos dignos para personas con discapacidad.
-              Empresas comprometidas con la accesibilidad laboral real.
+              Aquí conectamos a personas con discapacidad con vacantes que comparten
+              empresas e instituciones. <strong className="text-white font-bold">El Diputado no
+              contrata ni garantiza el empleo: publica las vacantes y te conecta.</strong>
             </p>
           </FadeIn>
         </div>
@@ -114,84 +52,72 @@ export default function BolsaTrabajoPage() {
       {/* Vacantes */}
       <section className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-5 sm:px-8">
-          <FadeIn className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
-            <h2 className="text-[36px] sm:text-[44px] font-black text-gray-900 leading-tight">
-              Vacantes actuales
+          <FadeIn>
+            <h2 className="text-[36px] sm:text-[44px] font-black text-gray-900 leading-tight mb-6">
+              Vacantes
             </h2>
-            <p className="text-[14px] text-gray-900 bg-gray-50 border border-gray-200 rounded-pill px-4 py-2">
-              Actualizado por el equipo del Diputado Armando Ruiz
-            </p>
           </FadeIn>
 
-          <StaggerContainer className="flex flex-col gap-5" stagger={0.07}>
-            {vacantes.map((v) => (
-              <StaggerItem key={v.puesto + v.empresa}>
-                <div className="p-7 rounded-card border border-gray-100 hover:border-naranja-200
-                                hover:shadow-card bg-white transition-all duration-300 group">
-                  <div className="flex flex-wrap items-start gap-3 mb-4">
-                    <div className="flex-1">
-                      <h3 className="text-[20px] font-bold text-gray-900 mb-1">{v.puesto}</h3>
-                      <div className="flex flex-wrap items-center gap-3 text-[14px] text-gray-900">
-                        <span className="flex items-center gap-1.5">
-                          <Building className="w-3.5 h-3.5 text-naranja-400" />
-                          {v.empresa}
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                          <MapPin className="w-3.5 h-3.5 text-naranja-400" />
-                          {v.ubicacion}
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                          <Clock className="w-3.5 h-3.5 text-naranja-400" />
-                          {v.tipo}
-                        </span>
-                      </div>
-                    </div>
-                    <span className={`${v.tagColor} text-white text-[12px] font-black px-3 py-1 rounded-full`}>
-                      {v.tag}
-                    </span>
-                  </div>
+          {/* Aviso: la información la dan las empresas */}
+          <FadeIn className="mb-8">
+            <div className="flex items-start gap-4 rounded-card border-2 border-naranja-300 bg-naranja-50 p-5">
+              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border-2 border-naranja-300 bg-white">
+                <Info className="h-5 w-5 text-naranja-600" aria-hidden="true" />
+              </div>
+              <p className="text-[15px] sm:text-[16px] leading-relaxed text-gray-800">
+                La información de cada vacante es <strong className="font-bold">otorgada por la
+                empresa o institución que la publica</strong>. El equipo del Diputado Armando Ruiz
+                no contrata ni garantiza el empleo; solo publica la vacante y te conecta con quien
+                la ofrece.
+              </p>
+            </div>
+          </FadeIn>
 
-                  <p className="text-[15px] text-gray-900 leading-relaxed mb-4">{v.descripcion}</p>
-
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <span className="text-[12px] bg-emerald-50 text-emerald-700 border border-emerald-200
-                                     rounded-full px-3 py-1 font-semibold">
-                      ♿ Apta para: {v.discapacidad}
-                    </span>
-                    <InternalRequestButton
-                      requestType="job_application"
-                      subject={`Postulación: ${v.puesto}`}
-                      triggerLabel="Postularme"
-                      title={`Postularme a ${v.puesto}`}
-                      description="Deja tus datos dentro del portal para que el equipo revise tu interés en esta vacante."
-                      messageLabel="Cuéntanos tu experiencia o habilidades"
-                      messagePlaceholder="Ej. Tengo experiencia en atención al cliente, puedo trabajar por teléfono..."
-                      organizationLabel="Empresa actual o última experiencia"
-                      metadata={{
-                        puesto: v.puesto,
-                        empresa: v.empresa,
-                        ubicacion: v.ubicacion,
-                        tipo: v.tipo,
-                        discapacidad: v.discapacidad,
-                      }}
-                      className="inline-flex items-center gap-1.5 text-naranja-600 hover:text-naranja-700
-                                 font-semibold text-[14px] transition-colors group-hover:underline"
-                    >
-                      Postularme
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </InternalRequestButton>
-                  </div>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+          {/* Estado honesto: aún no hay vacantes reales publicadas */}
+          <FadeIn>
+            <div className="rounded-card border-2 border-dashed border-gray-300 bg-warm-50 p-8 text-center">
+              <h3 className="text-[22px] font-black text-gray-900 mb-2">
+                Por ahora no hay vacantes publicadas
+              </h3>
+              <p className="text-[16px] text-gray-700 leading-relaxed max-w-xl mx-auto mb-6">
+                En cuanto las empresas compartan vacantes verificadas, las verás aquí. Mientras
+                tanto, puedes dejar tu perfil para avisarte, o buscar en la bolsa nacional de empleo
+                para personas con discapacidad.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <InternalRequestButton
+                  requestType="job_application"
+                  subject="Quiero que me avisen de vacantes accesibles"
+                  triggerLabel="Dejar mi perfil"
+                  title="Dejar mi perfil de empleo"
+                  description="Deja tus datos dentro del portal para que el equipo te avise cuando haya una vacante que se ajuste a ti."
+                  messageLabel="Cuéntanos tu experiencia o habilidades"
+                  messagePlaceholder="Ej. Tengo experiencia en atención al cliente, puedo trabajar por teléfono o de forma remota…"
+                  organizationLabel="Empresa actual o última experiencia"
+                  className="btn-primary inline-flex"
+                >
+                  <BellRing className="w-5 h-5" aria-hidden="true" />
+                  Dejar mi perfil
+                </InternalRequestButton>
+                <a
+                  href="https://www.gob.mx/stps/articulos/abriendo-espacios-miles-de-ofertas-laborales-para-personas-con-discapacidad-y-adultos-mayores"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary inline-flex"
+                >
+                  Buscar en Abriendo Espacios (STPS)
+                  <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </FadeIn>
 
           {/* CTA Empresa */}
           <FadeIn className="mt-14 p-8 rounded-card bg-gray-900 text-center border border-white/8">
             <p className="text-white font-bold text-[22px] mb-3">¿Eres empresa y quieres publicar una vacante?</p>
             <p className="text-gray-300 text-[15px] mb-6 max-w-xl mx-auto">
-              Únete a nuestro programa de empresas accesibles. El Diputado Armando Ruiz
-              conecta tu empresa con talento comprometido.
+              Comparte tu vacante accesible con nosotros. La publicamos en esta bolsa y la
+              conectamos con personas con discapacidad que buscan empleo digno.
             </p>
             <InternalRequestButton
               requestType="vacancy_registration"

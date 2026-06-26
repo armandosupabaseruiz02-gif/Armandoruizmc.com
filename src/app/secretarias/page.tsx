@@ -115,8 +115,8 @@ export default function SecretariasPage() {
               <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Gubernamentales</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
-              Directorio de las secretarías del gobierno de la Ciudad de México
-              especializadas en atención a personas con discapacidad y sus familias.
+              ¿No sabes a qué oficina ir? Aquí tienes, en un solo lugar, las secretarías del
+              gobierno de la CDMX que atienden a personas con discapacidad y a sus familias.
             </p>
           </FadeIn>
         </div>

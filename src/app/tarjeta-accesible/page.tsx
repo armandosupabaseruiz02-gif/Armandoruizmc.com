@@ -96,8 +96,8 @@ export default function TarjetaAccesiblePage() {
               <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Discapacidad CDMX</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
-              La Tarjeta Accesible te da acceso a transporte gratuito, atención médica
-              preferencial y descuentos en la Ciudad de México. Aquí te explicamos cómo obtenerla.
+              Con la Tarjeta Accesible viajas gratis, tienes atención médica preferente y
+              descuentos en la CDMX. Aquí te explicamos, pasito a pasito, cómo sacarla.
             </p>
           </FadeIn>
         </div>

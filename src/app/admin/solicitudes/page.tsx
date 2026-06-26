@@ -77,7 +77,7 @@ export default async function AdminSolicitudesPage() {
             className="inline-flex items-center gap-2 text-gray-300 hover:text-naranja-400 text-[14px] font-medium transition-colors mb-8 group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-            Volver a Mi cuenta
+            Volver a Mi perfil
           </Link>
           <p className="text-[12px] font-bold text-naranja-400 uppercase tracking-widest mb-3">
             Panel de Administración

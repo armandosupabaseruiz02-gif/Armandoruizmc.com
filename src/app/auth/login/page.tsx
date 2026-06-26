@@ -228,10 +228,10 @@ function LoginForm() {
 
             <div className="mt-5 text-center sm:mt-6">
               <h1 className="text-[27px] font-[900] leading-tight tracking-[-0.06em] text-gray-950 sm:text-[36px]">
-                Bienvenido de nuevo
+                ¡Qué gusto verte de nuevo!
               </h1>
               <p className="mx-auto mt-2 max-w-sm text-[13px] leading-5 text-gray-500 sm:mt-3 sm:text-[15px] sm:leading-6">
-                Inicia sesión para continuar con tus trámites, citas y seguimiento ciudadano.
+                Entra a tu cuenta para seguir con tus citas y tus trámites. Aquí seguimos contigo.
               </p>
             </div>
 

@@ -41,8 +41,8 @@ export default function AliadosPage() {
               <span className="bg-gradient-to-r from-naranja-600 via-naranja-500 to-naranja-400 bg-clip-text text-transparent">Aliados</span>
             </h1>
             <p className="text-[18px] sm:text-[20px] text-gray-200 leading-relaxed max-w-2xl">
-              Construimos una red de organizaciones, fundaciones y empresas comprometidas
-              con la accesibilidad y los derechos de las personas con discapacidad en la Ciudad de México.
+              Estamos juntando una red de organizaciones, fundaciones y empresas que le entran
+              de verdad a la accesibilidad y a los derechos de las personas con discapacidad.
             </p>
           </FadeIn>
         </div>

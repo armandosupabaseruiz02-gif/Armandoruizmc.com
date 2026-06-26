@@ -12,42 +12,42 @@ import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 const tareas: FlowingMenuItem[] = [
   {
     text: "Asesoría de salud",
-    description: "Agenda una cita presencial o en línea",
+    description: "Agenda tu cita y te acompañamos, en persona o por internet",
     eyebrow: "Cita prioritaria",
     link: "/salud/agendar",
     image: "/images/quick-access/salud.svg",
   },
   {
     text: "Tarjeta Accesible",
-    description: "Revisa requisitos, beneficios y pasos",
+    description: "Te explicamos, pasito a pasito, cómo conseguirla",
     eyebrow: "Trámite",
     link: "/tarjeta-accesible",
     image: "/images/quick-access/tarjeta.svg",
   },
   {
     text: "Programas sociales",
-    description: "Encuentra apoyos públicos disponibles",
+    description: "Te ayudamos a encontrar el apoyo que es para ti",
     eyebrow: "Orientación",
     link: "/programas-sociales",
     image: "/images/quick-access/programas.svg",
   },
   {
     text: "Bolsa de trabajo",
-    description: "Consulta vacantes accesibles",
+    description: "Te ayudamos a buscar un empleo accesible",
     eyebrow: "Empleo",
     link: "/bolsa-trabajo",
     image: "/images/quick-access/trabajo.svg",
   },
   {
     text: "Quiero ayudar",
-    description: "Conecta con una causa directa",
+    description: "Ayuda a alguien, o pide ayuda con confianza",
     eyebrow: "Donación",
     link: "#donar",
     image: "/images/quick-access/donar.svg",
   },
   {
-    text: "Mi cuenta",
-    description: "Da seguimiento a tus citas y datos",
+    text: "Mi perfil",
+    description: "Sigue tus citas y tus datos en un solo lugar",
     eyebrow: "Seguimiento",
     link: "/mi-cuenta",
     image: "/images/quick-access/cuenta.svg",
@@ -79,10 +79,10 @@ export default function AyudaHoy() {
             className="text-[34px] sm:text-[44px] font-black text-gray-900
                        leading-tight tracking-tight mt-5 mb-4"
           >
-            ¿En qué te ayudamos <span className="text-highlight">hoy</span>?
+            ¿En qué te echamos <span className="text-highlight">la mano hoy</span>?
           </h2>
           <p className="text-[18px] text-gray-800 max-w-2xl mx-auto leading-relaxed">
-            Ve directo al trámite o apoyo que necesitas.
+            Pícale a lo que necesitas y vamos directo, sin darle tantas vueltas.
           </p>
         </FadeIn>
 

@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
+import { lenisStart, lenisStop } from "@/providers/SmoothScrollProvider";
 
 type RequestType =
   | "job_application"
@@ -67,9 +69,14 @@ export default function InternalRequestButton({
   useEffect(() => {
     if (!open) return;
 
+    // Pausar el smooth scroll (Lenis) mientras el modal esta abierto: si sigue
+    // corriendo su loop, pelea con el overlay fixed y provoca parpadeo/congelado.
+    lenisStop();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const focusId = requestAnimationFrame(() => fullNameRef.current?.focus());
+    const focusId = requestAnimationFrame(() =>
+      fullNameRef.current?.focus({ preventScroll: true })
+    );
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -107,6 +114,7 @@ export default function InternalRequestButton({
       cancelAnimationFrame(focusId);
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
+      lenisStart();
     };
   }, [open, state]);
 
@@ -184,7 +192,7 @@ export default function InternalRequestButton({
         {children ?? triggerLabel}
       </button>
 
-      {open && (
+      {open && typeof document !== "undefined" && createPortal(
         <div
           ref={dialogRef}
           className="fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto bg-gray-950/70 px-4 py-8"
@@ -357,7 +365,8 @@ export default function InternalRequestButton({
               )}
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
