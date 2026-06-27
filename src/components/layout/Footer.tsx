@@ -15,11 +15,11 @@ const serviciosLinks = [
 ];
 
 const infoLinks = [
-  { href: "#quienes-somos", label: "Quiénes Somos" },
-  { href: "#que-hacemos",   label: "Qué Hacemos" },
+  { href: "#como-funciona", label: "Cómo te ayudamos" },
   { href: "#armando-ruiz",  label: "Quién es Armando" },
-  { href: "#sabias-que",    label: "¿Sabías que?" },
+  { href: "#crear-cuenta",  label: "Crea tu cuenta" },
   { href: "#donar",         label: "Donar" },
+  { href: "#sabias-que",    label: "¿Sabías que?" },
 ];
 
 function handleAnchor(e: React.MouseEvent<HTMLAnchorElement>, href: string, isHome: boolean) {

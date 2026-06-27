@@ -1,8 +1,7 @@
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import AyudaHoy from "@/components/sections/AyudaHoy";
-import QuienesSomos from "@/components/sections/QuienesSomos";
-import QueHacemos from "@/components/sections/QueHacemos";
+import ComoTeAyudamos from "@/components/sections/ComoTeAyudamos";
 import CuentaCTA from "@/components/sections/CuentaCTA";
 import QuienEsArmando from "@/components/sections/QuienEsArmando";
 import SabiasQue from "@/components/sections/SabiasQue";
@@ -16,13 +15,13 @@ export default function HomePage() {
         <Hero />
         {/* Lanzador de tareas: atajo prioritario; el scroll informativo sigue debajo */}
         <AyudaHoy />
-        <QuienesSomos />
-        <QueHacemos />
+        <ComoTeAyudamos />
         <CuentaCTA />
         <QuienEsArmando />
-        <SabiasQue />
         <InstagramReels />
         <Donar />
+        {/* Datos / "¿Sabías que?" cierra la página: contexto, no acceso a tramite */}
+        <SabiasQue />
       </main>
       <Footer />
     </>

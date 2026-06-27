@@ -3,17 +3,19 @@
 import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { Home, Menu, X } from "lucide-react";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { Home } from "lucide-react";
 import PillNav, { type PillNavItem } from "@/components/ui/PillNav";
+import StaggeredMenu, { type StaggeredMenuItem } from "@/components/ui/StaggeredMenu";
 import AccountButton from "@/components/layout/AccountButton";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 const navLinks = [
-  { href: "#quienes-somos", label: "Atención" },
-  { href: "#que-hacemos", label: "Cómo te ayudamos" },
+  { href: "#ayuda-hoy", label: "Trámites" },
+  { href: "#como-funciona", label: "Cómo funciona" },
   { href: "#armando-ruiz", label: "Armando" },
-  { href: "#sabias-que", label: "Datos" },
+  { href: "#crear-cuenta", label: "Tu cuenta" },
+  { href: "#donar", label: "Ayudar" },
 ];
 
 function getAnchorHref(href: string, isHome: boolean) {
@@ -53,6 +55,16 @@ export default function Navbar() {
       })),
     [isHome],
   );
+  const mobileMenuItems = useMemo<StaggeredMenuItem[]>(
+    () =>
+      navLinks.map((link) => ({
+        label: link.label,
+        href: getAnchorHref(link.href, isHome),
+        ariaLabel: link.label,
+        onClick: (event) => handleAnchorClick(event, link.href, isHome),
+      })),
+    [isHome],
+  );
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 24);
@@ -65,7 +77,7 @@ export default function Navbar() {
   return (
     <>
       <motion.header
-        className="fixed left-0 right-0 top-0 z-50"
+        className={`fixed left-0 right-0 top-0 ${open ? "z-[70]" : "z-50"}`}
         animate={{ y: hidden && !open ? -96 : 0 }}
         transition={{ duration: 0.25, ease: "easeInOut" }}
       >
@@ -115,16 +127,16 @@ export default function Navbar() {
 
             <div className="ml-auto flex items-center gap-2">
               <AccountButton variant="desktop" onNavigate={() => setOpen(false)} />
-              <button
-                type="button"
-                className="navbar-menu-button h-11 w-11 items-center justify-center rounded-full border border-naranja-400 bg-naranja-500 text-white shadow-sm transition-colors duration-200 hover:bg-naranja-600"
-                onClick={() => setOpen((current) => !current)}
-                aria-expanded={open}
-                aria-controls="mobile-menu"
-                aria-label={open ? "Cerrar menú" : "Abrir menú"}
-              >
-                {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
-              </button>
+              <div className="xl:hidden">
+                <StaggeredMenu
+                  items={mobileMenuItems}
+                  accentColor="#ea580c"
+                  colors={["#fb923c", "#ea580c"]}
+                  onMenuOpen={() => setOpen(true)}
+                  onMenuClose={() => setOpen(false)}
+                  footer={<AccountButton variant="mobile" onNavigate={() => setOpen(false)} />}
+                />
+              </div>
             </div>
           </div>
 
@@ -135,37 +147,6 @@ export default function Navbar() {
           />
         </div>
       </motion.header>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            id="mobile-menu"
-            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-white px-6 pb-10 pt-24"
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-          >
-            <ul className="mb-8 flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={getAnchorHref(link.href, isHome)}
-                    className="flex min-h-[58px] items-center border-b border-gray-100 text-[23px] font-black text-gray-900 transition-colors hover:text-naranja-700"
-                    onClick={(event) => handleAnchorClick(event, link.href, isHome, () => setOpen(false))}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            <div className="flex flex-col gap-3">
-              <AccountButton variant="mobile" onNavigate={() => setOpen(false)} />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 }
