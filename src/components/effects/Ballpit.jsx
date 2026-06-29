@@ -3,26 +3,23 @@
 import { useEffect, useRef } from "react";
 import {
   Vector3 as Vec3,
-  MeshPhysicalMaterial,
+  MeshBasicMaterial,
   InstancedMesh,
   Timer,
-  AmbientLight,
-  SphereGeometry,
+  PlaneGeometry,
   Scene,
-  Color,
   Object3D,
   SRGBColorSpace,
   MathUtils,
-  PMREMGenerator,
+  TextureLoader,
+  DoubleSide,
   Vector2,
   WebGLRenderer,
   PerspectiveCamera,
-  PointLight,
   ACESFilmicToneMapping,
   Plane,
   Raycaster,
 } from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
 class ThreeScene {
   #options;
@@ -578,6 +575,7 @@ class BallPhysics {
 
 const DEFAULTS = {
   count: 200,
+  texture: null,
   colors: [0, 0, 0],
   ambientColor: 0xffffff,
   ambientIntensity: 1,
@@ -605,73 +603,58 @@ const DEFAULTS = {
 };
 
 class BallMesh extends InstancedMesh {
-  constructor(renderer, options = {}) {
+  constructor(options = {}) {
     const config = { ...DEFAULTS, ...options };
-    const roomEnvironment = new RoomEnvironment();
-    const envMap = new PMREMGenerator(renderer, 0.04).fromScene(roomEnvironment).texture;
-    const geometry = new SphereGeometry();
-    const material = new MeshPhysicalMaterial({
-      envMap,
-      color: config.colors[3] ?? config.colors[0] ?? 0xf97316,
-      emissive: config.colors[1] ?? config.colors[0] ?? 0xf97316,
-      emissiveIntensity: 0.24,
-      vertexColors: false,
-      envMapIntensity: 0.28,
-      ...config.materialParams,
+    // Cada cuerpo es un plano con la textura del emblema (aguila). La camara mira
+    // de frente al plano XY, asi que el PlaneGeometry ya queda de cara a la camara
+    // (no hace falta billboarding por instancia). Sin luces ni envmap -> mas ligero.
+    const geometry = new PlaneGeometry(1, 1);
+    const material = new MeshBasicMaterial({
+      color: 0xf97316, // respaldo naranja mientras carga (o si no hay textura)
+      transparent: true,
+      alphaTest: 0.5,
+      depthWrite: false,
+      side: DoubleSide,
+      toneMapped: false,
     });
-    material.envMapRotation.x = -Math.PI / 2;
+
+    if (config.texture) {
+      new TextureLoader().load(config.texture, (texture) => {
+        texture.colorSpace = SRGBColorSpace;
+        material.map = texture;
+        material.color.set(0xffffff); // blanco = no tiñe la imagen
+        material.needsUpdate = true;
+        // Respeta el aspecto real del emblema para que el aguila no salga estirada.
+        const img = texture.image;
+        if (img && img.width && img.height) {
+          const aspect = img.width / img.height;
+          if (aspect >= 1) geometry.scale(1, 1 / aspect, 1);
+          else geometry.scale(aspect, 1, 1);
+        }
+      });
+    }
+
     super(geometry, material, config.count);
     this.config = config;
     this.physics = new BallPhysics(config);
-    this.#setupLights();
-    this.setColors(config.colors);
-  }
-
-  #setupLights() {
-    this.ambientLight = new AmbientLight(this.config.ambientColor, this.config.ambientIntensity);
-    this.add(this.ambientLight);
-    this.light = new PointLight(this.config.colors[0], this.config.lightIntensity);
-    this.add(this.light);
-  }
-
-  setColors(colors) {
-    if (!Array.isArray(colors) || colors.length <= 1) return;
-
-    const palette = colors.map((color) => new Color(color));
-    const sampleColor = (ratio, out = new Color()) => {
-      const scaled = Math.max(0, Math.min(1, ratio)) * (colors.length - 1);
-      const idx = Math.floor(scaled);
-      const start = palette[idx];
-      if (idx >= colors.length - 1) return start.clone();
-      const alpha = scaled - idx;
-      const end = palette[idx + 1];
-      out.r = start.r + alpha * (end.r - start.r);
-      out.g = start.g + alpha * (end.g - start.g);
-      out.b = start.b + alpha * (end.b - start.b);
-      return out;
-    };
-
-    for (let idx = 0; idx < this.count; idx++) {
-      this.setColorAt(idx, sampleColor(idx / this.count));
-      if (idx === 0) this.light.color.copy(sampleColor(idx / this.count));
-    }
-    this.instanceColor.needsUpdate = true;
   }
 
   update(time) {
     this.physics.update(time);
+    const { positionData, velocityData, sizeData } = this.physics;
     for (let idx = 0; idx < this.count; idx++) {
-      tempObject.position.fromArray(this.physics.positionData, 3 * idx);
+      tempObject.position.fromArray(positionData, 3 * idx);
       const isCursorBall = idx === 0 && this.config.followCursor !== false && this.config.showCursorBall !== false;
       const shouldHideCursorBall = isCursorBall && (this.config.showCursorBall === false || !this.config.controlSphere0);
       if (shouldHideCursorBall) {
         tempObject.scale.setScalar(0);
       } else {
-        tempObject.scale.setScalar(this.physics.sizeData[idx]);
+        tempObject.scale.setScalar(sizeData[idx]);
       }
+      // Inclinacion sutil segun la velocidad horizontal: las aguilas "planean".
+      tempObject.rotation.z = -velocityData[3 * idx] * 4;
       tempObject.updateMatrix();
       this.setMatrixAt(idx, tempObject.matrix);
-      if (idx === 0) this.light.position.copy(tempObject.position);
     }
     this.instanceMatrix.needsUpdate = true;
   }
@@ -764,7 +747,7 @@ function createBallpit(canvas, options = {}) {
       three.clear();
       three.scene.remove(spheres);
     }
-    spheres = new BallMesh(three.renderer, initOptions);
+    spheres = new BallMesh(initOptions);
     three.scene.add(spheres);
   }
 

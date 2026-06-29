@@ -94,7 +94,7 @@ export default function Navbar() {
             {/* Marca sutil del partido (lado izquierdo, solo pantallas grandes) */}
             <span className="hidden xl:flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-naranja-700/70 select-none">
               <span className="h-1.5 w-1.5 rounded-full bg-naranja-500" aria-hidden="true" />
-              Movimiento Ciudadano · Diputado Federal
+              Movimiento Ciudadano
             </span>
 
             <Link

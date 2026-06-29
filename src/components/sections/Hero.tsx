@@ -5,13 +5,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Ballpit from "@/components/effects/Ballpit";
 import SombreroAguila from "@/components/effects/SombreroAguila";
-
-const heroBallpitColors = [0xffb347, 0xff9828, 0xff7a12, 0xf97316, 0xea580c];
+import DiputadoFederalSeal from "@/components/ui/DiputadoFederalSeal";
 
 export default function Hero() {
   const { scrollY } = useScroll();
   const y       = useTransform(scrollY, [0, 700], [0, 100]);
-  const opacity = useTransform(scrollY, [0, 420], [1, 0]);
 
   return (
     <section
@@ -22,30 +20,19 @@ export default function Hero() {
       {/* Fondo decorativo vivo */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-warm-50" />
-        <div className="absolute inset-0 opacity-[0.32] sm:opacity-[0.42] motion-reduce:hidden">
+        <div className="absolute inset-0 opacity-[0.45] sm:opacity-[0.55] motion-reduce:hidden">
           <Ballpit
-            count={42}
-            colors={heroBallpitColors}
-            ambientColor={0xffffff}
-            ambientIntensity={1.6}
-            lightIntensity={135}
-            gravity={0.25}
+            texture="/images/emblema-aguila.png"
+            count={26}
+            gravity={0.22}
             friction={0.992}
-            wallBounce={0.88}
-            minSize={0.1}
-            maxSize={0.34}
-            size0={0.58}
-            cursorRadius={0.58}
-            cursorForce={1.3}
-            maxVelocity={0.085}
-            materialParams={{
-              metalness: 0,
-              roughness: 0.3,
-              clearcoat: 0.9,
-              clearcoatRoughness: 0.12,
-              envMapIntensity: 0.38,
-              emissiveIntensity: 0.08,
-            }}
+            wallBounce={0.8}
+            minSize={0.5}
+            maxSize={1.05}
+            size0={0.7}
+            cursorRadius={1.2}
+            cursorForce={1.2}
+            maxVelocity={0.08}
             showCursorBall={false}
             followCursor
             className="block h-full w-full"
@@ -61,13 +48,13 @@ export default function Hero() {
 
       <motion.div
         className="relative mx-auto w-full max-w-[100vw] px-5 pt-24 pb-10 sm:max-w-7xl sm:px-8 sm:pt-28 sm:pb-14"
-        style={{ y, opacity }}
+        style={{ y }}
       >
         <div className="grid min-w-0 grid-cols-1 gap-10 items-center lg:grid-cols-[1fr_420px] lg:gap-16">
 
           {/* Izquierda */}
           <div className="hero-copy flex min-w-0 flex-col gap-5 sm:gap-7">
-            {/* Sombrero emblema: al picarlo sale la aguilita con musiquita */}
+            {/* Sombrero emblema: al picarlo sale la aguilita (animacion, sin sonido) */}
             <div className="-mb-2 -mt-1">
               <SombreroAguila />
             </div>
@@ -125,6 +112,7 @@ export default function Hero() {
                   priority
                 />
               </div>
+              <DiputadoFederalSeal className="absolute bottom-3 left-3 z-20" />
             </div>
           </motion.div>
         </div>

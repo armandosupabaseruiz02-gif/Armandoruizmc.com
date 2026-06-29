@@ -331,8 +331,11 @@ export default function PillNav({
             logoRef.current = el;
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logo} alt={logoAlt} ref={logoImgRef} />
+          <span className="pill-logo-badge">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={logo} alt={logoAlt} ref={logoImgRef} />
+          </span>
+          <span className="pill-logo-text">Inicio</span>
         </Link>
 
         <div className="pill-nav-items pill-desktop-only" ref={navItemsRef}>

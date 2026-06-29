@@ -5,7 +5,7 @@ import coreWebVitals from "eslint-config-next/core-web-vitals";
 
 const config = [
   {
-    ignores: [".next/**", "node_modules/**", "next-env.d.ts"],
+    ignores: [".next/**", ".next.nosync/**", "node_modules/**", "next-env.d.ts"],
   },
   ...coreWebVitals,
 ];

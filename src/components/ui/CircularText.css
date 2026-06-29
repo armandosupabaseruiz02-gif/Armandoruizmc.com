@@ -1,0 +1,28 @@
+/* CircularText (React Bits) adaptado: tamaño/fuente/color por variables CSS
+   para reutilizarlo como sello sobre las fotos del diputado. */
+
+.circular-text {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: var(--ct-size, 200px);
+  height: var(--ct-size, 200px);
+  position: relative;
+  color: var(--ct-color, #fff);
+  font-weight: 900;
+  text-align: center;
+  cursor: default;
+  letter-spacing: 0.04em;
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+}
+
+.circular-text span {
+  position: absolute;
+  display: inline-block;
+  inset: 0;
+  line-height: 1;
+  font-size: var(--ct-font, 24px);
+  /* Sombra sutil para legibilidad del texto blanco sobre la foto (no es fondo). */
+  text-shadow: 0 1px 4px rgba(20, 12, 6, 0.55);
+  transition: all 0.5s cubic-bezier(0, 0, 0, 1);
+}

@@ -18,6 +18,8 @@ export type FlowingMenuItem = {
   eyebrow?: string;
   description?: string;
   ariaLabel?: string;
+  /** Explicación corta del área; muestra un botón "?" con globito. */
+  info?: string;
 };
 
 type FlowingMenuProps = {

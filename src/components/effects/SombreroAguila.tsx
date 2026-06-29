@@ -1,16 +1,17 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 /* ───────────────────────────────────────────────────────────────
    SOMBRERO + AGUILITA  (emblema vivo de la marca)
    Idea del diputado: un sombrero que, al picarlo, "suelta" la aguilita
-   de Movimiento Ciudadano con una musiquita corta.
-   - El sonido es un acorde alegre generado con Web Audio (sin archivo,
-     sin musica con copyright). El jingle real se puede sustituir luego.
-   - Solo suena AL PICAR (nunca autoplay) -> respeta accesibilidad.
+   de Movimiento Ciudadano.
+   - SIN sonido: la interaccion es 100% visual (mejor accesibilidad y
+     nada de audio inesperado).
+   - El sombrero es el sello de la pagina: grande y con una animacion
+     viva (flota y se mece suavemente, como saludando).
    - Respeta prefers-reduced-motion (sin brincos, solo aparece).
 ─────────────────────────────────────────────────────────────── */
 
@@ -29,45 +30,10 @@ function Aguila({ className }: { className?: string }) {
 export default function SombreroAguila({ className = "" }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const reduceMotion = useReducedMotion();
-  const audioCtxRef = useRef<AudioContext | null>(null);
-
-  const playChime = useCallback(() => {
-    try {
-      const Ctx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (!Ctx) return;
-      const ctx = audioCtxRef.current ?? new Ctx();
-      audioCtxRef.current = ctx;
-      if (ctx.state === "suspended") void ctx.resume();
-
-      const now = ctx.currentTime;
-      const notes = [523.25, 659.25, 783.99, 1046.5]; // do-mi-sol-do, alegre
-      notes.forEach((freq, i) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "triangle";
-        osc.frequency.value = freq;
-        const start = now + i * 0.1;
-        gain.gain.setValueAtTime(0, start);
-        gain.gain.linearRampToValueAtTime(0.16, start + 0.03);
-        gain.gain.exponentialRampToValueAtTime(0.0008, start + 0.45);
-        osc.connect(gain).connect(ctx.destination);
-        osc.start(start);
-        osc.stop(start + 0.5);
-      });
-    } catch {
-      // Sin audio disponible: la animacion sigue funcionando igual.
-    }
-  }, []);
 
   const handleClick = useCallback(() => {
-    setOpen((prev) => {
-      const next = !prev;
-      if (next) playChime();
-      return next;
-    });
-  }, [playChime]);
+    setOpen((prev) => !prev);
+  }, []);
 
   return (
     <div className={`relative inline-flex ${className}`}>
@@ -75,21 +41,21 @@ export default function SombreroAguila({ className = "" }: { className?: string 
       <AnimatePresence>
         {open && (
           <motion.div
-            className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-[78%]"
-            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 14, scale: 0.4 }}
+            className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-[82%]"
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 40, scale: 0.4 }}
             animate={
               reduceMotion
                 ? { opacity: 1 }
-                : { opacity: 1, y: [14, -10, 0], scale: 1, rotate: [0, -6, 4, 0] }
+                : { opacity: 1, y: [40, -28, 0], scale: 1, rotate: [0, -6, 4, 0] }
             }
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.5 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 36, scale: 0.5 }}
             transition={
               reduceMotion
                 ? { duration: 0.2 }
                 : { type: "spring", stiffness: 220, damping: 14, mass: 0.7 }
             }
           >
-            <Aguila className="h-9 w-12 drop-shadow-md sm:h-11 sm:w-14" />
+            <Aguila className="h-12 w-16 drop-shadow-lg sm:h-14 sm:w-20" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -101,19 +67,24 @@ export default function SombreroAguila({ className = "" }: { className?: string 
         aria-label={open ? "Guardar la aguilita en el sombrero" : "Pica el sombrero para soltar la aguilita"}
         title="¡Pícame!"
         className="relative rounded-full p-1 outline-none transition-transform focus-visible:ring-2 focus-visible:ring-naranja-500"
-        whileTap={reduceMotion ? undefined : { scale: 0.9, rotate: -6 }}
+        whileTap={reduceMotion ? undefined : { scale: 0.92, rotate: -6 }}
         animate={
           reduceMotion || open
             ? undefined
-            : { y: [0, -3, 0], transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" } }
+            : {
+                y: [0, -14, 0],
+                rotate: [-3, 3, -3],
+                transition: { duration: 3.2, repeat: Infinity, ease: "easeInOut" },
+              }
         }
+        style={{ transformOrigin: "bottom center" }}
       >
         <Image
           src="/images/sombrero.png"
           alt="Sombrero naranja del Diputado Armando Ruiz"
-          width={68}
-          height={68}
-          className="h-14 w-14 select-none object-contain sm:h-[68px] sm:w-[68px]"
+          width={168}
+          height={168}
+          className="h-[140px] w-[140px] select-none object-contain drop-shadow-xl sm:h-[168px] sm:w-[168px]"
           priority
         />
       </motion.button>

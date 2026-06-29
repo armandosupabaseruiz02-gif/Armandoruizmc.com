@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
+import DiputadoFederalSeal from "@/components/ui/DiputadoFederalSeal";
 import { Award, Heart, Users } from "lucide-react";
 
 const logros = [
@@ -39,6 +40,7 @@ export default function QuienEsArmando() {
                   className="object-cover object-center"
                 />
               </div>
+              <DiputadoFederalSeal className="absolute bottom-3 right-3 z-20" />
             </div>
           </motion.div>
 

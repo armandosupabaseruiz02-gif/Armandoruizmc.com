@@ -3,6 +3,7 @@
 import type { MouseEvent } from "react";
 import FadeIn from "@/components/ui/FadeIn";
 import FlowingMenu, { type FlowingMenuItem } from "@/components/effects/FlowingMenu";
+import InfoHint from "@/components/ui/InfoHint";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 /* Lanzador de tareas estilo React Bits FlowingMenu:
@@ -16,6 +17,7 @@ const tareas: FlowingMenuItem[] = [
     eyebrow: "Cita prioritaria",
     link: "/salud/agendar",
     image: "/images/quick-access/salud.svg",
+    info: "¿Te preocupa algo de tu salud o de una discapacidad? Aparta un día con nosotros. Te escuchamos y te decimos qué sigue, pasito a pasito. Vienes en persona o lo vemos por internet, como tú quieras.",
   },
   {
     text: "Tarjeta Accesible",
@@ -23,6 +25,7 @@ const tareas: FlowingMenuItem[] = [
     eyebrow: "Trámite",
     link: "/tarjeta-accesible",
     image: "/images/quick-access/tarjeta.svg",
+    info: "Es una tarjeta que te abre puertas y te da facilidades. Te decimos qué papeles juntar y a dónde llevarlos. No andas solo: te llevamos de la mano.",
   },
   {
     text: "Programas sociales",
@@ -30,6 +33,7 @@ const tareas: FlowingMenuItem[] = [
     eyebrow: "Orientación",
     link: "/programas-sociales",
     image: "/images/quick-access/programas.svg",
+    info: "Hay apoyos del gobierno y a veces no sabes cuál te toca. Aquí te ayudamos a encontrar el tuyo y a pedirlo bien. Ojo: el apoyo lo da el gobierno; nosotros te orientamos.",
   },
   {
     text: "Bolsa de trabajo",
@@ -37,6 +41,7 @@ const tareas: FlowingMenuItem[] = [
     eyebrow: "Empleo",
     link: "/bolsa-trabajo",
     image: "/images/quick-access/trabajo.svg",
+    info: "¿Andas buscando chamba? Aquí buscamos contigo un trabajo pensado para personas con discapacidad y te echamos la mano para encontrarlo.",
   },
   {
     text: "Quiero ayudar",
@@ -44,6 +49,7 @@ const tareas: FlowingMenuItem[] = [
     eyebrow: "Donación",
     link: "#donar",
     image: "/images/quick-access/donar.svg",
+    info: "¿Quieres ayudar a alguien? Te conectamos derechito con una persona o familia que lo necesita. El dinero no pasa por nosotros: tú ayudas directo.",
   },
   {
     text: "Mi perfil",
@@ -51,6 +57,7 @@ const tareas: FlowingMenuItem[] = [
     eyebrow: "Seguimiento",
     link: "/mi-cuenta",
     image: "/images/quick-access/cuenta.svg",
+    info: "Es tu rincón en la página. Aquí ves tus citas y tus trámites juntos, sin que se te pierda nada. Entras cuando tú quieras.",
   },
 ];
 
@@ -87,17 +94,35 @@ export default function AyudaHoy() {
         </FadeIn>
 
         <FadeIn className="mx-auto max-w-5xl">
-          <div style={{ height: "clamp(500px, 58svh, 620px)" }}>
-            <FlowingMenu
-              items={tareas}
-              speed={13}
-              textColor="#7c2d12"
-              bgColor="#fff7ed"
-              marqueeBgColor="#f97316"
-              marqueeTextColor="#ffffff"
-              borderColor="#fed7aa"
-              onItemClick={handleItemClick}
-            />
+          <div
+            className="flex items-stretch gap-2 sm:gap-3"
+            style={{ height: "clamp(500px, 58svh, 620px)" }}
+          >
+            <div className="min-w-0 flex-1">
+              <FlowingMenu
+                items={tareas}
+                speed={13}
+                textColor="#7c2d12"
+                bgColor="#fff7ed"
+                marqueeBgColor="#f97316"
+                marqueeTextColor="#ffffff"
+                borderColor="#fed7aa"
+                onItemClick={handleItemClick}
+              />
+            </div>
+
+            {/* Columna de "?" al lado del cuadro: una por acceso, alineada a su fila */}
+            <div className="flex w-10 flex-shrink-0 flex-col sm:w-11">
+              {tareas.map((tarea) =>
+                tarea.info ? (
+                  <div key={tarea.link} className="flex flex-1 items-center justify-center">
+                    <InfoHint title={tarea.text} text={tarea.info} />
+                  </div>
+                ) : (
+                  <div key={tarea.link} className="flex-1" />
+                ),
+              )}
+            </div>
           </div>
         </FadeIn>
       </div>

@@ -31,13 +31,14 @@ export default function EyesBubble({ onClick, label, isOpen }: EyesBubbleProps) 
   const animationsActive = !reduceMotion && !isOpen;
 
   // Saludo del sombrero: una venia rapida que se repite cada 3 segundos.
+  // Base derecha (rotate 0) para que se vea bien "puesto".
   const startHatIdle = useCallback(() => {
     if (!animationsActive) {
-      hatControls.set({ rotate: -8, y: 0 });
+      hatControls.set({ rotate: 0, y: 0 });
       return;
     }
     hatControls.start({
-      rotate: [-8, 10, -6, 8, -8],
+      rotate: [0, 11, -5, 7, 0],
       y: 0,
       transition: {
         duration: 0.8,
@@ -123,8 +124,8 @@ export default function EyesBubble({ onClick, label, isOpen }: EyesBubbleProps) 
         transition={
           animationsActive
             ? {
-                duration: 10,
-                times: [0, 0.3, 0.4, 0.66, 0.8],
+                duration: 6,
+                times: [0, 0.35, 0.45, 0.7, 0.85],
                 repeat: Infinity,
                 ease: "easeInOut",
               }
@@ -138,19 +139,21 @@ export default function EyesBubble({ onClick, label, isOpen }: EyesBubbleProps) 
           Wrapper CSS para centrar; motion interno solo anima rotate/y. */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 -top-[76px] -translate-x-1/2"
+        className="pointer-events-none absolute left-1/2 -top-[55px] -translate-x-1/2"
       >
         <motion.span
           animate={hatControls}
-          initial={{ rotate: -8 }}
+          initial={{ rotate: 0 }}
           style={{ originX: 0.5, originY: 1, display: "block" }}
         >
+          {/* Diseno original (sombrero.png), proporcion 1.25 (mas ancho que alto),
+              escalado mas grande y sentado sobre la cabeza. Puede salirse a lo ancho. */}
           <Image
             src="/images/sombrero.png"
             alt=""
-            width={174}
-            height={108}
-            className="h-[108px] w-[174px] object-contain drop-shadow-md"
+            width={120}
+            height={96}
+            className="h-[96px] w-[120px] drop-shadow-md"
             priority
           />
         </motion.span>
