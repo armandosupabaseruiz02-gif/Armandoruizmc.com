@@ -39,9 +39,12 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // El proyecto vive en ~/Desktop, que iCloud sincroniza. iCloud generaba
   // copias de conflicto (" 2.ts") dentro de la carpeta de build y rompian la
-  // compilacion con errores "Duplicate identifier". Escribimos el build en una
-  // carpeta con sufijo .nosync, que iCloud ignora por completo.
-  distDir: ".next.nosync",
+  // compilacion LOCAL con errores "Duplicate identifier". Por eso en local
+  // escribimos el build en una carpeta con sufijo .nosync, que iCloud ignora.
+  // PERO en Vercel el output debe ser el ".next" por defecto: si usamos
+  // .next.nosync alla, Vercel no encuentra routes-manifest.json y el deploy
+  // FALLA. Por eso el sufijo solo aplica fuera de Vercel.
+  distDir: process.env.VERCEL ? ".next" : ".next.nosync",
   images: {
     remotePatterns: [
       {
