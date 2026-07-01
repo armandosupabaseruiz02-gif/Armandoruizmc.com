@@ -144,7 +144,7 @@ export default function UserDashboard({
           <div className="flex flex-col items-center justify-center py-16 rounded-3xl
                           border-2 border-dashed border-gray-200 text-center">
             <HeartPulse className="w-12 h-12 text-gray-300 mb-3" />
-            <p className="text-[16px] text-gray-400 mb-5">No tienes solicitudes activas</p>
+            <p className="text-[16px] text-gray-600 mb-5">No tienes solicitudes activas</p>
             <Link href="/salud/agendar" className="btn-primary inline-flex text-[15px] min-h-[48px]">
               <Plus className="w-4 h-4" />
               Agendar cita

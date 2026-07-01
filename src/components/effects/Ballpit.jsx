@@ -5,6 +5,7 @@ import {
   Vector3 as Vec3,
   MeshBasicMaterial,
   InstancedMesh,
+  Group,
   Timer,
   PlaneGeometry,
   Scene,
@@ -576,6 +577,7 @@ class BallPhysics {
 const DEFAULTS = {
   count: 200,
   texture: null,
+  layers: null,
   colors: [0, 0, 0],
   ambientColor: 0xffffff,
   ambientIntensity: 1,
@@ -602,61 +604,88 @@ const DEFAULTS = {
   showCursorBall: true,
 };
 
-class BallMesh extends InstancedMesh {
+/* Grupo de cuerpos voladores. Cada "capa" es una textura distinta (aguila,
+   sombrero...) renderizada con su propio InstancedMesh, pero TODAS comparten
+   UN solo motor de fisica y UN solo contexto WebGL -> fluido (no varios canvas).
+   Cada cuerpo es un plano de lado 2 (PlaneGeometry(2,2)): asi su mitad visible
+   (=1*escala) coincide con el radio de colision (=tamaño), y dejan de "chocar"
+   al doble de su tamaño aparente. La camara mira de frente al plano XY, asi que
+   los planos ya quedan de cara (no hace falta billboarding). Sin luces/envmap. */
+class BallMesh extends Group {
   constructor(options = {}) {
+    super();
     const config = { ...DEFAULTS, ...options };
-    // Cada cuerpo es un plano con la textura del emblema (aguila). La camara mira
-    // de frente al plano XY, asi que el PlaneGeometry ya queda de cara a la camara
-    // (no hace falta billboarding por instancia). Sin luces ni envmap -> mas ligero.
-    const geometry = new PlaneGeometry(1, 1);
-    const material = new MeshBasicMaterial({
-      color: 0xf97316, // respaldo naranja mientras carga (o si no hay textura)
-      transparent: true,
-      alphaTest: 0.5,
-      depthWrite: false,
-      side: DoubleSide,
-      toneMapped: false,
-    });
 
-    if (config.texture) {
-      new TextureLoader().load(config.texture, (texture) => {
-        texture.colorSpace = SRGBColorSpace;
-        material.map = texture;
-        material.color.set(0xffffff); // blanco = no tiñe la imagen
-        material.needsUpdate = true;
-        // Respeta el aspecto real del emblema para que el aguila no salga estirada.
-        const img = texture.image;
-        if (img && img.width && img.height) {
-          const aspect = img.width / img.height;
-          if (aspect >= 1) geometry.scale(1, 1 / aspect, 1);
-          else geometry.scale(aspect, 1, 1);
-        }
-      });
-    }
+    // Normaliza a "capas": si no hay layers, se arma una sola con la textura suelta.
+    const layers =
+      Array.isArray(config.layers) && config.layers.length > 0
+        ? config.layers
+        : [{ texture: config.texture, count: config.count, minSize: config.minSize, maxSize: config.maxSize }];
 
-    super(geometry, material, config.count);
+    // El total manda en la fisica; mutamos el MISMO objeto config para que
+    // physics.config === this.config (el resize actualiza maxX/maxY por referencia).
+    config.count = layers.reduce((sum, l) => sum + l.count, 0);
     this.config = config;
     this.physics = new BallPhysics(config);
+
+    this.layerRecs = [];
+    let start = 0;
+    for (const layer of layers) {
+      const minSize = layer.minSize ?? config.minSize;
+      const maxSize = layer.maxSize ?? config.maxSize;
+      // Tamaños propios por capa (sobreescribe los globales de la fisica).
+      for (let i = start; i < start + layer.count; i++) {
+        this.physics.sizeData[i] = randFloat(minSize, maxSize);
+      }
+
+      const geometry = new PlaneGeometry(2, 2);
+      const material = new MeshBasicMaterial({
+        color: 0xf97316, // respaldo naranja mientras carga la textura
+        transparent: true,
+        alphaTest: 0.5,
+        depthWrite: false,
+        side: DoubleSide,
+        toneMapped: false,
+      });
+      if (layer.texture) {
+        new TextureLoader().load(layer.texture, (texture) => {
+          texture.colorSpace = SRGBColorSpace;
+          material.map = texture;
+          material.color.set(0xffffff); // blanco = no tiñe la imagen
+          material.needsUpdate = true;
+          // Respeta el aspecto real para que la imagen no salga estirada.
+          const img = texture.image;
+          if (img && img.width && img.height) {
+            const aspect = img.width / img.height;
+            if (aspect >= 1) geometry.scale(1, 1 / aspect, 1);
+            else geometry.scale(aspect, 1, 1);
+          }
+        });
+      }
+
+      const mesh = new InstancedMesh(geometry, material, layer.count);
+      mesh.frustumCulled = false; // los cuerpos se mueven fuera del bound del plano
+      this.add(mesh);
+      this.layerRecs.push({ mesh, start, count: layer.count });
+      start += layer.count;
+    }
   }
 
   update(time) {
     this.physics.update(time);
     const { positionData, velocityData, sizeData } = this.physics;
-    for (let idx = 0; idx < this.count; idx++) {
-      tempObject.position.fromArray(positionData, 3 * idx);
-      const isCursorBall = idx === 0 && this.config.followCursor !== false && this.config.showCursorBall !== false;
-      const shouldHideCursorBall = isCursorBall && (this.config.showCursorBall === false || !this.config.controlSphere0);
-      if (shouldHideCursorBall) {
-        tempObject.scale.setScalar(0);
-      } else {
+    for (const layer of this.layerRecs) {
+      for (let k = 0; k < layer.count; k++) {
+        const idx = layer.start + k;
+        tempObject.position.fromArray(positionData, 3 * idx);
         tempObject.scale.setScalar(sizeData[idx]);
+        // Inclinacion sutil segun la velocidad horizontal: "planean" al caer.
+        tempObject.rotation.z = -velocityData[3 * idx] * 4;
+        tempObject.updateMatrix();
+        layer.mesh.setMatrixAt(k, tempObject.matrix);
       }
-      // Inclinacion sutil segun la velocidad horizontal: las aguilas "planean".
-      tempObject.rotation.z = -velocityData[3 * idx] * 4;
-      tempObject.updateMatrix();
-      this.setMatrixAt(idx, tempObject.matrix);
+      layer.mesh.instanceMatrix.needsUpdate = true;
     }
-    this.instanceMatrix.needsUpdate = true;
   }
 }
 

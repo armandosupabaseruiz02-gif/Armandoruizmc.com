@@ -250,7 +250,7 @@ function LoginForm() {
               </button>
             </div>
 
-            <div className="my-4 flex items-center gap-4 text-[13px] font-semibold text-gray-400 sm:my-5">
+            <div className="my-4 flex items-center gap-4 text-[13px] font-semibold text-gray-500 sm:my-5">
               <span className="h-px flex-1 bg-gray-200" aria-hidden="true" />
               o
               <span className="h-px flex-1 bg-gray-200" aria-hidden="true" />

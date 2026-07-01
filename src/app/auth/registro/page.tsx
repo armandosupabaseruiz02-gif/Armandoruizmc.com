@@ -220,7 +220,7 @@ function RegistroForm() {
 
           <div>
             <label htmlFor="phone" className="block text-[14px] font-semibold text-gray-700 mb-2">
-              Teléfono <span className="text-gray-400 font-normal">(opcional)</span>
+              Teléfono <span className="text-gray-500 font-normal">(opcional)</span>
             </label>
             <input
               id="phone"
@@ -357,7 +357,7 @@ function RegistroForm() {
             </p>
           )}
 
-          <p className="text-[12px] text-gray-400 text-center leading-relaxed">
+          <p className="text-[12px] text-gray-500 text-center leading-relaxed">
             Al registrarte aceptas el uso de tus datos exclusivamente para gestionar tus citas
             con el equipo del Diputado Armando Ruiz.
           </p>

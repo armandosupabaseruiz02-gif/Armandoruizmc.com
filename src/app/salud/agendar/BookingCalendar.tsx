@@ -309,6 +309,19 @@ export default function BookingCalendar({
             const isWeekend = dow === 0 || dow === 6;
             const isPast = dateStr < today;
 
+            // Razon por la que un dia no esta disponible, para el lector de pantalla.
+            const dayStatus = isSelected
+              ? "seleccionado"
+              : selectable
+              ? "disponible"
+              : isBlocked
+              ? "dia suspendido, no disponible"
+              : isPast
+              ? "fecha pasada, no disponible"
+              : isWeekend
+              ? "fin de semana, no disponible"
+              : "no disponible";
+
             return (
               <button
                 key={d}
@@ -325,13 +338,11 @@ export default function BookingCalendar({
                     : selectable
                     ? "hover:bg-naranja-100 text-gray-900 cursor-pointer"
                     : isBlocked
-                    ? "text-red-400 line-through cursor-not-allowed opacity-60"
-                    : (isWeekend || isPast)
-                    ? "text-gray-300 cursor-not-allowed"
-                    : "text-gray-300 cursor-not-allowed"
+                    ? "text-red-500 line-through cursor-not-allowed"
+                    : "text-gray-400 cursor-not-allowed"
                   }
                 `}
-                aria-label={`${d} de ${MONTH_NAMES[viewMonth]}`}
+                aria-label={`${d} de ${MONTH_NAMES[viewMonth]} de ${viewYear}, ${dayStatus}`}
                 aria-pressed={isSelected}
               >
                 {d}
@@ -385,7 +396,7 @@ export default function BookingCalendar({
                         : "bg-naranja-50 text-naranja-700 hover:bg-naranja-100 border border-naranja-200"
                       }
                     `}
-                    aria-label={`${t} ${booked ? "(ocupado)" : ""}`}
+                    aria-label={booked ? `${t} horas, horario ocupado` : `${t} horas`}
                     aria-pressed={isSelected}
                   >
                     {t}
@@ -521,7 +532,7 @@ export default function BookingCalendar({
 
               <div>
                 <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
-                  CURP <span className="text-gray-400 font-normal">(opcional)</span>
+                  CURP <span className="text-gray-500 font-normal">(opcional)</span>
                 </label>
                 <input
                   type="text"
@@ -568,7 +579,7 @@ export default function BookingCalendar({
         )}
 
         {step === "calendar" && (
-          <div className="flex flex-col items-center justify-center h-48 text-center text-gray-400">
+          <div className="flex flex-col items-center justify-center h-48 text-center text-gray-600">
             <Calendar className="w-12 h-12 mb-3 opacity-30" />
             <p className="text-[15px]">Selecciona un día disponible en el calendario</p>
           </div>

@@ -134,9 +134,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const citizenEmail = "citizen_email" in appointment && typeof appointment.citizen_email === "string"
-      ? appointment.citizen_email
-      : user.email;
+    // El usuario autenticado ES el ciudadano (verificado arriba). Usamos su email
+    // de sesion como fuente de verdad, no el citizen_email que viaja desde el
+    // cliente, para evitar que se dispare un correo a una direccion arbitraria.
+    const citizenEmail = user.email
+      ?? ("citizen_email" in appointment && typeof appointment.citizen_email === "string"
+        ? appointment.citizen_email
+        : null);
 
     if (!citizenEmail) {
       return NextResponse.json({ sent: false, skipped: true });

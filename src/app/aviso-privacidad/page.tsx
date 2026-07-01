@@ -168,9 +168,12 @@ export default function AvisoPrivacidadPage() {
 
             <Bloque titulo="8. Uso de cookies y tecnologías de rastreo">
               <p>
-                El sitio podrá utilizar cookies y tecnologías similares para mejorar su experiencia
-                de navegación. <em>[Completar con el detalle real de cookies y analítica que utilice
-                el sitio, o eliminar este apartado si no aplica.]</em>
+                Este sitio utiliza únicamente <strong>cookies estrictamente necesarias</strong> para
+                el funcionamiento de la cuenta: mantienen su sesión iniciada de forma segura cuando
+                accede a su perfil y agenda citas. <strong>No utilizamos cookies de publicidad,
+                analítica ni de seguimiento de terceros</strong>, ni elaboramos perfiles con su
+                navegación. Si en el futuro se incorporan herramientas de medición, este Aviso se
+                actualizará antes de activarlas.
               </p>
             </Bloque>
 
@@ -179,7 +182,7 @@ export default function AvisoPrivacidadPage() {
                 El presente Aviso podrá ser modificado en cualquier momento para atender cambios
                 legislativos, internos o en nuestras prácticas de privacidad. Cualquier
                 actualización se pondrá a su disposición a través de este mismo sitio web, en
-                <strong> [URL DEL SITIO]/aviso-privacidad</strong>.
+                <strong> https://www.armandoruizmc.com/aviso-privacidad</strong>.
               </p>
             </Bloque>
 

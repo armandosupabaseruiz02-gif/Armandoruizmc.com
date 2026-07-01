@@ -20,22 +20,22 @@ export default function Hero() {
       {/* Fondo decorativo vivo */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-warm-50" />
-        <div className="absolute inset-0 opacity-[0.45] sm:opacity-[0.55] motion-reduce:hidden">
+        <div className="absolute inset-0 opacity-[0.66] sm:opacity-[0.74] motion-reduce:hidden">
+          {/* Águilas del emblema + sombreritos en UNA sola capa (un solo WebGL = fluido) */}
           <Ballpit
-            texture="/images/emblema-aguila.png"
-            count={26}
+            layers={[
+              { texture: "/images/emblema-aguila.png", count: 26, minSize: 0.45, maxSize: 0.85 },
+              { texture: "/images/sombrerito.png", count: 16, minSize: 0.45, maxSize: 0.78 },
+            ]}
             gravity={0.22}
             friction={0.992}
             wallBounce={0.8}
-            minSize={0.5}
-            maxSize={1.05}
-            size0={0.7}
-            cursorRadius={1.2}
+            cursorRadius={1}
             cursorForce={1.2}
             maxVelocity={0.08}
             showCursorBall={false}
             followCursor
-            className="block h-full w-full"
+            className="absolute inset-0 block h-full w-full"
           />
         </div>
         <div className="absolute inset-0 bg-dot-pattern opacity-50" />
