@@ -129,6 +129,7 @@
 
 ## 5. Registro de trabajo terminado
 
+- [x] **Fix flash de cuadros naranjas al abrir la home (2026-07-02):** en `Ballpit.jsx` los sombreros/aguilas arrancaban como planos naranjas solidos mientras cargaba su textura PNG. Ahora el material nace con `visible: false` y se muestra hasta que la textura esta lista; ya no se ven cuadros al cargar o refrescar.
 - [x] **Sello "DIPUTADO FEDERAL" en las fotos del diputado:** `CircularText` (React Bits) adaptado a TS usando el `framer-motion` existente (sin instalar `motion`), sin `console.log`, respetando `prefers-reduced-motion`. Envuelto en `DiputadoFederalSeal` (solo letras blancas girando, sin fondo, con sombra sutil para legibilidad). Sobre la foto del hero (abajo-izquierda) y la de la biografia (abajo-derecha).
 - [x] **Accesos directos: boton "?" con explicacion al lado del cuadro.** Nuevo `InfoHint` (boton "?" + globito por portal a `<body>`, cierra al tocar fuera/Escape/scroll). En `AyudaHoy` va en una columna al costado del `FlowingMenu`, un "?" por acceso alineado a su fila; funciona en celular y escritorio (resuelve que la franja hover no se ve sin cursor). El acceso sigue navegando.
 - [x] **Header escritorio:** boton de inicio del `PillNav` mas grande (sombrero ~46px -> 58px) y convertido en pastilla con etiqueta visible **"Inicio"**; sigue girando en hover. Texto de marca del header reducido a solo **"Movimiento Ciudadano"**.

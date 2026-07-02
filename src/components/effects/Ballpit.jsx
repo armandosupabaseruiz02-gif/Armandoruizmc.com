@@ -640,7 +640,7 @@ class BallMesh extends Group {
 
       const geometry = new PlaneGeometry(2, 2);
       const material = new MeshBasicMaterial({
-        color: 0xf97316, // respaldo naranja mientras carga la textura
+        color: 0xffffff, // blanco = no tiñe la imagen
         transparent: true,
         alphaTest: 0.5,
         depthWrite: false,
@@ -648,10 +648,13 @@ class BallMesh extends Group {
         toneMapped: false,
       });
       if (layer.texture) {
+        // Invisible hasta que la textura carga: sin ella el plano se veria
+        // como un cuadro solido (el "flash" de cuadros al abrir la pagina).
+        material.visible = false;
         new TextureLoader().load(layer.texture, (texture) => {
           texture.colorSpace = SRGBColorSpace;
           material.map = texture;
-          material.color.set(0xffffff); // blanco = no tiñe la imagen
+          material.visible = true;
           material.needsUpdate = true;
           // Respeta el aspecto real para que la imagen no salga estirada.
           const img = texture.image;
