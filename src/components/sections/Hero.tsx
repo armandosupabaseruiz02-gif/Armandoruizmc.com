@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Ballpit from "@/components/effects/Ballpit";
+import TrueFocus from "@/components/effects/TrueFocus";
 import SombreroAguila from "@/components/effects/SombreroAguila";
 import DiputadoFederalSeal from "@/components/ui/DiputadoFederalSeal";
 
@@ -70,9 +71,20 @@ export default function Hero() {
             </h1>
 
             {/* Slogan oficial */}
-            <p className="hero-copy-text -mt-1 text-[19px] font-black leading-tight tracking-tight text-gray-900 sm:text-[26px]">
-              Discapacidad con <span className="text-highlight">dignidad</span>.
-            </p>
+            <div
+              className="hero-copy-text -mt-1 text-[19px] font-black leading-tight tracking-tight text-gray-900 sm:text-[26px]"
+              aria-label="Discapacidad con dignidad"
+            >
+              <TrueFocus
+                sentence="Discapacidad con dignidad"
+                borderColor="#ea6000"
+                glowColor="rgba(234,96,0,0.5)"
+                blurAmount={5}
+                animationDuration={0.5}
+                pauseBetweenAnimations={1.2}
+                frameDuration={0.18}
+              />
+            </div>
 
             {/* Descripción */}
             <motion.p

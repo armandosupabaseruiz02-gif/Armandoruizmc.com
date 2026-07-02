@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { Home } from "lucide-react";
+import GradientText from "@/components/effects/GradientText";
 import PillNav, { type PillNavItem } from "@/components/ui/PillNav";
 import StaggeredMenu, { type StaggeredMenuItem } from "@/components/ui/StaggeredMenu";
 import AccountButton from "@/components/layout/AccountButton";
@@ -91,10 +92,14 @@ export default function Navbar() {
           <div
             className="relative mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-3 px-5 sm:px-8"
           >
-            {/* Marca sutil del partido (lado izquierdo, solo pantallas grandes) */}
-            <span className="hidden xl:flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-naranja-700/70 select-none">
-              <span className="h-1.5 w-1.5 rounded-full bg-naranja-500" aria-hidden="true" />
-              Movimiento Ciudadano
+            {/* Marca del partido (lado izquierdo, solo pantallas grandes) */}
+            <span className="hidden xl:flex items-center text-[16px] font-black uppercase tracking-[0.14em] select-none">
+              <GradientText
+                colors={["#7c2d12", "#ea580c", "#ffb163", "#ea580c", "#7c2d12"]}
+                animationSpeed={2.5}
+              >
+                Movimiento Ciudadano
+              </GradientText>
             </span>
 
             <Link
