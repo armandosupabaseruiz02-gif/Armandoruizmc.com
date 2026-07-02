@@ -129,6 +129,8 @@
 
 ## 5. Registro de trabajo terminado
 
+- [x] **Cursor de sombrero + chispas naranjas al clic (2026-07-02):** el cursor por defecto ahora es el sombrero del emblema (`cursor-sombrero.png` 32px, solo con `pointer: fine`; enlaces y botones conservan la manita nativa como señal de "esto se pica"). Nuevo `ClickSpark` global (canvas `pointer-events: none`, chispitas naranja `#f97316` de 450ms al hacer clic, rAF solo mientras hay chispas vivas, sin efecto con `prefers-reduced-motion`).
+
 - [x] **Responsivo: contenido recortado en celular (2026-07-02):** (1) Accesos directos: la altura fija del cuadro no alcanzaba en movil y las descripciones salian cortadas; ahora la altura es responsiva (840px movil / 760px >=480px / clamp original en sm+). (2) "¿Sabias que?": los 12 puntos del carrusel no se encogen y empujaban todo el contenedor fuera de pantalla (min-width:auto de flex); fix global `.landing-sheet > * { min-width: 0 }` + puntos con flex-wrap y gaps reducidos en movil. (3) `html { overflow-x: clip }` para que las animaciones de entrada laterales (FadeIn left/right) no ensanchen el documento. Verificado en 360, 390, 768 y 1440 px en home y todas las rutas publicas (docWidth = viewport, sin filas recortadas).
 
 - [x] **Seccion de cuenta en colores de marca + reorden de navegacion (2026-07-02):** `CuentaCTA` dejo el fondo gris oscuro y ahora usa fondo `naranja-500` estilo "¿Sabias que?" (textos blancos, tarjetas blancas con borde naranja); solo cambiaron clases, la logica de sesion quedo intacta. Menu y landing reordenados en espejo: Como funciona -> Tramites -> Armando (con Instagram) -> Tu cuenta -> Ayudar; "¿Sabias que?" sigue cerrando la pagina.

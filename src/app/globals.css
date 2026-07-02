@@ -29,6 +29,15 @@
     overflow-x: hidden;
   }
 
+  /* Cursor de sombrero (emblema) solo donde hay mouse de verdad.
+     Los enlaces/botones conservan la manita nativa: esa señal de
+     "esto se pica" es importante para el publico del sitio. */
+  @media (pointer: fine) {
+    body {
+      cursor: url("/images/cursor-sombrero.png") 15 8, auto;
+    }
+  }
+
   /* Lenis smooth scroll */
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
