@@ -89,16 +89,17 @@ export default function CuentaCTA() {
   return (
     <section
       id="crear-cuenta"
-      className="relative overflow-hidden bg-gray-950 py-20 sm:py-24 lg:py-28"
+      className="relative overflow-hidden bg-naranja-500 py-20 sm:py-24 lg:py-28"
       aria-labelledby="cuenta-titulo"
     >
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.12] pointer-events-none" aria-hidden="true" />
-      <div className="absolute -top-1/3 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-naranja-500/15 blur-[120px] pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" aria-hidden="true" />
+      <div className="absolute top-0 inset-x-0 h-1 bg-white/20 pointer-events-none" aria-hidden="true" />
+      <div className="absolute -top-1/3 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-white/10 blur-[120px] pointer-events-none" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-5xl px-5 sm:px-8">
         {/* Mensaje de megáfono — para todos */}
         <FadeIn className="text-center max-w-3xl mx-auto mb-10">
-          <span className="inline-flex items-center gap-2 rounded-full border border-naranja-400/40 bg-naranja-500/15 px-4 py-2 text-[12px] font-black uppercase tracking-[0.16em] text-naranja-300">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-4 py-2 text-[12px] font-black uppercase tracking-[0.16em] text-white">
             <Megaphone className="h-4 w-4" aria-hidden="true" />
             Tu voz, mil veces más fuerte
           </span>
@@ -107,9 +108,9 @@ export default function CuentaCTA() {
             className="mt-5 text-[32px] sm:text-[46px] font-black leading-tight tracking-tight text-white"
           >
             El equipo de Armando es{" "}
-            <span className="text-naranja-400">tu megáfono</span>.
+            <span className="underline decoration-white/70 decoration-4 underline-offset-4">tu megáfono</span>.
           </h2>
-          <p className="mt-4 text-[18px] leading-relaxed text-gray-300">
+          <p className="mt-4 text-[18px] leading-relaxed text-white/90">
             Aquí tu voz se potencia mil veces y, esta vez, sí va a ser escuchada. Crea tu cuenta
             y empieza a mover lo tuyo con nosotros de tu lado.
           </p>
@@ -118,14 +119,14 @@ export default function CuentaCTA() {
         {/* Tarjeta dinámica: cambia si ya iniciaste sesión */}
         <FadeIn>
           {loggedIn ? (
-            <div className="rounded-[28px] border-2 border-naranja-400/30 bg-white/[0.04] p-7 sm:p-9 text-center">
-              <p className="text-[13px] font-black uppercase tracking-[0.16em] text-naranja-300">
+            <div className="rounded-[28px] border-2 border-naranja-100 bg-white p-7 sm:p-9 text-center shadow-xl">
+              <p className="text-[13px] font-black uppercase tracking-[0.16em] text-naranja-600">
                 Ya tienes tu cuenta
               </p>
-              <h3 className="mt-3 text-[26px] sm:text-[32px] font-black text-white leading-tight">
+              <h3 className="mt-3 text-[26px] sm:text-[32px] font-black text-gray-900 leading-tight">
                 ¡Qué bueno tenerte, {account?.name.split(" ")[0]}!
               </h3>
-              <p className="mx-auto mt-3 max-w-xl text-[16px] leading-relaxed text-gray-300">
+              <p className="mx-auto mt-3 max-w-xl text-[16px] leading-relaxed text-gray-700">
                 Desde aquí agendas tus citas y le das seguimiento a tus trámites. Tu voz ya está
                 con nosotros — sigamos avanzando.
               </p>
@@ -136,7 +137,7 @@ export default function CuentaCTA() {
                 </Link>
                 <Link
                   href="/mi-cuenta"
-                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border-2 border-white/25 bg-white/5 px-6 min-h-[52px] text-[15px] font-bold text-white transition-colors hover:bg-white/10"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border-2 border-gray-200 bg-white px-6 min-h-[52px] text-[15px] font-bold text-gray-700 transition-colors hover:border-naranja-200 hover:bg-naranja-50 hover:text-naranja-700"
                 >
                   Ir a mi perfil
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -146,19 +147,19 @@ export default function CuentaCTA() {
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 items-stretch">
               {/* Qué consigues + cómo */}
-              <div className="rounded-[28px] border-2 border-naranja-400/30 bg-white/[0.04] p-7 sm:p-8">
-                <h3 className="text-[24px] sm:text-[28px] font-black text-white leading-tight">
+              <div className="rounded-[28px] border-2 border-naranja-100 bg-white p-7 sm:p-8 shadow-xl">
+                <h3 className="text-[24px] sm:text-[28px] font-black text-gray-900 leading-tight">
                   Crea tu cuenta y haz que te escuchen
                 </h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-gray-300">
+                <p className="mt-2 text-[15px] leading-relaxed text-gray-600">
                   Es gratis y rápido. Con tu cuenta:
                 </p>
                 <ul className="mt-5 space-y-3">
                   {beneficios.map((b) => {
                     const Icon = b.icon;
                     return (
-                      <li key={b.text} className="flex items-center gap-3 text-[16px] text-white">
-                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-naranja-500/20 text-naranja-300">
+                      <li key={b.text} className="flex items-center gap-3 text-[16px] text-gray-800">
+                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-naranja-100 text-naranja-700">
                           <Icon className="h-5 w-5" aria-hidden="true" />
                         </span>
                         {b.text}
@@ -169,7 +170,7 @@ export default function CuentaCTA() {
               </div>
 
               {/* Cómo se hace + CTAs */}
-              <div className="flex flex-col rounded-[28px] border-2 border-white/10 bg-white p-7 sm:p-8">
+              <div className="flex flex-col rounded-[28px] border-2 border-naranja-100 bg-white p-7 sm:p-8 shadow-xl">
                 <p className="text-[13px] font-black uppercase tracking-[0.16em] text-naranja-600">
                   ¿Cómo la creo?
                 </p>

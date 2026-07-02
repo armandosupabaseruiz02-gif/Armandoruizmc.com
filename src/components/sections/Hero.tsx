@@ -82,7 +82,7 @@ export default function Hero() {
                 blurAmount={5}
                 animationDuration={0.5}
                 pauseBetweenAnimations={1.2}
-                frameDuration={0.18}
+                frameDuration={0.15}
               />
             </div>
 

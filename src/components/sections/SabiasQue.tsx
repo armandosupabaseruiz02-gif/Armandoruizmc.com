@@ -144,8 +144,8 @@ export default function SabiasQue() {
           </AnimatePresence>
         </div>
 
-        {/* Controles */}
-        <div className="flex items-center justify-center gap-6">
+        {/* Controles (gap reducido y puntos que se acomodan en 2 filas en celular) */}
+        <div className="flex items-center justify-center gap-3 sm:gap-6">
           <button
             onClick={prev}
             className="w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 border border-white/40
@@ -157,7 +157,7 @@ export default function SabiasQue() {
           </button>
 
           {/* Indicadores */}
-          <div className="flex gap-2" role="tablist" aria-label="Indicadores de dato">
+          <div className="flex max-w-[200px] flex-wrap justify-center gap-2 sm:max-w-none" role="tablist" aria-label="Indicadores de dato">
             {datos.map((_, i) => (
               <button
                 key={i}

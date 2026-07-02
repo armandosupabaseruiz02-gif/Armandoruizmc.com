@@ -6,12 +6,21 @@ import FadeIn from "@/components/ui/FadeIn";
 import { ArrowLeft, ArrowRight, ExternalLink, Instagram, Play } from "lucide-react";
 import type { InstagramPost } from "@/app/api/instagram/route";
 
-const FALLBACK_POSTS: InstagramPost[] = Array.from({ length: 6 }, (_, index) => ({
-  id: `fallback-${index}`,
+const FALLBACK_CAPTIONS = [
+  "En la Cámara de Diputados, trabajando por un México más accesible.",
+  "Presente en el Pleno: la Patria es primero y la inclusión también.",
+  "Cada encuentro suma. Construyendo alianzas por la discapacidad con dignidad.",
+  "Escuchar de frente a la gente: así se hace la política que sí sirve.",
+  "Con la frente en alto y el corazón naranja. Discapacidad con dignidad.",
+  "Desde la tribuna, la voz de quienes muchas veces no son escuchados.",
+];
+
+const FALLBACK_POSTS: InstagramPost[] = FALLBACK_CAPTIONS.map((caption, index) => ({
+  id: `fallback-${index + 1}`,
   media_type: "IMAGE",
-  media_url: "/images/armando-ruiz-movimiento-naranja.jpg",
+  media_url: `/images/instagram/ig-${index + 1}.jpg`,
   permalink: "https://www.instagram.com/armandoruizmc",
-  caption: "Armando Ruiz en Movimiento Ciudadano",
+  caption,
   timestamp: new Date().toISOString(),
 }));
 
@@ -42,14 +51,12 @@ function useWideCarousel() {
 
 function ReelCard({
   index,
-  isFallback,
   offset,
   post,
   spread,
   total,
 }: {
   index: number;
-  isFallback: boolean;
   offset: number;
   post: InstagramPost;
   spread: number;
@@ -72,8 +79,8 @@ function ReelCard({
         x: `calc(-50% + ${offset * spread}px)`,
         y: "-50%",
         rotate: offset * -5,
-        scale: isActive ? 1 : 0.82 - Math.min(distance, 2) * 0.08,
-        opacity: distance > 2 ? 0 : isActive ? 1 : 0.58,
+        scale: isActive ? 1 : 0.9 - Math.min(distance, 2) * 0.05,
+        opacity: distance > 2 ? 0 : 1,
         zIndex: total - distance,
       }}
       transition={{ type: "spring", stiffness: 210, damping: 26 }}
@@ -91,7 +98,7 @@ function ReelCard({
           />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/58 via-black/8 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
 
         {isVideo && (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -108,9 +115,7 @@ function ReelCard({
 
         <div className="absolute bottom-4 left-4 right-4">
           <p className="line-clamp-2 text-[15px] font-bold leading-5 text-white drop-shadow-md">
-            {isFallback
-              ? "Conecta Instagram para mostrar las publicaciones recientes del diputado."
-              : post.caption || "Trabajo ciudadano de Armando Ruiz"}
+            {post.caption || "Trabajo ciudadano de Armando Ruiz"}
           </p>
           <span className="mt-3 inline-flex items-center gap-2 text-[13px] font-black text-white">
             Ver publicación
@@ -122,7 +127,7 @@ function ReelCard({
   );
 }
 
-function InstagramCoverflow({ isFallback, posts }: { isFallback: boolean; posts: InstagramPost[] }) {
+function InstagramCoverflow({ posts }: { posts: InstagramPost[] }) {
   const shouldReduceMotion = useReducedMotion();
   const isWide = useWideCarousel();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -174,8 +179,8 @@ function InstagramCoverflow({ isFallback, posts }: { isFallback: boolean; posts:
         aria-label="Carrusel animado de publicaciones de Instagram de Armando Ruiz"
       >
         <div className="absolute inset-0 bg-dot-pattern opacity-40" aria-hidden="true" />
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-20 bg-gradient-to-r from-white to-transparent sm:w-32" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-20 bg-gradient-to-l from-white to-transparent sm:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-8 bg-gradient-to-r from-white to-transparent sm:w-14" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-8 bg-gradient-to-l from-white to-transparent sm:w-14" />
 
         <AnimatePresence initial={false}>
           {visiblePosts.map(({ index, offset, post }) => {
@@ -185,7 +190,6 @@ function InstagramCoverflow({ isFallback, posts }: { isFallback: boolean; posts:
               <ReelCard
                 key={post.id}
                 index={index}
-                isFallback={isFallback}
                 offset={offset}
                 post={post}
                 spread={spread}
@@ -283,7 +287,7 @@ export default function InstagramReels() {
             <div className="h-[460px] animate-pulse rounded-[32px] bg-naranja-50 sm:h-[520px]" />
           </div>
         ) : (
-          <InstagramCoverflow isFallback={!hasInstagramPosts} posts={carouselPosts} />
+          <InstagramCoverflow posts={carouselPosts} />
         )}
       </FadeIn>
 

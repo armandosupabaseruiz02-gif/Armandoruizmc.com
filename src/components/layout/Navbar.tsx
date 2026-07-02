@@ -12,10 +12,10 @@ import AccountButton from "@/components/layout/AccountButton";
 import { lenisScrollTo } from "@/providers/SmoothScrollProvider";
 
 const navLinks = [
-  { href: "#ayuda-hoy", label: "Trámites" },
   { href: "#como-funciona", label: "Cómo funciona" },
+  { href: "#ayuda-hoy", label: "Trámites" },
   { href: "#armando-ruiz", label: "Armando" },
-  { href: "#crear-cuenta", label: "Tu cuenta" },
+  { href: "/auth/login", label: "Inicio de sesión" },
   { href: "#donar", label: "Ayudar" },
 ];
 

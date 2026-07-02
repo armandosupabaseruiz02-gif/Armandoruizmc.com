@@ -16,6 +16,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     @apply font-sans;
+    /* Corta cualquier desborde horizontal (p. ej. animaciones de entrada
+       laterales) sin permitir paneo lateral en celulares. */
+    overflow-x: clip;
   }
 
   body {
@@ -62,6 +65,13 @@
     @apply relative flex flex-col justify-center overflow-hidden;
     min-height: 100svh;
     padding-block: clamp(4rem, 5vw, 5.5rem);
+  }
+
+  /* Los hijos directos son flex items: sin esto no pueden encogerse por
+     debajo de su contenido minimo y desbordan la pantalla en celulares
+     (secciones "recortadas" por el overflow-hidden de la seccion). */
+  .landing-sheet > * {
+    min-width: 0;
   }
 
   .landing-sheet-header {

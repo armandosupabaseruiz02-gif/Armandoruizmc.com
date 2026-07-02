@@ -94,10 +94,9 @@ export default function AyudaHoy() {
         </FadeIn>
 
         <FadeIn className="mx-auto max-w-5xl">
-          <div
-            className="flex items-stretch gap-2 sm:gap-3"
-            style={{ height: "clamp(500px, 58svh, 620px)" }}
-          >
+          {/* Altura: en movil las 6 filas necesitan mas espacio para que el
+              texto no se recorte (titulo + descripcion en varias lineas). */}
+          <div className="flex h-[840px] items-stretch gap-2 min-[480px]:h-[760px] sm:gap-3 sm:h-[clamp(500px,58svh,620px)]">
             <div className="min-w-0 flex-1">
               <FlowingMenu
                 items={tareas}

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import InternalRequestButton from "@/components/ui/InternalRequestButton";
 import { ShieldCheck, MousePointerClick, MessagesSquare, HeartHandshake, ArrowRight } from "lucide-react";
@@ -127,23 +128,17 @@ export default function Donar() {
                 Necesito ayuda
               </h3>
               <p className="text-[15px] text-gray-700 leading-relaxed mb-5 flex-1">
-                Cuéntanos qué necesitas tú o tu familia. Revisamos cada caso con
-                respeto y damos seguimiento personal.
+                Cuéntanos qué necesitas tú o tu familia. Inicia sesión y agenda tu
+                cita: te atiende un asesor y damos seguimiento personal.
               </p>
-              <InternalRequestButton
-                requestType="general"
-                subject="Necesito ayuda"
-                triggerLabel="Pedir ayuda"
-                title="Pedir ayuda"
-                description="Deja tus datos dentro del portal y el equipo revisará tu caso para darte seguimiento."
-                messageLabel="¿Qué necesitas?"
-                messagePlaceholder="Ej. Necesito una silla de ruedas, apoyo para un trámite, lentes, una despensa…"
+              <Link
+                href="/salud/agendar"
                 className="btn-secondary w-full !min-h-[52px] !px-4 !text-[15px] inline-flex items-center justify-center gap-2"
               >
                 <MessagesSquare className="w-5 h-5" aria-hidden="true" />
                 Pedir ayuda
                 <ArrowRight className="w-5 h-5" aria-hidden="true" />
-              </InternalRequestButton>
+              </Link>
             </div>
           </div>
         </FadeIn>

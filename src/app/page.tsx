@@ -13,12 +13,13 @@ export default function HomePage() {
     <>
       <main id="contenido-principal" tabIndex={-1}>
         <Hero />
-        {/* Lanzador de tareas: atajo prioritario; el scroll informativo sigue debajo */}
-        <AyudaHoy />
+        {/* Orden espejo del menu: Como funciona -> Tramites -> Armando -> Cuenta -> Ayudar */}
         <ComoTeAyudamos />
-        <CuentaCTA />
+        <AyudaHoy />
         <QuienEsArmando />
+        {/* Instagram acompaña a la seccion de Armando (son sus videos) */}
         <InstagramReels />
+        <CuentaCTA />
         <Donar />
         {/* Datos / "¿Sabías que?" cierra la página: contexto, no acceso a tramite */}
         <SabiasQue />
