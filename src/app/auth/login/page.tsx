@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { getSafeRedirect } from "@/lib/auth/redirect";
 import { getSafeEmail } from "@/lib/auth/email";
-import { ArrowLeft, Eye, EyeOff, KeyRound, LockKeyhole, LogIn, Mail, UserPlus } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, KeyRound, Loader2, LockKeyhole, LogIn, Mail, UserPlus } from "lucide-react";
 import Silk from "@/components/effects/Silk";
 
 function getRegisterHref(redirectTo: string, email: string) {
@@ -163,10 +163,33 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState("");
   const [showRegisterHelp, setShowRegisterHelp] = useState(false);
   const registerHref = getRegisterHref(redirectTo, email);
   const recoveryHref = getRecoveryHref(email);
+
+  async function handleGoogleLogin() {
+    setGoogleLoading(true);
+    setError("");
+    setShowRegisterHelp(false);
+
+    try {
+      const supabase = createClient();
+      const { error: oauthError } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
+        },
+      });
+      if (oauthError) throw oauthError;
+      // Si no hubo error, el navegador esta por irse a Google; el spinner
+      // se queda mientras tanto.
+    } catch {
+      setError("No se pudo abrir el inicio de sesión con Google. Inténtalo de nuevo.");
+      setGoogleLoading(false);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -238,14 +261,17 @@ function LoginForm() {
             <div className="mt-5 grid gap-3 sm:mt-6">
               <button
                 type="button"
-                disabled
-                className="flex min-h-[46px] w-full min-w-0 cursor-not-allowed items-center justify-center gap-2 rounded-xl border border-naranja-100 bg-naranja-50 px-3 text-[13px] font-black text-naranja-700 opacity-75 sm:min-h-[54px] sm:gap-3 sm:px-4 sm:text-[15px]"
-                aria-disabled="true"
+                onClick={handleGoogleLogin}
+                disabled={googleLoading}
+                className="flex min-h-[46px] w-full min-w-0 items-center justify-center gap-2 rounded-xl border-2 border-naranja-200 bg-white px-3 text-[13px] font-black text-naranja-700 transition-colors hover:border-naranja-300 hover:bg-naranja-50 focus-visible:outline-2 focus-visible:outline-naranja-500 disabled:cursor-wait disabled:opacity-70 sm:min-h-[54px] sm:gap-3 sm:px-4 sm:text-[15px]"
               >
-                <GoogleMark />
-                <span className="min-w-0 truncate">Iniciar sesión con Google</span>
-                <span className="hidden shrink-0 rounded-full bg-white px-2 py-1 text-[10px] font-black uppercase tracking-wider text-naranja-600 sm:inline-flex">
-                  Pendiente
+                {googleLoading ? (
+                  <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+                ) : (
+                  <GoogleMark />
+                )}
+                <span className="min-w-0 truncate">
+                  {googleLoading ? "Abriendo Google…" : "Iniciar sesión con Google"}
                 </span>
               </button>
             </div>

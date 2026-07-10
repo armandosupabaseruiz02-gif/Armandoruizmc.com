@@ -17,6 +17,7 @@ const serviciosLinks = [
 const infoLinks = [
   { href: "#como-funciona", label: "Cómo te ayudamos" },
   { href: "#armando-ruiz",  label: "Quién es Armando" },
+  { href: "/iniciativas",   label: "Iniciativas de ley" },
   { href: "#crear-cuenta",  label: "Crea tu cuenta" },
   { href: "#donar",         label: "Donar" },
   { href: "#sabias-que",    label: "¿Sabías que?" },

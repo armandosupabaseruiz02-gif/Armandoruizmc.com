@@ -91,6 +91,10 @@
 
 ## 3. Datos y conexiones que necesito del equipo
 
+### Iniciativas legislativas
+
+- [ ] Textos reales de las iniciativas avaladas (titulo, resumen ciudadano, estado, fecha, enlace a Gaceta) para subirlas en `/admin/iniciativas`.
+
 ### Contacto e identidad
 
 - [ ] Telefono oficial.
@@ -128,6 +132,10 @@
 - [ ] Analitica respetuosa de privacidad y SEO por pagina.
 
 ## 5. Registro de trabajo terminado
+
+- [x] **Login con Google implementado en codigo (2026-07-10):** el boton "Iniciar sesion con Google" del login dejo de ser placeholder; usa `signInWithOAuth({provider:'google'})` con `redirectTo` al `/auth/callback` existente (que ya intercambia el codigo por sesion) y respeta el `redirectTo` seguro de la URL. El trigger `handle_new_user` ya crea el perfil (toma `full_name` de los metadatos de Google). **Falta lo MANUAL:** crear OAuth Client en Google Cloud (cuenta del diputado) con redirect URI `https://mmczynsmlfvkwrmmtapc.supabase.co/auth/v1/callback`, habilitar el proveedor Google en Supabase Auth con ese Client ID/Secret, y confirmar Site URL + Redirect URLs de Supabase Auth. Hacer push hasta que el proveedor este habilitado para no mostrar un boton que falla.
+
+- [x] **Seccion de Iniciativas legislativas (2026-07-02):** nueva pagina `/iniciativas` fuera de la landing (enlazada en menu, footer y sitemap) con diseño editorial premium: hero tipografico gigante con rejilla de 3 columnas estilo revista, seccion informativa "¿Como nace una ley?" (5 pasos), lista de iniciativas con badge de estado (presentada/en comisiones/aprobada/publicada), acordeon "Leer mas" y enlace al documento oficial, y CTA amigable. Datos en Supabase: tabla `initiatives` (migracion `20260702_initiatives.sql` aplicada; RLS: publico solo lee publicadas, admin CRUD via `is_admin()`). Panel nuevo `/admin/iniciativas` para crear, editar, publicar/ocultar y borrar. Estado vacio honesto mientras no haya iniciativas reales.
 
 - [x] **Cursor de sombrero + chispas naranjas al clic (2026-07-02):** el cursor por defecto ahora es el sombrero del emblema (`cursor-sombrero.png` 32px, solo con `pointer: fine`; enlaces y botones conservan la manita nativa como señal de "esto se pica"). Nuevo `ClickSpark` global (canvas `pointer-events: none`, chispitas naranja `#f97316` de 450ms al hacer clic, rAF solo mientras hay chispas vivas, sin efecto con `prefers-reduced-motion`).
 

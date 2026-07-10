@@ -15,6 +15,7 @@ const navLinks = [
   { href: "#como-funciona", label: "Cómo funciona" },
   { href: "#ayuda-hoy", label: "Trámites" },
   { href: "#armando-ruiz", label: "Armando" },
+  { href: "/iniciativas", label: "Iniciativas" },
   { href: "/auth/login", label: "Inicio de sesión" },
   { href: "#donar", label: "Ayudar" },
 ];
@@ -92,8 +93,9 @@ export default function Navbar() {
           <div
             className="relative mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-3 px-5 sm:px-8"
           >
-            {/* Marca del partido (lado izquierdo, solo pantallas grandes) */}
-            <span className="hidden xl:flex items-center text-[16px] font-black uppercase tracking-[0.14em] select-none">
+            {/* Marca del partido (solo pantallas muy anchas: con 6 pestañas
+                en el menu, antes de 2xl chocaria con la navegacion) */}
+            <span className="hidden 2xl:flex items-center text-[16px] font-black uppercase tracking-[0.14em] select-none">
               <GradientText
                 colors={["#7c2d12", "#ea580c", "#ffb163", "#ea580c", "#7c2d12"]}
                 animationSpeed={2.5}

@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/",                   priority: 1 },
     { path: "/salud",              priority: 0.9 },  // rubro CORE del portal
     { path: "/tarjeta-accesible",  priority: 0.9 },
+    { path: "/iniciativas",        priority: 0.8 },
     { path: "/programas-sociales", priority: 0.7 },
     { path: "/bolsa-trabajo",      priority: 0.7 },
     { path: "/secretarias",        priority: 0.6 },
