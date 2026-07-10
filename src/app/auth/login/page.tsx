@@ -5,9 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import { getSafeRedirect } from "@/lib/auth/redirect";
 import { getSafeEmail } from "@/lib/auth/email";
-import { ArrowLeft, Eye, EyeOff, KeyRound, Loader2, LockKeyhole, LogIn, Mail, UserPlus } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, KeyRound, LockKeyhole, LogIn, Mail, UserPlus } from "lucide-react";
 import Silk from "@/components/effects/Silk";
 
 function getRegisterHref(redirectTo: string, email: string) {
@@ -107,14 +108,6 @@ function BrandLogo() {
   );
 }
 
-function GoogleMark() {
-  return (
-    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-[13px] font-black text-naranja-600">
-      G
-    </span>
-  );
-}
-
 function BackButton({ className }: { className: string }) {
   return (
     <Link href="/" aria-label="Volver al inicio" className={className}>
@@ -163,33 +156,10 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState("");
   const [showRegisterHelp, setShowRegisterHelp] = useState(false);
   const registerHref = getRegisterHref(redirectTo, email);
   const recoveryHref = getRecoveryHref(email);
-
-  async function handleGoogleLogin() {
-    setGoogleLoading(true);
-    setError("");
-    setShowRegisterHelp(false);
-
-    try {
-      const supabase = createClient();
-      const { error: oauthError } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
-        },
-      });
-      if (oauthError) throw oauthError;
-      // Si no hubo error, el navegador esta por irse a Google; el spinner
-      // se queda mientras tanto.
-    } catch {
-      setError("No se pudo abrir el inicio de sesión con Google. Inténtalo de nuevo.");
-      setGoogleLoading(false);
-    }
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -259,21 +229,7 @@ function LoginForm() {
             </div>
 
             <div className="mt-5 grid gap-3 sm:mt-6">
-              <button
-                type="button"
-                onClick={handleGoogleLogin}
-                disabled={googleLoading}
-                className="flex min-h-[46px] w-full min-w-0 items-center justify-center gap-2 rounded-xl border-2 border-naranja-200 bg-white px-3 text-[13px] font-black text-naranja-700 transition-colors hover:border-naranja-300 hover:bg-naranja-50 focus-visible:outline-2 focus-visible:outline-naranja-500 disabled:cursor-wait disabled:opacity-70 sm:min-h-[54px] sm:gap-3 sm:px-4 sm:text-[15px]"
-              >
-                {googleLoading ? (
-                  <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-                ) : (
-                  <GoogleMark />
-                )}
-                <span className="min-w-0 truncate">
-                  {googleLoading ? "Abriendo Google…" : "Iniciar sesión con Google"}
-                </span>
-              </button>
+              <GoogleAuthButton label="Iniciar sesión con Google" redirectTo={redirectTo} />
             </div>
 
             <div className="my-4 flex items-center gap-4 text-[13px] font-semibold text-gray-500 sm:my-5">

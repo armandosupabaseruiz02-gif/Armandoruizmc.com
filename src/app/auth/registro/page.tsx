@@ -4,6 +4,7 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import { getSafeRedirect } from "@/lib/auth/redirect";
 import { getSafeEmail } from "@/lib/auth/email";
 import { HeartPulse, Eye, EyeOff, ArrowLeft, UserPlus, CheckCircle2, Circle } from "lucide-react";
@@ -182,6 +183,15 @@ function RegistroForm() {
             Inicia sesión
           </Link>
         </p>
+
+        {/* Con Google no hay contraseña ni confirmacion de correo: un clic y adentro */}
+        <GoogleAuthButton label="Crear cuenta con Google" redirectTo={redirectTo} />
+
+        <div className="my-5 flex items-center gap-4 text-[13px] font-semibold text-gray-500">
+          <span className="h-px flex-1 bg-gray-200" aria-hidden="true" />
+          o con tu correo
+          <span className="h-px flex-1 bg-gray-200" aria-hidden="true" />
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
