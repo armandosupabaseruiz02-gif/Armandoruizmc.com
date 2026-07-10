@@ -21,7 +21,7 @@
 - [ ] **MANUAL - Supabase Auth:** revisar plantillas de `Confirm signup` y `Reset password` con tono oficial y enlaces a `armandoruizmc.com`.
 - [ ] Probar flujo final en produccion: usuario agenda cita -> llega correo al usuario -> llega aviso al responsable -> admin confirma/rechaza/cancela -> llega correo de estado al usuario.
 - [ ] Probar recuperacion de contrasena con correo real.
-- [ ] Implementar correo de bienvenida despues de confirmar cuenta.
+- [x] Implementar correo de bienvenida despues de confirmar cuenta. **Hecho 2026-07-10:** se envia UNA sola vez en el primer paso por `/auth/callback` (Google o confirmacion de correo); columna `profiles.welcomed_at` como candado atomico (migracion `20260710_profiles_welcomed_at.sql`, aplicada); plantilla `src/lib/email/welcome.ts` con diseño de marca (cabecera naranja + sombrero, beneficios, CTA pastilla, slogan). Nota: quienes entran solo con contraseña no pasan por el callback, asi que no la reciben; los usuarios existentes la recibiran la primera vez que entren con Google o confirmen algo por correo.
 
 ### Base de datos y seguridad
 
