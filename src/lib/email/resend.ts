@@ -20,8 +20,14 @@ function getFromEmail() {
   return process.env.EMAIL_FROM?.trim() || "Portal Armando Ruiz <noreply@armandoruizmc.com>";
 }
 
-export function getAdminNotificationEmail() {
-  return process.env.APPOINTMENTS_ADMIN_EMAIL?.trim();
+/* Acepta uno o varios correos separados por coma (o punto y coma):
+   "uno@x.com" o "uno@x.com, dos@y.com". Todos reciben el aviso. */
+export function getAdminNotificationEmails(): string[] {
+  const raw = process.env.APPOINTMENTS_ADMIN_EMAIL ?? "";
+  return raw
+    .split(/[,;]+/)
+    .map((email) => email.trim())
+    .filter((email) => email.includes("@"));
 }
 
 export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult> {

@@ -8,7 +8,7 @@ import {
   citizenAppointmentMeetingLinkEmail,
   citizenAppointmentRejectedEmail,
 } from "@/lib/email/appointments";
-import { getAdminNotificationEmail, sendEmail } from "@/lib/email/resend";
+import { getAdminNotificationEmails, sendEmail } from "@/lib/email/resend";
 
 type AppointmentRecord = {
   id: string;
@@ -149,7 +149,7 @@ export async function POST(request: Request) {
     const emailData = getAppointmentEmailData(appointment);
     const citizenEmailContent = citizenAppointmentCreatedEmail(emailData);
 
-    const adminEmail = getAdminNotificationEmail();
+    const adminEmails = getAdminNotificationEmails();
     const tasks = [
       sendEmail({
         to: citizenEmail,
@@ -159,11 +159,11 @@ export async function POST(request: Request) {
       }),
     ];
 
-    if (adminEmail) {
+    if (adminEmails.length > 0) {
       const adminEmailContent = adminAppointmentCreatedEmail(emailData);
 
       tasks.push(sendEmail({
-        to: adminEmail,
+        to: adminEmails,
         subject: adminEmailContent.subject,
         html: adminEmailContent.html,
         text: adminEmailContent.text,
