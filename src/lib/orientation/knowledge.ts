@@ -207,6 +207,25 @@ const keywordMap: Array<{ key: keyof typeof answers; words: string[] }> = [
   { key: "programas", words: ["programa", "programas", "apoyo", "apoyos", "social", "beneficio"] },
 ];
 
+// Huevos de pascua: frases exactas del equipo que disparan una respuesta
+// especial. No aparecen en las sugerencias ni afectan la orientacion normal.
+const easterEggs: Array<{ trigger: string; answer: OrientationAnswer }> = [
+  {
+    trigger: "meestoycagando.1",
+    answer: {
+      title: "Mensaje secreto",
+      body: ["Ya busca chamba Dani y hay que vender softwares."],
+    },
+  },
+  {
+    trigger: "osvajotoputo",
+    answer: {
+      title: "Mensaje secreto",
+      body: ["Te amo Osva, tu eres el paton de la pagina."],
+    },
+  },
+];
+
 function normalize(text: string) {
   return text
     .toLowerCase()
@@ -218,6 +237,12 @@ export function getOrientationAnswer(question: string): OrientationAnswer {
   const cleanQuestion = normalize(question.trim());
 
   if (!cleanQuestion) return defaultAnswer;
+
+  const egg = easterEggs.find(({ trigger }) =>
+    cleanQuestion.includes(normalize(trigger))
+  );
+
+  if (egg) return egg.answer;
 
   const matched = keywordMap.find(({ words }) =>
     words.some((word) => cleanQuestion.includes(normalize(word)))
